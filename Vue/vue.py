@@ -36,9 +36,8 @@ def createScreen():
     return screen
 
 
-def startScreen(sprites):
+def startScreen(screen, sprites):
 
-    screen = py.display.set_mode((WIDTH, HEIGHT))
     py.display.set_caption("SwitchColor")
     clock = py.time.Clock()
     py.key.set_repeat(400, 30)
@@ -124,3 +123,11 @@ def startScreen(sprites):
     clock.tick(60)
 
     return screen
+
+
+def updateScreen(screen, sprites, font):
+    print("UpdateScreen")
+    sprites.update()
+    font.update()
+    screen.fill(BLACK)
+    sprites.draw(screen)

@@ -26,7 +26,7 @@ def Ctl_create_ball():  # création de la balle
 
 def CtlStart(screen, sprites, font):
     print("Debut CtlStart")
-
+    start(screen, sprites, font)
     startScreen(screen, sprites)
 
 
@@ -42,9 +42,9 @@ def main():
     screen = CtlCreate()
 
     sprites = pygame.sprite.Group()
+    font = pygame.sprite.Group()
 
-    font = pygame.sprite.Groupe()
-
+    print("bonjour")
     try:
 
         end = False
@@ -67,5 +67,4 @@ def main():
     quit()
 
 
-def __init__():
-    main()
+main()

@@ -1,12 +1,19 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-import sys
 import os
 import random
+import sys
 from math import pi
+
 import pygame
-from pygame.locals import *
 import pygame.gfxdraw
+from pygame.locals import *
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 
 class Ball(pygame.sprite.Sprite):
@@ -30,12 +37,36 @@ class Ball(pygame.sprite.Sprite):
             self.rect.y += 2
 
 
-def start():
+class Circle(pygame.sprite.Sprite):
+
+    def __init__(self, screen):
+        pygame.sprite.Sprite(self)
+        coord_3 = 75
+        i = 0.02  # vitesse de rotation
+
+        def draw(self):
+            pygame.draw.arc(
+                screen, WHITE, [320, 75, coord_3, 75], 0 + i, pi / 2 + i, 2)
+            pygame.draw.arc(
+                screen, GREEN, [320, 75, coord_3, 75], pi / 2 + i, pi + i, 2)
+            pygame.draw.arc(
+                screen, BLUE, [320, 75, coord_3, 75], pi + i, 3 * pi / 2 + i, 2)
+            pygame.draw.arc(
+                screen, RED,  [320, 75, coord_3, 75], 3 * pi / 2 + i, 2 * pi + i, 2)
+
+        def update(self):
+            self.coord_3 += 1
+
+        def set(self):
+            self.coord_3 = 75
+
+
+def start(screen, sprites, font):
     print("Début de la partie")
-    sprites = pygame.sprite.Group()  # permet de regrouper les sprites
     player = Ball()
+    circle = Circle(screen)
+    font.add(circle)
     sprites.add(player)
-    return sprites
 
 
 def create_ball():
