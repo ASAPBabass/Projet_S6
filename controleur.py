@@ -41,8 +41,6 @@ def main():
     all_sprites.add(player)
     all_sprites.add(font)
 
-    py.key.set_repeat(400, 30)
-
     print("bonjour")
     # CtlStart(player, font)
 
@@ -58,7 +56,10 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            # ball.jump()
+                            for i in range(10):
+                                player.jump()
+                                all_sprites.update()
+                                view.update(all_sprites)
                             player.jump()
 
                         if event.key == K_q:
@@ -67,14 +68,14 @@ def main():
         except Exception:
             print("Erreur !")
 
+        # print(player.rect.x, player.rect.y)
         # update
-        # all_sprites.update()
+        all_sprites.update()
 
         # draw/render
+        view.update(all_sprites)
         # update_screen(screen)
         # all_sprites.draw(screen)
-
-        view.update(all_sprites)
 
         # flip
         # py.display.flip()

@@ -27,6 +27,7 @@ class View():  # classe s'occupant de la vue
     def initialization(self):  # initialisation de la fenetre
         py.display.init()
         py.display.set_caption("SwitchColor")
+        pygame.key.set_repeat(400, 30)
         self.screen = py.display.set_mode((WIDTH, HEIGHT))
         self.background = pygame.image.load(
             "Vue/Image/fond_gris.jpg").convert()
@@ -40,15 +41,3 @@ class View():  # classe s'occupant de la vue
 
     def quit(self):
         py.display.quit()
-
-
-def ligne(l):
-    if l < 640:
-        return l + 1
-    else:
-        return 0
-
-
-def update_screen(screen):
-    print("UpdateScreen")
-    screen.blit(WHITE)
