@@ -61,8 +61,10 @@ class Circle(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert_alpha()
-        self.rect = self.image.get_rect()
         self.image.fill((0,0,0,0))
+        self.rect = self.image.get_rect()
+        self.rect.center = (640 / 2, 480 / 2)
+        
         self.coord_3 = 75
         self.i = 0.02  # vitesse de rotation
 
@@ -75,7 +77,7 @@ class Circle(pygame.sprite.Sprite):
         pygame.draw.arc(
             self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 2)
 
-        self.rect.center = (640 / 2, 480 / 2)
+        
 
     def fifou(self, screen):
         pygame.draw.arc(

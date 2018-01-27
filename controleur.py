@@ -25,24 +25,18 @@ def CtlStart(player, font):
 
 def main():
     # initialisation
-    py.display.init()
-    screen = py.display.set_mode((WIDTH, HEIGHT))
-    py.display.set_caption("SwitchColor")
-
-    clock = pygame.time.Clock()  # fps
+    view = View()
 
     all_sprites = pygame.sprite.Group()
 
     font = pygame.sprite.Group()
-    player = pygame.sprite.Group()
 
     # create_font(font)
     # create_player(player)
     cercle = Circle()
     font.add(cercle)
 
-    p = Ball()
-    player.add(p)
+    player = Ball()
 
     all_sprites.add(player)
     all_sprites.add(font)
@@ -74,18 +68,19 @@ def main():
             print("Erreur !")
 
         # update
-        all_sprites.update()
+        # all_sprites.update()
 
         # draw/render
-        screen.fill(WHITE)
-        all_sprites.draw(screen)
+        # update_screen(screen)
+        # all_sprites.draw(screen)
+
+        view.update(all_sprites)
 
         # flip
-        py.display.flip()
-        clock.tick(30)
+        # py.display.flip()
 
-    py.display.quit()
-    quit()
+    # py.display.quit()
 
 
 main()
+quit()
