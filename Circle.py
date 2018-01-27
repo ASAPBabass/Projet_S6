@@ -60,9 +60,9 @@ class Circle(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200, 200])
+        self.image = pygame.Surface([200, 200]).convert_alpha()
         self.rect = self.image.get_rect()
-
+        self.image.fill((0,0,0,0))
         self.coord_3 = 75
         self.i = 0.02  # vitesse de rotation
 
@@ -130,7 +130,7 @@ def circle_loop():
     ball = Ball()
     cercle = Circle()
     all_sprites.add(ball)
-    all_sprites.add(cercle)
+    #all_sprites.add(cercle)
 
     #objet = Cercle(300,200,50,RED)
 
@@ -159,7 +159,8 @@ def circle_loop():
                 else :
                     if event.type == KEYDOWN :
                         if event.key == K_SPACE  :
-                            ball.jump()
+                            #ball.jump()
+                            all_sprites.jump()
                             
                         if event.key == K_q :
                             end = True
@@ -175,12 +176,11 @@ def circle_loop():
         all_sprites.update() # met a jour tous les sprites
 
         # Draw / render
-        screen.fill(BLACK)
-        #screen.blit(background,(0,0))
+        #screen.fill(WHITE)
+        screen.blit(background,(0,0))
         all_sprites.draw(screen) # affiche tous les sprites
 
-        if sprite in all_sprites:
-                print("ok")
+    
 
         #cercle multicolor
         pygame.draw.arc(screen, WHITE,[320, coord2, coord+i, coord1], 0+i, pi/2+i, 2)

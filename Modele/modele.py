@@ -30,6 +30,7 @@ class Ball(pygame.sprite.Sprite):
         # pygame.gfxdraw.filled_circle(self.image,25,25,25,RED)
 
     def jump(self):
+        # print("jump")
         self.rect.y -= 40
 
     def update(self):  # gravite
@@ -41,10 +42,10 @@ class Circle(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200, 200])
+        self.image = pygame.Surface([200, 200]).convert_alpha()
         self.rect = self.image.get_rect()
-        self.image.set_alpha(128)
-
+        # permet la transparence avec convert_alpha
+        self.image.fill((0, 0, 0, 0))
         self.coord_3 = 75
         self.i = 0.02  # vitesse de rotation
 
@@ -58,17 +59,6 @@ class Circle(pygame.sprite.Sprite):
             self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 2)
 
         self.rect.center = (640 / 2, 480 / 2)
-        self.image.convert_alpha()
-
-    def fifou(self, screen):
-        pygame.draw.arc(
-            screen, WHITE, [320, 75, self.coord_3, 75], 0 + self.i, pi / 2 + self.i, 2)
-        pygame.draw.arc(
-            screen, GREEN, [320, 75, self.coord_3, 75], pi / 2 + self.i, pi + self.i, 2)
-        pygame.draw.arc(
-            screen, BLUE, [320, 75, self.coord_3, 75], pi + self.i, 3 * pi / 2 + self.i, 2)
-        pygame.draw.arc(
-            screen, RED,  [320, 75, self.coord_3, 75], 3 * pi / 2 + self.i, 2 * pi + self.i, 2)
 
     def update(self):
         self.coord_3 += 1
@@ -77,20 +67,22 @@ class Circle(pygame.sprite.Sprite):
         self.coord_3 = 75
 
 
-def start(sprites, font):
+def start(player, font):
     print("Début de la partie")
-    player = Ball()
+    p1 = Ball()
     circle = Circle()
     print("Début de la partie")
     font.add(circle)
-    sprites.add(player)
+    player.add(p1)
 
 
-def create_ball():
-    print("Creation ball")
-    player = Ball()
+def create_font(font):
+    f = Circle()
+    font.add(f)
+    return font
+
+
+def create_player(player):
+    p = Ball()
+    player.add(p)
     return player
-
-
-def create():
-    print ("Création de la fenêtre")

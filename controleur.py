@@ -11,79 +11,80 @@ import pygame.gfxdraw
 from pygame.locals import *
 
 from Modele.modele import *
+from Modele.modele import Ball
 from Vue.vue import *
 
 
-def CtlCreate():
-    # sprites = create()
-    screen = createScreen()
-    return screen
-
-
-def Ctl_create_ball():  # création de la balle
-    create_ball()
-
-
-def CtlStart(sprites, font):
+def CtlStart(player, font):
     # screen = CtlCreate()
     print("Debut CtlStart")
-    start(sprites, font)
+    start(player, font)
     print("start reussi")
     # startScreen(screen, sprites, font)
 
 
-def CtlUpdate(screen, sprites, font):
-
-    print("Update")
-    updateScreen(screen, sprites, font)
-
-
 def main():
     # initialisation
-    py.init()
+    py.display.init()
     screen = py.display.set_mode((WIDTH, HEIGHT))
     py.display.set_caption("SwitchColor")
 
     clock = pygame.time.Clock()  # fps
+
     all_sprites = pygame.sprite.Group()
+
     font = pygame.sprite.Group()
+    player = pygame.sprite.Group()
+
+    # create_font(font)
+    # create_player(player)
+    cercle = Circle()
+    font.add(cercle)
+
+    p = Ball()
+    player.add(p)
+
+    all_sprites.add(player)
+    all_sprites.add(font)
 
     py.key.set_repeat(400, 30)
 
     print("bonjour")
-    try:
+    # CtlStart(player, font)
 
-        # CtlStart(screen, all_sprites, font)
+    end = False
+    print("Début")
+    while not end:
+    # Events
 
-        end = False
-        print("Début")
-        while not end:
-            for event in py.event.get():
+        try:
+            for event in pygame.event.get():
                 if event.type == QUIT:
                     end = True
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            print("space")
-                            CtlStart(all_sprites, font)
+                            # ball.jump()
+                            player.jump()
 
-            # update
-            all_sprites.update()
-            font.update()
+                        if event.key == K_q:
+                            end = True
 
-            # draw/render
-            screen.fill(WHITE)
-            font.draw(screen)
-            all_sprites.draw(screen)
+        except Exception:
+            print("Erreur !")
 
-            # flip
-            py.display.flip()
-            clock.tick(60)
+        # update
+        all_sprites.update()
 
-    except Exception:
-        print("Erreur !")
+        # draw/render
+        screen.fill(WHITE)
+        all_sprites.draw(screen)
 
-    py.quit()
+        # flip
+        py.display.flip()
+        clock.tick(30)
+
+    py.display.quit()
     quit()
 
 
