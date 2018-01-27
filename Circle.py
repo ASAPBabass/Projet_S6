@@ -56,7 +56,42 @@ class Ball(pygame.sprite.Sprite) :
         if self.rect.y < 410 :
             self.rect.y += 2
 
+class Circle(pygame.sprite.Sprite):
 
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([200, 200])
+        self.rect = self.image.get_rect()
+
+        self.coord_3 = 75
+        self.i = 0.02  # vitesse de rotation
+
+        pygame.draw.arc(
+            self.image, WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 2)
+        pygame.draw.arc(
+            self.image, GREEN, self.rect, pi / 2 + self.i, pi + self.i, 2)
+        pygame.draw.arc(
+            self.image, BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 2)
+        pygame.draw.arc(
+            self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 2)
+
+        self.rect.center = (640 / 2, 480 / 2)
+
+    def fifou(self, screen):
+        pygame.draw.arc(
+            screen, WHITE, [320, 75, self.coord_3, 75], 0 + self.i, pi / 2 + self.i, 2)
+        pygame.draw.arc(
+            screen, GREEN, [320, 75, self.coord_3, 75], pi / 2 + self.i, pi + self.i, 2)
+        pygame.draw.arc(
+            screen, BLUE, [320, 75, self.coord_3, 75], pi + self.i, 3 * pi / 2 + self.i, 2)
+        pygame.draw.arc(
+            screen, RED,  [320, 75, self.coord_3, 75], 3 * pi / 2 + self.i, 2 * pi + self.i, 2)
+
+    def update(self):
+        self.coord_3 += 1
+
+    def set(self):
+        self.coord_3 = 75
         
 
 pygame.key.set_repeat(400,30)
@@ -93,7 +128,9 @@ def circle_loop():
     end = False
 
     ball = Ball()
+    cercle = Circle()
     all_sprites.add(ball)
+    all_sprites.add(cercle)
 
     #objet = Cercle(300,200,50,RED)
 
@@ -141,6 +178,9 @@ def circle_loop():
         screen.fill(BLACK)
         #screen.blit(background,(0,0))
         all_sprites.draw(screen) # affiche tous les sprites
+
+        if sprite in all_sprites:
+                print("ok")
 
         #cercle multicolor
         pygame.draw.arc(screen, WHITE,[320, coord2, coord+i, coord1], 0+i, pi/2+i, 2)

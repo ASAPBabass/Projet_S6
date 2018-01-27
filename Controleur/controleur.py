@@ -27,7 +27,7 @@ def Ctl_create_ball():  # création de la balle
 def CtlStart(screen, sprites, font):
     print("Debut CtlStart")
 
-    startScreen(screen, sprites)
+    startScreen(screen, sprites, font)
 
 
 def CtlUpdate(screen, sprites, font):

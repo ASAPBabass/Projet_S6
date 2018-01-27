@@ -25,18 +25,20 @@ def ligne(l):
 
 
 def createScreen():
-    screen = py.display.set_mode((WIDTH, HEIGHT))
-    py.display.set_caption("SwitchColor")
-    clock = py.time.Clock()
-    py.key.set_repeat(400, 30)
-    screen.fill(BLACK)
-    py.display.flip()  # met à jour la fenetre
-    clock.tick(60)
 
     return screen
 
 
-def startScreen(screen, sprites):
+def startScreen(screen, sprites, font):
+    # screen = createScreen()
+    sprites.update()
+    font.update()
+    screen.fill(BLACK)
+    font.draw(screen)
+    sprites.draw(screen)
+
+
+def Screen(screen, sprites):
 
     py.display.set_caption("SwitchColor")
     clock = py.time.Clock()
@@ -129,5 +131,6 @@ def updateScreen(screen, sprites, font):
     print("UpdateScreen")
     sprites.update()
     font.update()
-    screen.fill(BLACK)
+    screen.fill(WHITE)
+    font.draw(screen)
     sprites.draw(screen)

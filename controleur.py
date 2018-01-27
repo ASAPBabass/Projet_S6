@@ -24,10 +24,12 @@ def Ctl_create_ball():  # création de la balle
     create_ball()
 
 
-def CtlStart(screen, sprites, font):
+def CtlStart(sprites, font):
+    # screen = CtlCreate()
     print("Debut CtlStart")
-    start(screen, sprites, font)
-    startScreen(screen, sprites)
+    start(sprites, font)
+    print("start reussi")
+    # startScreen(screen, sprites, font)
 
 
 def CtlUpdate(screen, sprites, font):
@@ -38,14 +40,20 @@ def CtlUpdate(screen, sprites, font):
 
 def main():
     # initialisation
-    py.display.init()
-    screen = CtlCreate()
+    py.init()
+    screen = py.display.set_mode((WIDTH, HEIGHT))
+    py.display.set_caption("SwitchColor")
 
-    sprites = pygame.sprite.Group()
+    clock = pygame.time.Clock()  # fps
+    all_sprites = pygame.sprite.Group()
     font = pygame.sprite.Group()
+
+    py.key.set_repeat(400, 30)
 
     print("bonjour")
     try:
+
+        # CtlStart(screen, all_sprites, font)
 
         end = False
         print("Début")
@@ -56,9 +64,21 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            CtlStart(screen, sprites, font)
+                            print("space")
+                            CtlStart(all_sprites, font)
 
-        CtlUpdate(screen, sprites, font)
+            # update
+            all_sprites.update()
+            font.update()
+
+            # draw/render
+            screen.fill(WHITE)
+            font.draw(screen)
+            all_sprites.draw(screen)
+
+            # flip
+            py.display.flip()
+            clock.tick(60)
 
     except Exception:
         print("Erreur !")
