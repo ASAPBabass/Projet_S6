@@ -38,8 +38,11 @@ def main():
 
     player = Ball()
 
+    ligne = Ligne()
+
     all_sprites.add(player)
     all_sprites.add(font)
+    all_sprites.add(ligne)
 
     print("bonjour")
     # CtlStart(player, font)
@@ -56,11 +59,16 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            for i in range(10):
-                                player.jump()
+                            for i in range(4):
+                                player.jump(10)
                                 all_sprites.update()
+
+                                # collisions
+                                for f in py.sprite.spritecollide(player, font, 0):
+                                    print("colision")
+
                                 view.update(all_sprites)
-                            player.jump()
+                            player.jump(5)
 
                         if event.key == K_q:
                             end = True
@@ -73,9 +81,10 @@ def main():
         all_sprites.update()
 
         # draw/render
-        view.update(all_sprites)
         # update_screen(screen)
-        # all_sprites.draw(screen)
+        view.update(all_sprites)  # met à jour l'ecran
+        all_sprites.draw(view.screen)
+        ligne.initialization()
 
         # flip
         # py.display.flip()

@@ -9,6 +9,9 @@ import pygame
 import pygame.gfxdraw
 from pygame.locals import *
 
+WIDTH = 640
+HEIGHT = 480
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
@@ -31,13 +34,13 @@ class Ball(pygame.sprite.Sprite):  # class du joueur
         # self.image.set_alpha(128)
         # pygame.gfxdraw.filled_circle(self.image,25,25,25,RED)
 
-    def jump(self):
+    def jump(self, jump):
         # print("jump")
-        self.rect.y -= 7
+        self.rect.y -= jump
 
     def update(self):  # gravite
         if self.rect.y < 410:
-            self.rect.y += 2
+            self.rect.y += 2.5
 
 
 class Circle(pygame.sprite.Sprite):
@@ -45,22 +48,11 @@ class Circle(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert_alpha()
-        self.rect = self.image.get_rect()
-        # permet la transparence avec convert_alpha
-        self.image.fill((0, 0, 0, 0))
+        self.rect = None
         self.coord_3 = 75
         self.i = 1
 
-        pygame.draw.arc(
-            self.image, WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 6)
-        pygame.draw.arc(
-            self.image, GREEN, self.rect, pi / 2 + self.i, pi + self.i, 6)
-        pygame.draw.arc(
-            self.image, BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 6)
-        pygame.draw.arc(
-            self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
-
-        self.rect.center = (640 / 2, 200)
+        self.initialization()
 
     def initialization(self):
         self.image.fill((0, 0, 0, 0))
@@ -84,6 +76,50 @@ class Circle(pygame.sprite.Sprite):
 
     def set(self):
         self.coord_3 = 75
+
+
+class Ligne(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([WIDTH, 50]).convert_alpha()
+        self.rect = None
+
+        self.w_green_1 = 426
+        self.w_green_2 = 640
+        self.w_red_1 = 0
+        self.w_red_2 = 213
+        self.w_blue_1 = 213
+        self.w_blue_2 = 426
+
+        self.speed = 2
+
+        self.initialization()
+
+    def initialization(self):
+        self.image.fill((0, 0, 0, 0))
+        self.rect = self.image.get_rect()
+
+        pygame.draw.lines(
+            self.image, BLUE, False, [[self.w_blue_1, 400], [self.w_blue_2, 400]], 6)
+        pygame.draw.lines(
+            self.image, GREEN, False, [[self.w_green_1, 400], [self.w_green_2, 400]], 6)
+        pygame.draw.lines(
+            self.image, RED, False, [[self.w_red_1, 400], [self.w_red_2, 400]], 6)
+        pygame.draw.lines(
+            self.image, BLUE, False, [[self.w_blue_1, 400], [self.w_blue_2, 400]], 6)
+
+        self.rect.center = (0, 350)
+
+    def update(self):
+        # print("update ligne")
+        self.initialization()
+
+    def incremente(self, width):
+        if width < 640:
+            return width + 1
+        # else:
+         #   return 0
 
 
 def start(player, font):

@@ -94,7 +94,8 @@ class Circle(pygame.sprite.Sprite):
 
     def set(self):
         self.coord_3 = 75
-        
+
+
 
 pygame.key.set_repeat(400,30)
 
