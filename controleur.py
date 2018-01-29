@@ -64,9 +64,10 @@ def main():
                                 all_sprites.update()
 
                                 # collisions
-                                for f in py.sprite.spritecollide(player, font, 0):
-                                    print("colision")
-
+                                # for f in py.sprite.spritecollide(player, font, 0):
+                                 #   print("collision")
+                                if (py.sprite.collide_mask(player, cercle) == True):
+                                    print("Collision")
                                 view.update(all_sprites)
                             player.jump(5)
 

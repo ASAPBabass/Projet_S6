@@ -7,6 +7,7 @@ from math import pi
 
 import pygame
 import pygame.gfxdraw
+import pygame.mask
 from pygame.locals import *
 
 WIDTH = 640
@@ -18,21 +19,22 @@ BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
-colors = {WHITE, BLACK, BLUE, RED, GREEN}
+colors = (WHITE, BLACK, BLUE, RED, GREEN)
 
 
 class Ball(pygame.sprite.Sprite):  # class du joueur
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("Vue/Image/redball.png").convert_alpha()
+        # self.image =
+        # pygame.image.load("Vue/Image/redball.png").convert_alpha()
+        self.color = random.choice(colors)  # couleur aleatoire
+        self.image = pygame.Surface([20, 20]).convert_alpha()
+        self.image.fill((0, 0, 0, 0))  # fond transparent
+        pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
         self.rect = self.image.get_rect()
         self.rect.center = (640 / 2, 410)
-        # self.image = pygame.Surface((50,50))
-        # self.image.fill(color)
-        # self.image.fill(a)
-        # self.image.set_alpha(128)
-        # pygame.gfxdraw.filled_circle(self.image,25,25,25,RED)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def jump(self, jump):
         # print("jump")
@@ -43,12 +45,20 @@ class Ball(pygame.sprite.Sprite):  # class du joueur
             self.rect.y += 2.5
 
 
-class Circle(pygame.sprite.Sprite):
+class Arc(pygame.sprite.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface()
+
+
+class Circle(pygame.sprite.Sprite):  # TODO
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert_alpha()
         self.rect = None
+        self.mask = None
         self.coord_3 = 75
         self.i = 1
 
@@ -69,6 +79,8 @@ class Circle(pygame.sprite.Sprite):
 
         self.rect.center = (640 / 2, 200)
 
+        self.mask = pygame.mask.from_surface(self.image)
+
     def update(self):
         self.coord_3 += 1
         self.i += 0.02  # vitesse de rotation
@@ -78,7 +90,7 @@ class Circle(pygame.sprite.Sprite):
         self.coord_3 = 75
 
 
-class Ligne(pygame.sprite.Sprite):
+class Ligne(pygame.sprite.Sprite):  # TODO
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
