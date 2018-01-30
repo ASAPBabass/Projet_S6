@@ -27,6 +27,8 @@ def main():
     # initialisation
     view = View()
 
+   # arc = Arc(RED)
+
     all_sprites = pygame.sprite.Group()
 
     font = pygame.sprite.Group()
@@ -42,7 +44,8 @@ def main():
 
     all_sprites.add(player)
     all_sprites.add(font)
-    all_sprites.add(ligne)
+    # all_sprites.add(ligne)
+    # all_sprites.add(arc)
 
     print("bonjour")
     # CtlStart(player, font)
@@ -66,8 +69,13 @@ def main():
                                 # collisions
                                 # for f in py.sprite.spritecollide(player, font, 0):
                                  #   print("collision")
-                                if (py.sprite.collide_mask(player, cercle) == True):
+                                if (py.sprite.collide_mask(player, cercle)):
                                     print("Collision")
+
+                                if pygame.sprite.collide_mask(player, cercle.arc_1):
+                                    print("Collision couleur WHITE")
+                                # cercle.collisions(player)
+
                                 view.update(all_sprites)
                             player.jump(5)
 
@@ -77,6 +85,9 @@ def main():
         except Exception:
             print("Erreur !")
 
+        if pygame.sprite.collide_mask(player, cercle.arc_2):
+            print("Collision couleur ")
+
         # print(player.rect.x, player.rect.y)
         # update
         all_sprites.update()
@@ -85,7 +96,7 @@ def main():
         # update_screen(screen)
         view.update(all_sprites)  # met à jour l'ecran
         all_sprites.draw(view.screen)
-        ligne.initialization()
+        # ligne.initialization()
 
         # flip
         # py.display.flip()

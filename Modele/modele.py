@@ -47,9 +47,18 @@ class Ball(pygame.sprite.Sprite):  # class du joueur
 
 class Arc(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, color, rect, start_angle, stop_angle, width):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface()
+        self.i = 1
+        self.color = color
+        self.image = pygame.Surface([400, 400]).convert_alpha()
+        self.image.fill((0, 0, 0, 0))
+        # self.image.fill(BLACK)
+        self.rect = rect
+        pygame.draw.arc(
+            self.image, color, self.rect, start_angle, stop_angle, width)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect.center = (100, 100)
 
 
 class Circle(pygame.sprite.Sprite):  # TODO
@@ -57,17 +66,25 @@ class Circle(pygame.sprite.Sprite):  # TODO
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert_alpha()
-        self.rect = None
+        self.rect = self.image.get_rect()
+
         self.mask = None
         self.coord_3 = 75
         self.i = 1
 
+        self.all_arcs = pygame.sprite.Group()
+
+        self.arc_1 = None
+        self.arc_2 = None
+        self.arc_3 = None
+        self.arc_4 = None
+
         self.initialization()
 
     def initialization(self):
-        self.image.fill((0, 0, 0, 0))
-        self.rect = self.image.get_rect()
-
+        self.image.fill((0, 0, 0, 0))  # permet la transparence
+        self.all_arcs.empty()  # on supprime les précedents sprites
+        """
         pygame.draw.arc(
             self.image, WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 6)
         pygame.draw.arc(
@@ -76,10 +93,31 @@ class Circle(pygame.sprite.Sprite):  # TODO
             self.image, BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 6)
         pygame.draw.arc(
             self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
+        """
+        self.arc_1 = Arc(
+            WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 6)
 
-        self.rect.center = (640 / 2, 200)
+        self.arc_2 = Arc(
+            GREEN, self.rect, pi / 2 + self.i, pi + self.i, 6)
+        self.arc_3 = Arc(
+            BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 6)
+        self.arc_4 = Arc(
+            RED, self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
 
-        self.mask = pygame.mask.from_surface(self.image)
+        self.all_arcs.add(self.arc_1)
+                          # on ajoute les arcs au groupe de sprites
+
+        self.all_arcs.add(self.arc_2)
+        self.all_arcs.add(self.arc_3)
+        self.all_arcs.add(self.arc_4)
+
+        self.all_arcs.draw(self.image)
+                           # on affiche les arcs pour former le cercle
+
+        self.rect.center = (640 / 2, 200)  # on recentre la surface
+
+        self.mask = pygame.mask.from_surface(
+            self.image)  # permet de gerer au mieux les collisions
 
     def update(self):
         self.coord_3 += 1
@@ -89,12 +127,25 @@ class Circle(pygame.sprite.Sprite):  # TODO
     def set(self):
         self.coord_3 = 75
 
+    def collisions(self, ball):
+        color = ball.color
+        if pygame.sprite.collide_mask(ball, self.arc1) and color != self.arc_1.color:
+            print("Collision couleur WHITE")
+        elif pygame.sprite.collide_mask(ball, self.arc2) and color != self.arc_2.color:
+            print("Collision couleur GREEN")
+        elif pygame.sprite.collide_mask(ball, self.arc3) and color != self.arc_3.color:
+            print("Collision couleur BLUE")
+        elif pygame.sprite.collide_mask(ball, self.arc4) and color != self.arc_4.color:
+            print("Collision couleur RED")
+        else:
+            pass
+
 
 class Ligne(pygame.sprite.Sprite):  # TODO
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([WIDTH, 50]).convert_alpha()
+        self.image = pygame.Surface([WIDTH, 400]).convert_alpha()
         self.rect = None
 
         self.w_green_1 = 426
