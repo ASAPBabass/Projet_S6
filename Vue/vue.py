@@ -33,7 +33,7 @@ class View():  # classe s'occupant de la vue
             "Vue/Image/fond_gris.jpg").convert()
         self.clock = pygame.time.Clock()
 
-    def update(self, all_sprites):
+    def draw(self, all_sprites):
         self.screen.blit(self.background, (0, 0))
         all_sprites.draw(self.screen)  # affiche tous les sprites
         pygame.display.flip()  # met à jour la fenetre

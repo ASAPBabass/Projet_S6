@@ -99,13 +99,15 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.rect = self.image.get_rect()
 
         pygame.draw.arc(
+            self.image, GREEN, self.rect, (pi / 2) + self.i, pi + self.i, 6)
+        pygame.draw.arc(
             self.image, WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 6)
+
         pygame.draw.arc(
-            self.image, GREEN, self.rect, pi / 2 + self.i, pi + self.i, 6)
+            self.image, BLUE, self.rect, pi +
+                self.i, (3 * (pi / 2) + self.i, 6))
         pygame.draw.arc(
-            self.image, BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 6)
-        pygame.draw.arc(
-            self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
+            self.image, RED,  self.rect, 3 * (pi / 2) + self.i, 2 * pi + self.i, 6)
 
         self.rect.center = (640 / 2, 200)
 
@@ -196,12 +198,12 @@ def ligne(l):
 def circle_loop():
 
     end = False
-
+    i = 0
     # grid = Grid()
 
     ball = Ball()
     # ligne = Ligne()
-    cercle = Circle()
+    # cercle = Circle()
     all_sprites.add(ball)
     # all_sprites.add(ligne)
     # all_sprites.add(cercle)
@@ -264,11 +266,13 @@ def circle_loop():
         pygame.draw.arc(screen, BLUE, [100, coord2, coord, coord1], pi+i,3*pi/2+i, 10)
         pygame.draw.arc(screen, RED,  [100, coord2, coord, coord1], 3*pi/2+i, 2*pi+i, 10)
         """
-
+        i += 0.02
         etoile = pygame.image.load(
             "Vue/Image/etoileArgent.png").convert_alpha()
         screen.blit(etoile, (200, 200))
 
+        pygame.draw.arc(
+            screen, GREEN, [100, coord2, coord, coord1], (pi / 2) + i, pi + i, 6)
         """
         surf = pygame.Surface([1200, 50]).convert_alpha()
 

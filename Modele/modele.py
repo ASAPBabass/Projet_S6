@@ -53,7 +53,6 @@ class Arc(pygame.sprite.Sprite):
         self.color = color
         self.image = pygame.Surface([400, 400]).convert_alpha()
         self.image.fill((0, 0, 0, 0))
-        # self.image.fill(BLACK)
         self.rect = rect
         pygame.draw.arc(
             self.image, color, self.rect, start_angle, stop_angle, width)
@@ -69,7 +68,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.rect = self.image.get_rect()
 
         self.mask = None
-        self.i = 1
+        self.i = 0
 
         self.all_arcs = pygame.sprite.Group()
 
@@ -83,16 +82,11 @@ class Circle(pygame.sprite.Sprite):  # TODO
     def initialization(self):
         self.image.fill((0, 0, 0, 0))  # permet la transparence
 
-        """
-        pygame.draw.arc(
-            self.image, WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 6)
-        pygame.draw.arc(
-            self.image, GREEN, self.rect, pi / 2 + self.i, pi + self.i, 6)
-        pygame.draw.arc(
-            self.image, BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 6)
-        pygame.draw.arc(
-            self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
-        """
+        self.all_arcs.empty()
+
+        # on appelle 2 fois le 1er arc (bug)
+        self.arc_1 = Arc(
+            BLACK, self.rect, 0 + self.i, pi / 2 + self.i, 6)
         self.arc_1 = Arc(
             BLACK, self.rect, 0 + self.i, pi / 2 + self.i, 6)
         self.arc_2 = Arc(
@@ -116,8 +110,6 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.mask = pygame.mask.from_surface(
             self.image)  # permet de gerer au mieux les collisions
 
-        self.all_arcs.empty()
-
     def update(self):
         self.i += 0.02  # vitesse de rotation
         self.initialization()
@@ -134,6 +126,14 @@ class Circle(pygame.sprite.Sprite):  # TODO
             print("Collision couleur RED")
         else:
             pass
+
+
+class Star(pygame.sprit.Sprite):
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([WIDTH, 400]).convert_alpha()
+        self.rect = None
 
 
 class Ligne(pygame.sprite.Sprite):  # TODO

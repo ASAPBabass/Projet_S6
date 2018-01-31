@@ -27,31 +27,21 @@ def main():
     # initialisation
     view = View()
 
-   # arc = Arc(RED)
-
     all_sprites = pygame.sprite.Group()
-
     font = pygame.sprite.Group()
 
-    # create_font(font)
-    # create_player(player)
     cercle = Circle()
-    font.add(cercle)
-
     player = Ball()
 
-    ligne = Ligne()
+    # ligne = Ligne()
 
+    font.add(cercle)
     all_sprites.add(player)
     all_sprites.add(font)
     # all_sprites.add(ligne)
-    # all_sprites.add(arc)
 
-    print("bonjour")
-    # CtlStart(player, font)
+    end = False  # variable d'arret
 
-    end = False
-    print("Début")
     while not end:
     # Events
 
@@ -66,7 +56,7 @@ def main():
                                 player.jump(10)
                                 all_sprites.update()
                                 cercle.collisions(player)
-                                view.update(all_sprites)
+                                view.draw(all_sprites)
                             player.jump(5)
 
                         if event.key == K_q:
@@ -82,8 +72,7 @@ def main():
         cercle.collisions(player)
 
         # draw/render
-        # update_screen(screen)
-        view.update(all_sprites)  # met à jour l'ecran et affiche les sprites
+        view.draw(all_sprites)  # met à jour l'ecran et affiche les sprites
         # all_sprites.draw(view.screen)
         # ligne.initialization()
 
