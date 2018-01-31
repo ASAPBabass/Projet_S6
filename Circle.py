@@ -30,7 +30,8 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SwitchColor")
 clock = pygame.time.Clock()  # fps
 
-background = pygame.image.load("Vue/Image/planete1.jpg").convert()
+background = pygame.image.load("Vue/Image/voielactee.jpg").convert()
+
 # screen.blit(background,(0,0))
 
 
@@ -181,7 +182,7 @@ def intro():
                     intro = False
         pygame.display.flip()
 
-    pygame.quit()
+    pygame.display.quit()
     quit()
 
 
@@ -196,13 +197,13 @@ def circle_loop():
 
     end = False
 
-    grid = Grid()
+    # grid = Grid()
 
     ball = Ball()
-    ligne = Ligne()
+    # ligne = Ligne()
     cercle = Circle()
     all_sprites.add(ball)
-    all_sprites.add(ligne)
+    # all_sprites.add(ligne)
     # all_sprites.add(cercle)
 
     # objet = Cercle(300,200,50,RED)
@@ -245,10 +246,10 @@ def circle_loop():
 
         # Draw / render
 
-        screen.fill(WHITE)
-        # screen.blit(background, (0, 0))
+        # screen.fill(WHITE)
+        screen.blit(background, (0, 0))
         all_sprites.draw(screen)  # affiche tous les sprites
-        grid.draw()
+        # grid.draw()
         # screen.blit(grid.grid, (0, 0))
 
         # cercle multicolor
@@ -263,6 +264,10 @@ def circle_loop():
         pygame.draw.arc(screen, BLUE, [100, coord2, coord, coord1], pi+i,3*pi/2+i, 10)
         pygame.draw.arc(screen, RED,  [100, coord2, coord, coord1], 3*pi/2+i, 2*pi+i, 10)
         """
+
+        etoile = pygame.image.load(
+            "Vue/Image/etoileArgent.png").convert_alpha()
+        screen.blit(etoile, (200, 200))
 
         """
         surf = pygame.Surface([1200, 50]).convert_alpha()
@@ -305,7 +310,7 @@ def circle_loop():
         # pygame.gfxdraw.line(screen, 600, 300, 10, 300, GREEN)
         # pygame.gfxdraw.hline(screen,50,200,300,RED)
 
-        center = [150, 200]
+        # center = [150, 200]
         # pygame.gfxdraw.aacircle(screen, center[0], center[1], 105, WHITE)
         # pygame.gfxdraw.aacircle(screen, center[0], center[1], 120, WHITE)
         # pygame.draw.arc(screen,RED, [30,70,240,245],0+i, pi/2+i, 20)
@@ -321,6 +326,6 @@ def circle_loop():
 
 # intro()
 circle_loop()
-pygame.quit()
+pygame.display.quit()
 
 quit()

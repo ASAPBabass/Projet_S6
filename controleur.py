@@ -65,17 +65,7 @@ def main():
                             for i in range(4):
                                 player.jump(10)
                                 all_sprites.update()
-
-                                # collisions
-                                # for f in py.sprite.spritecollide(player, font, 0):
-                                 #   print("collision")
-                                if (py.sprite.collide_mask(player, cercle)):
-                                    print("Collision")
-
-                                if pygame.sprite.collide_mask(player, cercle.arc_1):
-                                    print("Collision couleur WHITE")
-                                # cercle.collisions(player)
-
+                                cercle.collisions(player)
                                 view.update(all_sprites)
                             player.jump(5)
 
@@ -85,23 +75,19 @@ def main():
         except Exception:
             print("Erreur !")
 
-        if pygame.sprite.collide_mask(player, cercle.arc_2):
-            print("Collision couleur ")
-
         # print(player.rect.x, player.rect.y)
         # update
         all_sprites.update()
 
+        cercle.collisions(player)
+
         # draw/render
         # update_screen(screen)
-        view.update(all_sprites)  # met à jour l'ecran
-        all_sprites.draw(view.screen)
+        view.update(all_sprites)  # met à jour l'ecran et affiche les sprites
+        # all_sprites.draw(view.screen)
         # ligne.initialization()
 
-        # flip
-        # py.display.flip()
-
-    # py.display.quit()
+    view.quit()
 
 
 main()

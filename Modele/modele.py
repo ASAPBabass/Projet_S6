@@ -69,7 +69,6 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.rect = self.image.get_rect()
 
         self.mask = None
-        self.coord_3 = 75
         self.i = 1
 
         self.all_arcs = pygame.sprite.Group()
@@ -83,7 +82,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
 
     def initialization(self):
         self.image.fill((0, 0, 0, 0))  # permet la transparence
-        self.all_arcs.empty()  # on supprime les précedents sprites
+
         """
         pygame.draw.arc(
             self.image, WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 6)
@@ -95,8 +94,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
             self.image, RED,  self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
         """
         self.arc_1 = Arc(
-            WHITE, self.rect, 0 + self.i, pi / 2 + self.i, 6)
-
+            BLACK, self.rect, 0 + self.i, pi / 2 + self.i, 6)
         self.arc_2 = Arc(
             GREEN, self.rect, pi / 2 + self.i, pi + self.i, 6)
         self.arc_3 = Arc(
@@ -104,9 +102,8 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.arc_4 = Arc(
             RED, self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
 
+         # on ajoute les arcs au groupe de sprites
         self.all_arcs.add(self.arc_1)
-                          # on ajoute les arcs au groupe de sprites
-
         self.all_arcs.add(self.arc_2)
         self.all_arcs.add(self.arc_3)
         self.all_arcs.add(self.arc_4)
@@ -119,23 +116,21 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.mask = pygame.mask.from_surface(
             self.image)  # permet de gerer au mieux les collisions
 
+        self.all_arcs.empty()
+
     def update(self):
-        self.coord_3 += 1
         self.i += 0.02  # vitesse de rotation
         self.initialization()
 
-    def set(self):
-        self.coord_3 = 75
-
     def collisions(self, ball):
         color = ball.color
-        if pygame.sprite.collide_mask(ball, self.arc1) and color != self.arc_1.color:
+        if pygame.sprite.collide_mask(ball, self.arc_1) and color != self.arc_1.color:
             print("Collision couleur WHITE")
-        elif pygame.sprite.collide_mask(ball, self.arc2) and color != self.arc_2.color:
+        elif pygame.sprite.collide_mask(ball, self.arc_2) and color != self.arc_2.color:
             print("Collision couleur GREEN")
-        elif pygame.sprite.collide_mask(ball, self.arc3) and color != self.arc_3.color:
+        elif pygame.sprite.collide_mask(ball, self.arc_3) and color != self.arc_3.color:
             print("Collision couleur BLUE")
-        elif pygame.sprite.collide_mask(ball, self.arc4) and color != self.arc_4.color:
+        elif pygame.sprite.collide_mask(ball, self.arc_4) and color != self.arc_4.color:
             print("Collision couleur RED")
         else:
             pass
