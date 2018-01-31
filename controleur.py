@@ -74,6 +74,7 @@ def main():
         view.draw(all_sprites)  # met à jour l'ecran et affiche les sprites
         # all_sprites.draw(view.screen)
         # ligne.initialization()
+        # print(player.score)
 
     view.quit()
 

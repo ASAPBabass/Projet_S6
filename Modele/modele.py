@@ -13,7 +13,7 @@ from pygame.locals import *
 WIDTH = 640
 HEIGHT = 480
 
-WHITE = (255, 255, 255)
+WHITE = (254, 254, 254)
 BLACK = (0, 0, 0)
 BLUE = (54, 225, 243)
 PURPLE = (141, 19, 250)
@@ -23,7 +23,7 @@ YELLOW = (247, 222, 15)
 ROSE = (252, 2, 128)
 GREY = (41, 41, 41)
 
-colors = (WHITE, BLACK, BLUE, RED, GREEN, YELLOW, PURPLE)
+colors = (BLUE, YELLOW, PURPLE, ROSE)
 
 
 class Player(pygame.sprite.Sprite):  # class du joueur
@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         self.image.fill((0, 0, 0, 0))  # fond transparent
         pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
         self.rect = self.image.get_rect()
-        self.rect.center = (640 / 2, 410)
+        self.rect.center = (640 / 3 + 10, 410)
         self.mask = pygame.mask.from_surface(self.image)
 
         self.score = 0
@@ -84,8 +84,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.arc_4 = None
 
         # etoile du cercle
-        self.star = Star()
-        self.star.rect.center = (100, 100)  # permet de centrer l'etoile
+        self.star = Star(self.rect)
 
         self.initialization()
 
@@ -106,17 +105,20 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.arc_4 = Arc(
             ROSE, self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 15)
 
-         # on ajoute les arcs au groupe de sprites
+        # on ajoute les arcs au groupe de sprites
+
         self.all_arcs.add(self.arc_1)
         self.all_arcs.add(self.arc_2)
         self.all_arcs.add(self.arc_3)
         self.all_arcs.add(self.arc_4)
+
         self.all_arcs.add(self.star)
 
         self.all_arcs.draw(self.image)
                            # on affiche les arcs pour former le cercle
 
         self.rect.center = (640 / 2, 200)  # on recentre la surface
+        # self.star.rect.center = 100, 100
 
         self.mask = pygame.mask.from_surface(
             self.image)  # permet de gerer au mieux les collisions
@@ -125,34 +127,41 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.i += 0.02  # vitesse de rotation
         self.initialization()
 
-    def collisions(self, ball):
-        color = ball.color
-        if pygame.sprite.collide_mask(ball, self.arc_1) and color != self.arc_1.color:
-            print("Collision couleur WHITE")
-        elif pygame.sprite.collide_mask(ball, self.arc_2) and color != self.arc_2.color:
-            print("Collision couleur GREEN")
-        elif pygame.sprite.collide_mask(ball, self.arc_3) and color != self.arc_3.color:
+    def collisions(self, player):
+        color = player.color
+        if pygame.sprite.collide_mask(player, self.arc_1) and color != self.arc_1.color:
+            print("Collision couleur PURPLE")
+        elif pygame.sprite.collide_mask(player, self.arc_2) and color != self.arc_2.color:
+            print("Collision couleur YELLOW")
+        elif pygame.sprite.collide_mask(player, self.arc_3) and color != self.arc_3.color:
             print("Collision couleur BLUE")
-        elif pygame.sprite.collide_mask(ball, self.arc_4) and color != self.arc_4.color:
-            print("Collision couleur RED")
-        elif pygame.sprite.collide_mask(ball, self.star):
+        elif pygame.sprite.collide_mask(player, self.arc_4) and color != self.arc_4.color:
+            print("Collision couleur ROSE")
+        elif pygame.sprite.collide_mask(player, self.star):
+            # self.star.collide(player)
             print("collision star")
             # self.star.fill((0, 0, 0, 0))
+            player.score += 1
         else:
             pass
 
 
 class Star(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, rect):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
             "Vue/Image/etoileJaune.png").convert_alpha()
-        self.rect = self.image.get_rect()
+        self.rect = rect
         self.mask = pygame.mask.from_surface(self.image)
+        # self.rect.center = (200, 200)  # permet de centrer l'etoile
 
     def update(self):
         pass
+
+    def collide(self, player):
+        if pygame.mask.collide_mask(self, player):
+            print("collision star")
 
 
 class Ligne(pygame.sprite.Sprite):  # TODO
@@ -196,12 +205,12 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         if width < 640:
             return width + 1
         # else:
-         #   return 0
+            #   return 0
 
 
 def start(player, font):
     print("Début de la partie")
-    p1 = Ball()
+    p1 = Player()
     circle = Circle()
     print("Début de la partie")
     font.add(circle)
@@ -215,6 +224,6 @@ def create_font(font):
 
 
 def create_player(player):
-    p = Ball()
+    p = Player()
     player.add(p)
     return player

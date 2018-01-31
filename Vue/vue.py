@@ -10,11 +10,17 @@ WIDTH = 640
 HEIGHT = 480
 FPS = 30
 
-WHITE = (255, 255, 255)
+WHITE = (254, 254, 254)
 BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
+BLUE = (54, 225, 243)
+PURPLE = (141, 19, 250)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+YELLOW = (247, 222, 15)
+ROSE = (252, 2, 128)
+GREY = (41, 41, 41)
+
+colors = (BLUE, YELLOW, PURPLE, ROSE)
 
 
 class View():  # classe s'occupant de la vue
