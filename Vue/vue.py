@@ -34,7 +34,8 @@ class View():  # classe s'occupant de la vue
         self.clock = pygame.time.Clock()
 
     def draw(self, all_sprites):
-        self.screen.blit(self.background, (0, 0))
+        # self.screen.blit(self.background, (0, 0))
+        self.screen.fill((41, 41, 41))
         all_sprites.draw(self.screen)  # affiche tous les sprites
         pygame.display.flip()  # met à jour la fenetre
         self.clock.tick(FPS)

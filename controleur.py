@@ -11,7 +11,6 @@ import pygame.gfxdraw
 from pygame.locals import *
 
 from Modele.modele import *
-from Modele.modele import Ball
 from Vue.vue import *
 
 

@@ -15,11 +15,15 @@ HEIGHT = 480
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
+BLUE = (54, 225, 243)
+PURPLE = (141, 19, 250)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
+YELLOW = (247, 222, 15)
+ROSE = (252, 2, 128)
+GREY = (41, 41, 41)
 
-colors = (WHITE, BLACK, BLUE, RED, GREEN)
+colors = (WHITE, BLACK, BLUE, RED, GREEN, YELLOW, PURPLE)
 
 
 class Player(pygame.sprite.Sprite):  # class du joueur
@@ -79,6 +83,10 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.arc_3 = None
         self.arc_4 = None
 
+        # etoile du cercle
+        self.star = Star()
+        self.star.rect.center = (100, 100)  # permet de centrer l'etoile
+
         self.initialization()
 
     def initialization(self):
@@ -88,21 +96,22 @@ class Circle(pygame.sprite.Sprite):  # TODO
 
         # on appelle 2 fois le 1er arc (bug peut etre du a la fonction empty)
         self.arc_1 = Arc(
-            BLACK, self.rect, 0 + self.i, pi / 2 + self.i, 6)
+            PURPLE, self.rect, 0 + self.i, pi / 2 + self.i, 15)
         self.arc_1 = Arc(
-            BLACK, self.rect, 0 + self.i, pi / 2 + self.i, 6)
+            PURPLE, self.rect, 0 + self.i, pi / 2 + self.i, 15)
         self.arc_2 = Arc(
-            GREEN, self.rect, pi / 2 + self.i, pi + self.i, 6)
+            YELLOW, self.rect, pi / 2 + self.i, pi + self.i, 15)
         self.arc_3 = Arc(
-            BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 6)
+            BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 15)
         self.arc_4 = Arc(
-            RED, self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 6)
+            ROSE, self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 15)
 
          # on ajoute les arcs au groupe de sprites
         self.all_arcs.add(self.arc_1)
         self.all_arcs.add(self.arc_2)
         self.all_arcs.add(self.arc_3)
         self.all_arcs.add(self.arc_4)
+        self.all_arcs.add(self.star)
 
         self.all_arcs.draw(self.image)
                            # on affiche les arcs pour former le cercle
@@ -126,6 +135,9 @@ class Circle(pygame.sprite.Sprite):  # TODO
             print("Collision couleur BLUE")
         elif pygame.sprite.collide_mask(ball, self.arc_4) and color != self.arc_4.color:
             print("Collision couleur RED")
+        elif pygame.sprite.collide_mask(ball, self.star):
+            print("collision star")
+            # self.star.fill((0, 0, 0, 0))
         else:
             pass
 
@@ -135,9 +147,12 @@ class Star(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
-            "Vue/Image/fond_gris.jpg").convert_alpha()
+            "Vue/Image/etoileJaune.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
+
+    def update(self):
+        pass
 
 
 class Ligne(pygame.sprite.Sprite):  # TODO
