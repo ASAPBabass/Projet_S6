@@ -22,7 +22,7 @@ GREEN = (0, 255, 0)
 colors = (WHITE, BLACK, BLUE, RED, GREEN)
 
 
-class Ball(pygame.sprite.Sprite):  # class du joueur
+class Player(pygame.sprite.Sprite):  # class du joueur
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -35,6 +35,8 @@ class Ball(pygame.sprite.Sprite):  # class du joueur
         self.rect = self.image.get_rect()
         self.rect.center = (640 / 2, 410)
         self.mask = pygame.mask.from_surface(self.image)
+
+        self.score = 0
 
     def jump(self, jump):
         # print("jump")
@@ -84,7 +86,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
 
         self.all_arcs.empty()
 
-        # on appelle 2 fois le 1er arc (bug)
+        # on appelle 2 fois le 1er arc (bug peut etre du a la fonction empty)
         self.arc_1 = Arc(
             BLACK, self.rect, 0 + self.i, pi / 2 + self.i, 6)
         self.arc_1 = Arc(
@@ -128,12 +130,14 @@ class Circle(pygame.sprite.Sprite):  # TODO
             pass
 
 
-class Star(pygame.sprit.Sprite):
+class Star(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([WIDTH, 400]).convert_alpha()
-        self.rect = None
+        self.image = pygame.image.load(
+            "Vue/Image/fond_gris.jpg").convert_alpha()
+        self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
 
 
 class Ligne(pygame.sprite.Sprite):  # TODO

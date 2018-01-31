@@ -31,7 +31,7 @@ def main():
     font = pygame.sprite.Group()
 
     cercle = Circle()
-    player = Ball()
+    player = Player()
 
     # ligne = Ligne()
 
