@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         self.image.fill((0, 0, 0, 0))  # fond transparent
         pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
         self.rect = self.image.get_rect()
-        self.rect.center = (640 / 3 + 10, 410)
+        self.rect.center = (640 / 2, 410)
         self.mask = pygame.mask.from_surface(self.image)
 
         self.score = 0
@@ -59,7 +59,7 @@ class Arc(pygame.sprite.Sprite):
         self.color = color
         self.image = pygame.Surface([400, 400]).convert_alpha()
         self.image.fill((0, 0, 0, 0))
-        self.rect = rect
+        self.rect = rect  # correspond a la surface du cercle
         pygame.draw.arc(
             self.image, color, self.rect, start_angle, stop_angle, width)
         self.mask = pygame.mask.from_surface(self.image)
@@ -85,6 +85,11 @@ class Circle(pygame.sprite.Sprite):  # TODO
 
         # etoile du cercle
         self.star = Star(self.rect)
+
+        self.rect = self.rect.clamp(self.star.rect)
+
+        if self.rect.contains(self.star.rect):
+            print("ok")
 
         self.initialization()
 
@@ -118,7 +123,6 @@ class Circle(pygame.sprite.Sprite):  # TODO
                            # on affiche les arcs pour former le cercle
 
         self.rect.center = (640 / 2, 200)  # on recentre la surface
-        # self.star.rect.center = 100, 100
 
         self.mask = pygame.mask.from_surface(
             self.image)  # permet de gerer au mieux les collisions
@@ -141,8 +145,9 @@ class Circle(pygame.sprite.Sprite):  # TODO
             # self.star.collide(player)
             print("collision star")
             # self.star.fill((0, 0, 0, 0))
-            player.score += 1
+            # player.score += 1
         else:
+            # self.star.collide(player)
             pass
 
 
@@ -152,16 +157,15 @@ class Star(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
             "Vue/Image/etoileJaune.png").convert_alpha()
-        self.rect = rect
+        self.rect = self.image.get_rect()  # correspond a la surface du cercle
+        self.rect.center = (100, 100)  # permet de centrer l'etoile
         self.mask = pygame.mask.from_surface(self.image)
-        # self.rect.center = (200, 200)  # permet de centrer l'etoile
 
     def update(self):
         pass
 
     def collide(self, player):
-        if pygame.mask.collide_mask(self, player):
-            print("collision star")
+        pass
 
 
 class Ligne(pygame.sprite.Sprite):  # TODO
