@@ -25,9 +25,12 @@ colors = (BLUE, YELLOW, PURPLE, ROSE)
 
 class View():  # classe s'occupant de la vue
 
-    def __init__(self):
+    def __init__(self, player):
         self.screen = None
         self.clock = None  # fps
+        self.player = player
+        self.all_sprites = pygame.sprite.Group()
+
         self.initialization()
 
     def initialization(self):  # initialisation de la fenetre
@@ -39,12 +42,22 @@ class View():  # classe s'occupant de la vue
             "Vue/Image/fond_gris.jpg").convert()
         self.clock = pygame.time.Clock()
 
-    def draw(self, all_sprites):
+        self.player.initialization()
+        self.all_sprites.add(self.player)
+
+    def draw(self):
         # self.screen.blit(self.background, (0, 0))
         self.screen.fill((41, 41, 41))
-        all_sprites.draw(self.screen)  # affiche tous les sprites
+        self.all_sprites.draw(self.screen)  # affiche tous les sprites
         pygame.display.flip()  # met à jour la fenetre
         self.clock.tick(FPS)
 
+    def update(self):
+        self.all_sprites.update()
+
     def quit(self):
         py.display.quit()
+
+    def defilement(self, font, player):  # permet le defilement verticale
+        p_x = player.rect.x
+        p_y = player.rect.y
