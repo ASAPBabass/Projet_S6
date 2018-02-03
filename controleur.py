@@ -27,10 +27,11 @@ def main():
 
     player = Player()
 
-    view = View(player)
+    view = View(player)  # on ajoute le player dans la Vue
 
     cercle = Circle()
 
+    view.all_fonts.add(cercle)  # on ajoute le cercle dans la Vue
     view.all_sprites.add(cercle)
 
     end = False  # variable d'arret
@@ -47,7 +48,8 @@ def main():
                         if event.key == K_SPACE:
                             for i in range(4):
                                 player.jump(10)
-                                view.all_sprites.update()
+                                # view.all_sprites.update()
+                                view.update()
                                 cercle.collisions(player)
                                 view.draw()
                             player.jump(5)
@@ -57,13 +59,15 @@ def main():
 
         except Exception:
             print("Erreur !")
-
-        # print(player.rect.x, player.rect.y)
+        # print(cercle.rect.y)
         # update
         view.update()
 
+        # on verifie les collisions
         cercle.collisions(player)
+        print(cercle.rect.y)
 
+        view.scroll()
         # draw/render
         view.draw()  # met à jour l'ecran et affiche les sprites
 

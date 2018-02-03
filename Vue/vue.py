@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from math import pi
+
 import pygame as py
 import pygame.gfxdraw
 from pygame.locals import *
@@ -30,6 +31,12 @@ class View():  # classe s'occupant de la vue
         self.clock = None  # fps
         self.player = player
         self.all_sprites = pygame.sprite.Group()
+        self.all_fonts = pygame.sprite.Group()
+
+        self.start_pos = 0  # position de depart
+
+        self.scroll_up = HEIGHT / 2
+        self.scroll_down = 425
 
         self.initialization()
 
@@ -37,27 +44,40 @@ class View():  # classe s'occupant de la vue
         py.display.init()
         py.display.set_caption("SwitchColor")
         pygame.key.set_repeat(400, 30)
-        self.screen = py.display.set_mode((WIDTH, HEIGHT))
+        self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
         self.background = pygame.image.load(
             "Vue/Image/fond_gris.jpg").convert()
         self.clock = pygame.time.Clock()
 
-        self.player.initialization()
-        self.all_sprites.add(self.player)
+        self.player.initialization()  # on initialise le player
+        self.all_sprites.add(self.player)  # puis on l'ajoute aux sprites
 
     def draw(self):
-        # self.screen.blit(self.background, (0, 0))
-        self.screen.fill((41, 41, 41))
+        self.screen.fill((41, 41, 41))  # fond gris
         self.all_sprites.draw(self.screen)  # affiche tous les sprites
         pygame.display.flip()  # met à jour la fenetre
-        self.clock.tick(FPS)
+        self.clock.tick(FPS)  # on definit la vitesse d'affichage
 
     def update(self):
+
         self.all_sprites.update()
 
     def quit(self):
         py.display.quit()
 
-    def defilement(self, font, player):  # permet le defilement verticale
-        p_x = player.rect.x
-        p_y = player.rect.y
+    def scroll(self):  # scrolling de l'ecran et des sprites
+        scroll = 0
+        pos_y = self.player.rect.y
+        # permet de deplacer le decor et non le player
+        if(pos_y <= self.scroll_up):  # si le player jump
+            scroll = self.scroll_up - pos_y
+            self.player.rect.y = self.scroll_up
+            for sprite in self.all_fonts:
+                sprite.scroll += scroll
+        if(pos_y >= self.scroll_down):  # gravite
+            scroll = self.scroll_down - pos_y
+            self.player.rect.y = self.scroll_down
+            for sprite in self.all_fonts:
+                sprite.scroll += scroll
+
+        self.start_pos += scroll
