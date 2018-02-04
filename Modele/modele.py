@@ -42,13 +42,13 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect.center = (640 / 2, 420)
+        self.rect.center = (640 / 2, 200)
 
     def jump(self, jump):
         self.rect.y -= jump
 
     def update(self):  # gravite
-        if self.rect.y < 410:
+        if self.rect.y < 2000:
             self.rect.y += 2.5
 
 

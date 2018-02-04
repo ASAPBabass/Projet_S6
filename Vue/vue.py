@@ -35,8 +35,8 @@ class View():  # classe s'occupant de la vue
 
         self.start_pos = 0  # position de depart
 
-        self.scroll_up = HEIGHT / 2
-        self.scroll_down = 425
+        self.scroll_up = HEIGHT / 2 + 100
+        self.scroll_down = 410
 
         self.initialization()
 

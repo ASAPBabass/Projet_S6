@@ -51,6 +51,7 @@ def main():
                                 # view.all_sprites.update()
                                 view.update()
                                 cercle.collisions(player)
+                                view.scroll()
                                 view.draw()
                             player.jump(5)
 
