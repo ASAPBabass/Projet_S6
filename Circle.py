@@ -58,6 +58,9 @@ class Ball(pygame.sprite.Sprite):
 TILE_SIZE = 75
 
 
+class Carre()
+
+
 class Grid():
 
     def __init__(self):

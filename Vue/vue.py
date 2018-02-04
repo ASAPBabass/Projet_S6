@@ -88,3 +88,14 @@ class View():  # classe s'occupant de la vue
         font = pygame.font.Font(None, 45)
         score = font.render(str(self.player.score), 10, (254, 254, 254))
         self.screen.blit(score, (50, 50))
+
+    def menu(self):
+        self.screen.fill((41, 41, 41))  # fond gris
+        background_menu = pygame.image.load(
+            "Vue/Image/titre.png").convert()
+        self.screen.blit(background_menu, (50, 50))
+        font = pygame.font.Font(None, 50)
+        titre = font.render(
+            "APPUYEZ SUR ESPACE", 10, (254, 254, 254))
+        self.screen.blit(titre, (130, 300))
+        pygame.display.flip()

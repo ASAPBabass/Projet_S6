@@ -22,6 +22,30 @@ def CtlStart(player, font):
     # startScreen(screen, sprites, font)
 
 
+def menu():
+
+    end = False
+
+    while not end:
+    # Evenements
+
+        try:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    return True
+                else:
+                    if event.type == KEYDOWN:
+                        if event.key == K_SPACE:
+                            return False
+                        if event.key == K_ESCAPE:
+                            end = True
+
+        except Exception:
+            print("Erreur Menu !")
+
+        return True
+
+
 def main():
     # initialisation
 
@@ -34,7 +58,27 @@ def main():
     view.all_fonts.add(cercle)  # on ajoute le cercle dans la Vue
     view.all_sprites.add(cercle)
 
+    end_menu = False
     end = False  # variable d'arret
+
+    while not end_menu:
+    # Evenements
+        view.menu()
+        try:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    end_menu = True
+                    end = True
+                else:
+                    if event.type == KEYDOWN:
+                        if event.key == K_SPACE:
+                            end_menu = True
+                        if event.key == K_ESCAPE:
+                            end_menu = True
+                            end = True
+
+        except Exception:
+            print("Erreur Menu !")
 
     while not end:
     # Evenements
