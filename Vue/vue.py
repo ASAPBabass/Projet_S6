@@ -42,6 +42,7 @@ class View():  # classe s'occupant de la vue
 
     def initialization(self):  # initialisation de la fenetre
         py.display.init()
+        pygame.font.init()
         py.display.set_caption("SwitchColor")
         pygame.key.set_repeat(400, 30)
         self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
@@ -55,6 +56,7 @@ class View():  # classe s'occupant de la vue
     def draw(self):
         self.screen.fill((41, 41, 41))  # fond gris
         self.all_sprites.draw(self.screen)  # affiche tous les sprites
+        self.score()
         pygame.display.flip()  # met à jour la fenetre
         self.clock.tick(FPS)  # on definit la vitesse d'affichage
 
@@ -81,3 +83,8 @@ class View():  # classe s'occupant de la vue
                 sprite.scroll += scroll
 
         self.start_pos += scroll
+
+    def score(self):
+        font = pygame.font.Font(None, 45)
+        score = font.render(str(self.player.score), 10, (254, 254, 254))
+        self.screen.blit(score, (50, 50))

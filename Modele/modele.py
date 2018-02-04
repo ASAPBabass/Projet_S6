@@ -128,11 +128,9 @@ class Circle(pygame.sprite.Sprite):  # TODO
         elif pygame.sprite.collide_mask(player, self.arc_4) and color != self.arc_4.color:
             print("Collision couleur ROSE")
         elif player.rect.y < self.star.rect.y + self.rect.y + 45 and self.star.bool == False:  # collision temporaire
-            # print(self.star.rect.y)
             self.star.image.fill((0, 0, 0, 0))
             player.score += 1
-           # self.all_arcs.remove(self.star)
-           # print("collision")
+            self.star.bool = True
 
         else:
             pass
