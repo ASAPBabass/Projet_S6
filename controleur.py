@@ -90,14 +90,14 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            for i in range(4):
-                                player.jump(10)
+                            for i in range(6):
+                                player.jump(15)
                                 # view.all_sprites.update()
                                 view.update()
                                 cercle.collisions(player)
                                 view.scroll()
                                 view.draw()
-                            player.jump(5)
+                            player.jump(10)
 
                         if event.key == K_q:
                             end = True
@@ -110,7 +110,7 @@ def main():
 
         # on verifie les collisions
         cercle.collisions(player)
-        print(cercle.rect.y)
+        # print(cercle.rect.y)
 
         view.scroll()
         # draw/render

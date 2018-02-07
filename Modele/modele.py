@@ -42,14 +42,14 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect.center = (640 / 2, 200)
+        self.rect.center = (640 / 2, 150)
 
     def jump(self, jump):
         self.rect.y -= jump
 
     def update(self):  # gravite
         if self.rect.y < 2000:
-            self.rect.y += 2.5
+            self.rect.y += 6
 
 
 class Arc(pygame.sprite.Sprite):
@@ -61,20 +61,30 @@ class Arc(pygame.sprite.Sprite):
         self.image = pygame.Surface([200, 200]).convert_alpha()
         self.image.fill((0, 0, 0, 0))
         self.rect = rect
+        self.mask = None
         self.update(start_angle, stop_angle, width)
 
     def update(self, start_angle, stop_angle, width):
         self.image.fill((0, 0, 0, 0))
-        pygame.draw.arc(
+        rect_bis = self.rect.move(0, 1)
+        arc_1 = pygame.draw.arc(
             self.image, self.color, self.rect, start_angle, stop_angle, width)
+        arc_2 = pygame.draw.arc(
+            self.image, self.color, rect_bis, start_angle, stop_angle, width)
+
+        # anti-aliasing
+        # pygame.gfxdraw.aacircle(
+         #   self.image, arc_2.x, arc_2.y, 199, GREY)
+
         self.rect.center = (100, 100)
+        self.mask = pygame.mask.from_surface(self.image)
 
 
 class Circle(pygame.sprite.Sprite):  # TODO
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200, 200]).convert_alpha()
+        self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
         self.rect.y = 200
 
@@ -103,8 +113,13 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.all_arcs.add(self.star)
         self.rect.center = (640 / 2, self.rect.y)
 
+        # self.image.fill((0, 0, 0, 0))
+        self.image.fill((41, 41, 41))
+
     def update(self):
-        self.image.fill((0, 0, 0, 0))
+        # self.image.fill((0, 0, 0, 0))
+        self.image.fill((41, 41, 41))
+
         self.i += 0.02  # vitesse de rotation
 
         self.arc_1.update(0 + self.i, pi / 2 + self.i, 15)
@@ -142,9 +157,10 @@ class Star(pygame.sprite.Sprite):
     def __init__(self, rect):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
-            "Vue/Image/etoileJaune.png").convert_alpha()
+            "Vue/Image/star2.png").convert_alpha()
         self.rect = self.image.get_rect()  # correspond a la surface du cercle
-        self.rect.move_ip(70, 70)  # permet de centrer l'etoile dans le cercle
+        self.rect.move_ip(77, 80)  # permet de centrer l'etoile dans le
+        # cercle
         self.mask = pygame.mask.from_surface(self.image)
         self.bool = False
 

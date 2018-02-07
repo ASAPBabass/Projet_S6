@@ -35,7 +35,7 @@ class View():  # classe s'occupant de la vue
 
         self.start_pos = 0  # position de depart
 
-        self.scroll_up = HEIGHT / 2 + 100
+        self.scroll_up = HEIGHT / 2
         self.scroll_down = 410
 
         self.initialization()
@@ -47,7 +47,9 @@ class View():  # classe s'occupant de la vue
         pygame.key.set_repeat(400, 30)
         self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
         self.background = pygame.image.load(
-            "Vue/Image/fond_gris.jpg").convert()
+            "Vue/Image/fond.png").convert()
+        # self.screen.blit(self.background, (0, 0))
+        self.screen.fill((41, 41, 41))  # fond gris
         self.clock = pygame.time.Clock()
 
         self.player.initialization()  # on initialise le player
@@ -55,10 +57,11 @@ class View():  # classe s'occupant de la vue
 
     def draw(self):
         self.screen.fill((41, 41, 41))  # fond gris
+        # self.screen.blit(self.background, (0, 0))
         self.all_sprites.draw(self.screen)  # affiche tous les sprites
         self.score()
         pygame.display.flip()  # met à jour la fenetre
-        self.clock.tick(FPS)  # on definit la vitesse d'affichage
+        self.clock.tick(30)  # on definit la vitesse d'affichage
 
     def update(self):
 
