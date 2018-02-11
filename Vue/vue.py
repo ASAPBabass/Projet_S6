@@ -31,7 +31,7 @@ class View():  # classe s'occupant de la vue
         self.clock = None  # fps
         self.player = player
         self.all_sprites = pygame.sprite.Group()
-        self.all_fonts = pygame.sprite.Group()
+        self.all_obstacles = pygame.sprite.OrderedUpdates()
 
         self.start_pos = 0  # position de depart
 
@@ -44,7 +44,7 @@ class View():  # classe s'occupant de la vue
         py.display.init()
         pygame.font.init()
         py.display.set_caption("SwitchColor")
-        pygame.key.set_repeat(400, 30)
+        # pygame.key.set_repeat(400, 30)
         self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
         self.background = pygame.image.load(
             "Vue/Image/fond.png").convert()
@@ -58,13 +58,15 @@ class View():  # classe s'occupant de la vue
     def draw(self):
         self.screen.fill((41, 41, 41))  # fond gris
         # self.screen.blit(self.background, (0, 0))
+        self.all_obstacles.draw(self.screen)
         self.all_sprites.draw(self.screen)  # affiche tous les sprites
+
         self.score()
         pygame.display.flip()  # met à jour la fenetre
         self.clock.tick(30)  # on definit la vitesse d'affichage
 
     def update(self):
-
+        self.all_obstacles.update()
         self.all_sprites.update()
 
     def quit(self):
@@ -77,12 +79,12 @@ class View():  # classe s'occupant de la vue
         if(pos_y <= self.scroll_up):  # si le player jump
             scroll = self.scroll_up - pos_y
             self.player.rect.y = self.scroll_up
-            for sprite in self.all_fonts:
+            for sprite in self.all_obstacles:
                 sprite.scroll += scroll
         if(pos_y >= self.scroll_down):  # gravite
             scroll = self.scroll_down - pos_y
             self.player.rect.y = self.scroll_down
-            for sprite in self.all_fonts:
+            for sprite in self.all_obstacles:
                 sprite.scroll += scroll
 
         self.start_pos += scroll

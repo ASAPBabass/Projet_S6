@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):  # class du joueur
 
     def update(self):  # gravite
         if self.rect.y < 2000:
-            self.rect.y += 6
+            self.rect.y += 7.5
 
 
 class Arc(pygame.sprite.Sprite):
@@ -82,7 +82,7 @@ class Arc(pygame.sprite.Sprite):
 
 class Circle(pygame.sprite.Sprite):  # TODO
 
-    def __init__(self):
+    def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
@@ -222,22 +222,17 @@ class Ligne(pygame.sprite.Sprite):  # TODO
             #   return 0
 
 
-def start(player, font):
-    print("Début de la partie")
-    p1 = Player()
-    circle = Circle()
-    print("Début de la partie")
-    font.add(circle)
-    player.add(p1)
+def obstacles(player, all_obstacles):
+    list_obstacles = all_obstacles.sprites()
+    nb = len(list_obstacles)
+    if nb == 0:
+        print("Creation du 1er obstacle")
+        all_obstacles.add(Circle(- 1000))
+    else:
+        if list_obstacles[-1].rect.y > player.rect.y:
+            all_obstacles.add(Circle(- 1000))
 
 
-def create_font(font):
-    f = Circle()
-    font.add(f)
-    return font
-
-
-def create_player(player):
-    p = Player()
-    player.add(p)
-    return player
+def collisions(player, all_obstacles):
+    for obstacle in all_obstacles:
+        obstacle.collisions(player)
