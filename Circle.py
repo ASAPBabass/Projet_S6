@@ -137,6 +137,32 @@ class Star(pygame.sprite.Sprite):
             pass
 
 
+class Switch(pygame.sprite.Sprite):  # class du joueur
+
+    def __init__(self, pos_y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(
+            "Vue/Image/switch3.png").convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.center = (WIDTH / 2, pos_y)
+        self.mask = None
+        self.pos_y = pos_y
+        self.scroll = 0
+
+    def udpdate(self):
+        self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
+        # self.rect.y = self.pos.y + self.scroll
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def collide(self, player):
+        """
+        if pygame.sprite.collide_mask(player, self):
+            player.color = random.choice(colors)
+            print("collision avec le switch")
+            self.image.fill((0, 0, 0, 0))
+        """
+
+
 class Circle(pygame.sprite.Sprite):  # TODO
 
     def __init__(self):
@@ -404,6 +430,7 @@ def circle_loop():
     i = 0
     # grid = Grid()
 
+    switch = Switch(100)
     carre = pygame.Surface([200, 200]).convert()
     rect1 = carre.get_rect()
     rect1.center = (200, 200)
@@ -412,7 +439,7 @@ def circle_loop():
     # ball = Ball()
     # ligne = Ligne()
     # cercle = Circle()
-   # all_sprites.add(ball)
+    all_sprites.add(switch)
    # all_sprites.add(cercle)
    # all_sprites.add(arc)
     # all_sprites.add(ligne)
@@ -474,7 +501,7 @@ def circle_loop():
         # print(circle.rect.x,circle.rect.y,circle.rect.height,circle.rect.width)
 
         # Update
-       # all_sprites.update()  # met a jour tous les sprites
+        all_sprites.update()  # met a jour tous les sprites
 
         # Draw / render
 

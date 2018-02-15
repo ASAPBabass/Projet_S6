@@ -48,18 +48,38 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         self.rect.y -= jump
 
     def update(self):  # gravite
+        pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
         if self.rect.y < 2000:
             self.rect.y += 7.5
+
+    def switch(self):
+        self.color = random.choice(colors)  # couleur aleatoire
 
 
 class Switch(pygame.sprite.Sprite):  # class du joueur
 
-    def __init__(self):
+    def __init__(self, pos_y):
         pygame.sprite.Sprite.__init__(self)
-        self.imgage = pygame.image.load(
+        self.image = pygame.image.load(
             "Vue/Image/switch3.png").convert_alpha()
-        self.image = None
+        self.rect = self.image.get_rect()
+        self.rect.center = (WIDTH / 2, pos_y)
         self.mask = None
+        self.pos_y = pos_y
+        self.scroll = 0
+        self.bool = False
+
+    def udpdate(self):
+        self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
+        # self.rect.y = self.pos.y + self.scroll
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def collide(self, player):
+        if player.rect.y > self.rect.y and self.bool == False:
+            player.switch()
+            print("collision avec le switch")
+            self.image.fill((0, 0, 0, 0))
+            self.bool = True
 
 
 class Arc(pygame.sprite.Sprite):
@@ -176,7 +196,7 @@ class Square(pygame.sprite.Sprite):
         # self.rect.center = (640 / 2, self.rect.y)
         # self.rect.y +=
 
-    def collisions(self, player):
+    def collide(self, player):
         pass
 
 
@@ -186,7 +206,8 @@ class Circle(pygame.sprite.Sprite):  # TODO
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
-        self.rect.y = -200
+        # self.rect.y = -height
+        self.height = height
 
         self.i = 0  # vitesse de rotatio
         self.scroll = 0  # permet le scrolling
@@ -211,7 +232,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.all_arcs.add(self.arc_4)
 
         self.all_arcs.add(self.star)
-        self.rect.center = (640 / 2, -200)
+        self.rect.center = (640 / 2, self.height)
 
         # self.image.fill((0, 0, 0, 0))
         self.image.fill((41, 41, 41))
@@ -232,9 +253,9 @@ class Circle(pygame.sprite.Sprite):  # TODO
 
         # self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
         # print(str(self.rect.y) + "  " + str(self.scroll))
-        self.rect.center = (640 / 2, -150 + self.scroll)
+        self.rect.center = (640 / 2, self.height + self.scroll)
 
-    def collisions(self, player):
+    def collide(self, player):
         color = player.color
         if pygame.sprite.collide_mask(player, self.arc_1) and color != self.arc_1.color:
             print("Collision couleur PURPLE")
@@ -329,12 +350,14 @@ def obstacles(player, all_obstacles):
     nb = len(list_obstacles)
     if nb == 0:
         print("Creation du 1er obstacle")
-        all_obstacles.add(Circle(-500))
+        all_obstacles.add(Switch(100))
+        all_obstacles.add(Circle(-150))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
-            all_obstacles.add(Circle(- 500))
+            all_obstacles.add(Switch(-50))
+            all_obstacles.add(Circle(- 150))
 
 
 def collisions(player, all_obstacles):
     for obstacle in all_obstacles:
-        obstacle.collisions(player)
+        obstacle.collide(player)

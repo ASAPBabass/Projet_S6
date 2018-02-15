@@ -57,7 +57,6 @@ class View():  # classe s'occupant de la vue
 
     def draw(self):
         self.screen.fill((41, 41, 41))  # fond gris
-        # self.screen.blit(self.background, (0, 0))
         self.all_obstacles.draw(self.screen)
         self.all_sprites.draw(self.screen)  # affiche tous les sprites
 
@@ -81,7 +80,6 @@ class View():  # classe s'occupant de la vue
             self.player.rect.y = self.scroll_up
             for sprite in self.all_obstacles:
                 sprite.scroll += scroll
-                # print(scroll)
         if(pos_y >= self.scroll_down):  # gravite
             scroll = self.scroll_down - pos_y
             self.player.rect.y = self.scroll_down
