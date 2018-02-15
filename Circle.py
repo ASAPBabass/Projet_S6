@@ -478,7 +478,7 @@ def circle_loop():
 
         # Draw / render
 
-        screen.fill(WHITE)
+        screen.fill((41, 41, 41))
         # screen.blit(background, (0, 0))
         all_sprites.draw(screen)  # affiche tous les sprites
         # grid.draw()
@@ -596,6 +596,10 @@ def circle_loop():
         # pygame.gfxdraw.line(screen, int(Y), int(
         #    Z + 8), int(X), int(W + 6), PURPLE)
 
+        img2 = pygame.image.load(
+            "Vue/Image/switch3.png").convert_alpha()
+        screen.blit(img2, (200, 200))
+
         angleDegre += 1
         angleDegre2 += 1
         angleDegre3 += 1
@@ -678,7 +682,7 @@ def circle_loop():
         # coord1 = 200
         # i += 0.02
         # screen.blit(carre, (0, 0))
-        pygame.transform.flip(carre, True, False)
+        # pygame.transform.flip(carre, True, False)
         # Flip
 
         pygame.display.flip()  # met à jour la fenetre

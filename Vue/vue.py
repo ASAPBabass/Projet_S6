@@ -81,6 +81,7 @@ class View():  # classe s'occupant de la vue
             self.player.rect.y = self.scroll_up
             for sprite in self.all_obstacles:
                 sprite.scroll += scroll
+                # print(scroll)
         if(pos_y >= self.scroll_down):  # gravite
             scroll = self.scroll_down - pos_y
             self.player.rect.y = self.scroll_down

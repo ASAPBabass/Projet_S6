@@ -105,9 +105,12 @@ def main():
 
         # on verifie les collisions
         collisions(player, view.all_obstacles)
-        # print(cercle.rect.y)
+        get_list = view.all_obstacles.sprites()
+        if(len(get_list) > 1):
+            print(get_list[-1].rect.x, get_list[-1].rect.y)
 
         view.scroll()
+        # print(player.rect.x, player.rect.y)
         # obstacles(player, view.all_obstacles)
 
         # draw/render

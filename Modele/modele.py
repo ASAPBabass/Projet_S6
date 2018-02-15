@@ -52,6 +52,16 @@ class Player(pygame.sprite.Sprite):  # class du joueur
             self.rect.y += 7.5
 
 
+class Switch(pygame.sprite.Sprite):  # class du joueur
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.imgage = pygame.image.load(
+            "Vue/Image/switch3.png").convert_alpha()
+        self.image = None
+        self.mask = None
+
+
 class Arc(pygame.sprite.Sprite):
 
     def __init__(self, color, rect, start_angle, stop_angle, width):
@@ -176,7 +186,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
-        self.rect.y = -500
+        self.rect.y = -200
 
         self.i = 0  # vitesse de rotatio
         self.scroll = 0  # permet le scrolling
@@ -201,7 +211,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.all_arcs.add(self.arc_4)
 
         self.all_arcs.add(self.star)
-        self.rect.center = (640 / 2, self.rect.y)
+        self.rect.center = (640 / 2, -200)
 
         # self.image.fill((0, 0, 0, 0))
         self.image.fill((41, 41, 41))
@@ -221,8 +231,8 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.all_arcs.draw(self.image)
 
         # self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
-        self.rect.center = (640 / 2, self.rect.y + self.scroll)
-        # self.rect.y +=
+        # print(str(self.rect.y) + "  " + str(self.scroll))
+        self.rect.center = (640 / 2, -150 + self.scroll)
 
     def collisions(self, player):
         color = player.color
