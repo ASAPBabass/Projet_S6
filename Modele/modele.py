@@ -3,7 +3,7 @@
 import os
 import random
 import sys
-from math import pi
+from math import *
 
 import pygame
 import pygame.gfxdraw
@@ -80,13 +80,103 @@ class Arc(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
 
+class Square(pygame.sprite.Sprite):
+
+    def __init__(self, rect):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([200, 200]).convert()
+        self.rect = self.image.get_rect()
+        self.rect.y = -500
+
+        self.angle = 0  # vitesse de rotatio
+        self.scroll = 0  # permet le scrolling
+
+        self.all_arcs = pygame.sprite.Group()
+
+        self.star = Star(self.rect)
+        # self.rect = self.rect.clamp(self.star.rect)
+
+        self.point = 70
+
+        self.angleDegre = 0
+        self.angleRadian = pi * self.angleDegre / 180
+        self.sina = sin(self.angleRadian)
+        self.cosa = cos(self.angleRadian)
+
+        self.angleDegre2 = 90
+        self.angleRadian2 = pi * self.angleDegre2 / 180
+        self.sina2 = sin(self.angleRadian2)
+        self.cosa2 = cos(self.angleRadian2)
+
+        self.angleDegre3 = 180
+        self.angleRadian3 = pi * self.angleDegre3 / 180
+        self.sina3 = sin(self.angleRadian3)
+        self.cosa3 = cos(self.angleRadian3)
+
+        self.angleDegre4 = 270
+        self.angleRadian4 = pi * self.angleDegre4 / 180
+        self.sina4 = sin(self.angleRadian4)
+        self.cosa4 = cos(self.angleRadian4)
+
+        self.rect.center = (640 / 2, self.rect.y)
+
+        # self.image.fill((0, 0, 0, 0))
+        # self.image.fill((41, 41, 41))
+
+    def update(self):
+        # self.image.fill((0, 0, 0, 0))
+        self.angle += 1  # vitesse de rotation
+
+        self.angleRadian = pi * self.angleDegre / 180
+        self.sina = sin(self.angleRadian)
+        self.cosa = cos(self.angleRadian)
+
+        self.angleRadian2 = pi * self.angleDegre2 / 180
+        self.sina2 = sin(self.angleRadian2)
+        self.cosa2 = cos(self.angleRadian2)
+
+        self.angleRadian3 = pi * self.angleDegre3 / 180
+        self.sina3 = sin(self.angleRadian3)
+        self.cosa3 = cos(self.angleRadian3)
+
+        self.angleRadian4 = pi * self.angleDegre4 / 180
+        self.sina4 = sin(self.angleRadian4)
+        self.cosa4 = cos(self.angleRadian4)
+
+        Y = 250 + self.point * self.cosa - self.point * self.sina
+        Z = 250 + self.point * self.sina + self.point * self.cosa
+
+        X = 250 + self.point * self.cosa2 - self.point * self.sina2
+        W = 250 + self.point * self.sina2 + self.point * self.cosa2
+
+        S = 250 + self.point * self.cosa3 - self.point * self.sina3
+        T = 250 + self.point * self.sina3 + self.point * self.cosa3
+
+        F = 250 + self.point * self.cosa4 - self.point * self.sina4
+        K = 250 + self.point * self.sina4 + self.point * self.cosa4
+
+        pygame.draw.line(self.image, YELLOW, (300, 300), (300, 300), 5)
+        pygame.draw.line(self.image, PURPLE, (Y, Z), (X, W), 15)
+        pygame.draw.line(self.image, YELLOW, (X, W), (S, T), 15)
+        pygame.draw.line(self.image, BLACK, (S, T), (F, K), 15)
+        pygame.draw.line(self.image, GREEN, (F, K), (Y, Z), 15)
+        # self.image.fill((41, 41, 41))
+
+        self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
+        # self.rect.center = (640 / 2, self.rect.y)
+        # self.rect.y +=
+
+    def collisions(self, player):
+        pass
+
+
 class Circle(pygame.sprite.Sprite):  # TODO
 
     def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
-        self.rect.y = 200
+        self.rect.y = -500
 
         self.i = 0  # vitesse de rotatio
         self.scroll = 0  # permet le scrolling
@@ -130,7 +220,9 @@ class Circle(pygame.sprite.Sprite):  # TODO
 
         self.all_arcs.draw(self.image)
 
+        # self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
         self.rect.center = (640 / 2, self.rect.y + self.scroll)
+        # self.rect.y +=
 
     def collisions(self, player):
         color = player.color
@@ -227,10 +319,10 @@ def obstacles(player, all_obstacles):
     nb = len(list_obstacles)
     if nb == 0:
         print("Creation du 1er obstacle")
-        all_obstacles.add(Circle(- 1000))
+        all_obstacles.add(Circle(-500))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
-            all_obstacles.add(Circle(- 1000))
+            all_obstacles.add(Circle(- 500))
 
 
 def collisions(player, all_obstacles):

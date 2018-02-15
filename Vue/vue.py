@@ -35,7 +35,7 @@ class View():  # classe s'occupant de la vue
 
         self.start_pos = 0  # position de depart
 
-        self.scroll_up = HEIGHT / 2
+        self.scroll_up = 250
         self.scroll_down = 410
 
         self.initialization()
@@ -45,7 +45,7 @@ class View():  # classe s'occupant de la vue
         pygame.font.init()
         py.display.set_caption("SwitchColor")
         # pygame.key.set_repeat(400, 30)
-        self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
+        self.screen = py.display.set_mode((WIDTH, HEIGHT))
         self.background = pygame.image.load(
             "Vue/Image/fond.png").convert()
         # self.screen.blit(self.background, (0, 0))

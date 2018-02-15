@@ -4,7 +4,7 @@ import os
 import random
 import sys
 import math
-from math import pi
+from math import *
 
 import pygame
 import pygame.gfxdraw
@@ -34,7 +34,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SwitchColor")
 clock = pygame.time.Clock()  # fps
 
-background = pygame.image.load("Vue/Image/voielactee.jpg").convert()
+# background = pygame.image.load("Vue/Image/voielactee.jpg").convert()
 
 # screen.blit(background,(0,0))
 
@@ -389,37 +389,62 @@ def ligne(l):
 
 def circle_loop():
 
-    rect_sc = screen.get_rect()
-    surf = pygame.Surface((200, 200)).convert_alpha()
-    surf.fill((0, 0, 0, 0))
-    rect = surf.get_rect()
+    # rect_sc = screen.get_rect()
+    # surf = pygame.Surface((200, 200)).convert_alpha()
+    # surf.fill((0, 0, 0, 0))
+    # rect = surf.get_rect()
     # pygame.draw.arc(surf, ROSE, rect, 0, 100, 15)
-    rect.center = (100, 200)
+    # rect.center = (100, 200)
 
-    screen.blit(surf, (50, 50))
+    # screen.blit(surf, (50, 50))
 
    # arc = Arc(screen, ROSE, 0, 100, 16)
-    cercle = Circle()
+    # cercle = Circle()
     end = False
     i = 0
     # grid = Grid()
 
-    ball = Ball()
+    carre = pygame.Surface([200, 200]).convert()
+    rect1 = carre.get_rect()
+    rect1.center = (200, 200)
+    carre.fill(PURPLE)
+
+    # ball = Ball()
     # ligne = Ligne()
     # cercle = Circle()
-    all_sprites.add(ball)
+   # all_sprites.add(ball)
    # all_sprites.add(cercle)
    # all_sprites.add(arc)
     # all_sprites.add(ligne)
     # all_sprites.add(cercle)
 
+    A = 70
+    angleDegre = 0
+    angleRadian = pi * angleDegre / 180
+    sina = sin(angleRadian)
+    cosa = cos(angleRadian)
+
+    angleDegre2 = 90
+    angleRadian2 = pi * angleDegre2 / 180
+    sina2 = sin(angleRadian2)
+    cosa2 = cos(angleRadian2)
+
+    angleDegre3 = 180
+    angleRadian3 = pi * angleDegre3 / 180
+    sina3 = sin(angleRadian3)
+    cosa3 = cos(angleRadian3)
+
+    angleDegre4 = 270
+    angleRadian4 = pi * angleDegre4 / 180
+    sina4 = sin(angleRadian4)
+    cosa4 = cos(angleRadian4)
     # objet = Cercle(300,200,50,RED)
 
     coord = 75
     coord1 = 75
     coord2 = 75
     coord3 = 75
-    i = 1
+
     # parametrage des lignes mutlicolor
     wgreen = 426
     wred = 0
@@ -471,10 +496,10 @@ def circle_loop():
         pygame.draw.arc(screen, BLUE, [100, coord2, coord, coord1], pi+i,3*pi/2+i, 10)
         pygame.draw.arc(screen, RED,  [100, coord2, coord, coord1], 3*pi/2+i, 2*pi+i, 10)
         """
-        i += 0.01
-        etoile = pygame.image.load(
-            "Vue/Image/etoileArgent.png").convert_alpha()
-        screen.blit(etoile, (200, 200))
+        # i += 0.01
+        # etoile = pygame.image.load(
+        #    "Vue/Image/etoileArgent.png").convert_alpha()
+        # screen.blit(etoile, (200, 200))
 
         # pygame.draw.arc(
         # screen, GREEN, [100, coord2, coord, coord1], (pi / 2) + i, pi + i,
@@ -498,9 +523,123 @@ def circle_loop():
         pygame.gfxdraw.box(surf, rec, WHITE)
 
         surf.blit(screen, (0, 0))
+
         """
 
-        cercle.draw(screen)
+        """
+        if(bd != 0):
+            B -= bd / 2
+            D += bd / 2
+        """
+
+        """
+        A = 300 + (A - 300) * cos(math.radians(i)) - \
+            (B - 300) * sin(math.radians(i))
+        B = 300 + (A - 300) * sin(math.radians(i)) + \
+            (B - 300) * cos(math.radians(i))
+        C = 300 + (C - 300) * cos(math.radians(i)) - \
+            (D - 300) * sin(math.radians(i))
+        D = 300 + (C - 300) * sin(math.radians(i)) + \
+            (D - 300) * cos(math.radians(i))
+
+
+
+        A = 300 + (A - 300) * cos(i * ((1 / pi) / 180)) - \
+            (B - 300) * sin(i * ((1 / pi) / 180))
+        B = 300 + (A - 300) * sin(i * ((1 / pi) / 180)) + \
+            (B - 300) * cos(i * ((1 / pi) / 180))
+        C = 300 + (C - 300) * cos(i * ((1 / pi) / 180)) - \
+            (D - 300) * sin(i * ((1 / pi) / 180))
+        D = 300 + (C - 300) * sin(i * ((1 / pi) / 180)) + \
+            (D - 300) * cos(i * ((1 / pi) / 180))
+        """
+        angleRadian = pi * angleDegre / 180
+        sina = sin(angleRadian)
+        cosa = cos(angleRadian)
+
+        angleRadian2 = pi * angleDegre2 / 180
+        sina2 = sin(angleRadian2)
+        cosa2 = cos(angleRadian2)
+
+        angleRadian3 = pi * angleDegre3 / 180
+        sina3 = sin(angleRadian3)
+        cosa3 = cos(angleRadian3)
+
+        angleRadian4 = pi * angleDegre4 / 180
+        sina4 = sin(angleRadian4)
+        cosa4 = cos(angleRadian4)
+
+        Y = 250 + A * cosa - A * sina
+        Z = 250 + A * sina + A * cosa
+
+        X = 250 + A * cosa2 - A * sina2
+        W = 250 + A * sina2 + A * cosa2
+
+        S = 250 + A * cosa3 - A * sina3
+        T = 250 + A * sina3 + A * cosa3
+
+        F = 250 + A * cosa4 - A * sina4
+        K = 250 + A * sina4 + A * cosa4
+
+        pygame.draw.line(screen, YELLOW, (300, 300), (300, 300), 5)
+        pygame.draw.line(screen, PURPLE, (Y, Z), (X, W), 15)
+        pygame.draw.line(screen, YELLOW, (X, W), (S, T), 15)
+        pygame.draw.line(screen, BLACK, (S, T), (F, K), 15)
+        pygame.draw.line(screen, GREEN, (F, K), (Y, Z), 15)
+
+        # pygame.draw.aalines(screen,PURPLE,True,[(Y-50,Z-50),(Y,Z),(Y+50,Z+50)])
+        # pygame.draw.aalines(
+        #    screen, PURPLE, True, [(Y, Z), (X, W)])
+
+        # pygame.gfxdraw.line(screen, int(Y), int(
+        #    Z - 6), int(X), int(W - 8), PURPLE)
+        # pygame.gfxdraw.line(screen, int(Y), int(
+        #    Z + 8), int(X), int(W + 6), PURPLE)
+
+        angleDegre += 1
+        angleDegre2 += 1
+        angleDegre3 += 1
+        angleDegre4 += 1
+        """
+        if(i > 90):
+            i = 0
+            A = 200
+            B = 200
+            C = 400
+            D = 200
+
+        A = (A - 300) * cos(i) - \
+            (B - 300) * sin(i) + A
+        B = (A - 300) * sin(i) + \
+            (B - 300) * cos(i) + B
+
+        C = (C - 300) * cos(i) - \
+            (D - 300) * sin(i) + C
+        D = (C - 300) * sin(i) + \
+            (D - 300) * cos(i) + D
+        """
+        """
+        A = A * cos(i) - B * sin(i) + 300
+        B = B * cos(i) - A * sin(i) + 300
+        C = C * cos(i) - D * sin(i) + 300
+        D = D * cos(i) - C * sin(i) + 300
+        """
+        """
+        A = A * cos(math.radians(i)) - B * sin(math.radians(math.radians(i))) + \
+            (300 * (1 - cos(math.radians(i))) + 300 * sin(math.radians(i)))
+        B = A * sin(math.radians(i)) + B * cos(math.radians(math.radians(i))) + \
+            (300 * (1 - cos(math.radians(i)))
+             + 300 * sin(math.radians(i)))
+        C = A * cos(math.radians(i)) - B * sin(math.radians(math.radians(i))) + \
+            (300 * (1 - cos(math.radians(i)))
+             + 300 * sin(math.radians(i)))
+        D = A * sin(math.radians(i)) + B * cos(math.radians(math.radians(i))) + \
+            (300 * (1 - cos(math.radians(i)))
+             + 300 * sin(math.radians(i)))
+        """
+
+        i += 1
+        # cercle.draw(screen)
         # pygame.draw.lines(screen, RED, False, [[0, 80], [50, 90], [200, 80],
         # [220, 30]], 5)
 
@@ -535,11 +674,13 @@ def circle_loop():
         # pygame.gfxdraw.aacircle(screen, center[0], center[1], 120, WHITE)
         # pygame.draw.arc(screen,RED, [30,70,240,245],0+i, pi/2+i, 20)
 
-        coord = 200
-        coord1 = 200
-        i += 0.02
-
+        # coord = 200
+        # coord1 = 200
+        # i += 0.02
+        # screen.blit(carre, (0, 0))
+        pygame.transform.flip(carre, True, False)
         # Flip
+
         pygame.display.flip()  # met à jour la fenetre
         clock.tick(60)
 
