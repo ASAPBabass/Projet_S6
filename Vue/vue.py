@@ -106,5 +106,22 @@ class View():  # classe s'occupant de la vue
         self.screen.blit(titre, (130, 300))
         pygame.display.flip()
 
+    def retry(self, player):
+        self.screen.fill((41, 41, 41))  # fond gris
+        font = pygame.font.Font(None, 30)
+        score = font.render(
+            "SCORE : " + str(self.player.score), 10, (254, 254, 254))
+        best = font.render("MEILLEUR SCORE : " + str(
+            self.player.bestScore), 10, (254, 254, 254))
+        titre = font.render(
+            "POUR RECOMMENCER APPUYER SUR ESPACE", 10, (254, 254, 254))
+        self.screen.blit(score, (50, 200))
+        self.screen.blit(best, (50, 230))
+        self.screen.blit(titre, (50, 270))
+        pygame.display.flip()
+
+    def reset(self):
+        pass
+
     def quit(self):
         py.display.quit()

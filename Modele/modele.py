@@ -33,6 +33,7 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         self.color = random.choice(colors)  # couleur aleatoire
         self.image = None
         self.score = 0
+        self.bestScore = 0
         self.mask = None
 
     def initialization(self):
@@ -79,7 +80,7 @@ class Switch(pygame.sprite.Sprite):  # class du joueur
         self.mask = pygame.mask.from_surface(self.image)
 
     def collide(self, player):
-        if player.rect.y - 20 < self.rect.y and self.bool == False:
+        if player.rect.y - 35 < self.rect.y and self.bool == False:
             player.switch()
             print("collision avec le switch")
             self.image.fill((0, 0, 0, 0))
@@ -270,12 +271,16 @@ class Circle(pygame.sprite.Sprite):  # TODO
         color = player.color
         if pygame.sprite.collide_mask(player, self.arc_1) and color != self.arc_1.color:
             print("Collision couleur PURPLE")
+            return True
         elif pygame.sprite.collide_mask(player, self.arc_2) and color != self.arc_2.color:
             print("Collision couleur YELLOW")
+            return True
         elif pygame.sprite.collide_mask(player, self.arc_3) and color != self.arc_3.color:
             print("Collision couleur BLUE")
+            return True
         elif pygame.sprite.collide_mask(player, self.arc_4) and color != self.arc_4.color:
             print("Collision couleur ROSE")
+            return True
         elif player.rect.y < self.star.rect.y + self.rect.y + 45 and self.star.bool == False:  # collision temporaire
             self.star.image.fill((0, 0, 0, 0))
             player.score += 1
@@ -372,7 +377,9 @@ def obstacles(player, all_obstacles, all_switch):
 
 
 def collisions(player, all_obstacles, all_switch):
+    die = False
     for switch in all_switch:
         switch.collide(player)
     for obstacle in all_obstacles:
-        obstacle.collide(player)
+        if obstacle.collide(player):
+            return True
