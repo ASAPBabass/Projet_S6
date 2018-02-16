@@ -614,6 +614,10 @@ def circle_loop():
         pygame.draw.line(screen, BLACK, (S, T), (F, K), 15)
         pygame.draw.line(screen, GREEN, (F, K), (Y, Z), 15)
 
+        pygame.gfxdraw.filled_circle(screen, 50, 50, 30, RED)
+        pygame.gfxdraw.aacircle(screen, 50, 50, 29, RED)
+        pygame.gfxdraw.aacircle(screen, 50, 50, 30, RED)
+        pygame.gfxdraw.aacircle(screen, 50, 50, 31, RED)
         # pygame.draw.aalines(screen,PURPLE,True,[(Y-50,Z-50),(Y,Z),(Y+50,Z+50)])
         # pygame.draw.aalines(
         #    screen, PURPLE, True, [(Y, Z), (X, W)])

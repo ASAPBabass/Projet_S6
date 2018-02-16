@@ -39,6 +39,8 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         self.color = random.choice(colors)  # couleur aleatoire
         self.image = pygame.Surface([20, 20]).convert_alpha()
         self.image.fill((0, 0, 0, 0))  # fond transparent
+        pygame.gfxdraw.aacircle(
+            self.image, 9, 9, 9, self.color)  # anti aliasing
         pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
@@ -48,7 +50,9 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         self.rect.y -= jump
 
     def update(self):  # gravite
+        pygame.gfxdraw.aacircle(self.image, 9, 9, 9, self.color)
         pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
+
         if self.rect.y < 2000:
             self.rect.y += 7.5
 
@@ -61,7 +65,7 @@ class Switch(pygame.sprite.Sprite):  # class du joueur
     def __init__(self, pos_y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
-            "Vue/Image/switch3.png").convert_alpha()
+            "Vue/Image/switch4.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, pos_y)
         self.mask = None
@@ -69,13 +73,13 @@ class Switch(pygame.sprite.Sprite):  # class du joueur
         self.scroll = 0
         self.bool = False
 
-    def udpdate(self):
+    def update(self):
         self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
         # self.rect.y = self.pos.y + self.scroll
         self.mask = pygame.mask.from_surface(self.image)
 
     def collide(self, player):
-        if player.rect.y > self.rect.y and self.bool == False:
+        if player.rect.y - 20 < self.rect.y and self.bool == False:
             player.switch()
             print("collision avec le switch")
             self.image.fill((0, 0, 0, 0))
@@ -206,6 +210,7 @@ class Circle(pygame.sprite.Sprite):  # TODO
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
+        pygame.gfxdraw.aacircle(self.image, 100, 100, 101, BLACK)
         # self.rect.y = -height
         self.height = height
 
@@ -250,6 +255,12 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.arc_4.update(3 * pi / 2 + self.i, 2 * pi + self.i, 15)
 
         self.all_arcs.draw(self.image)
+        # anti aliasing
+        pygame.gfxdraw.aacircle(self.image, 100, 100, 102, GREY)
+        pygame.gfxdraw.aacircle(self.image, 100, 100, 101, GREY)
+        # pygame.gfxdraw.aacircle(self.image, 100, 100, 100, GREY)
+        pygame.gfxdraw.aacircle(self.image, 100, 100, 85, GREY)
+        pygame.gfxdraw.aacircle(self.image, 100, 100, 84, GREY)
 
         # self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
         # print(str(self.rect.y) + "  " + str(self.scroll))
@@ -280,7 +291,7 @@ class Star(pygame.sprite.Sprite):
     def __init__(self, rect):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
-            "Vue/Image/star2.png").convert_alpha()
+            "Vue/Image/star3.png").convert_alpha()
         self.rect = self.image.get_rect()  # correspond a la surface du cercle
         self.rect.move_ip(77, 80)  # permet de centrer l'etoile dans le
         # cercle
@@ -345,19 +356,23 @@ class Ligne(pygame.sprite.Sprite):  # TODO
             #   return 0
 
 
-def obstacles(player, all_obstacles):
+def obstacles(player, all_obstacles, all_switch):
     list_obstacles = all_obstacles.sprites()
     nb = len(list_obstacles)
     if nb == 0:
         print("Creation du 1er obstacle")
-        all_obstacles.add(Switch(100))
+        # all_obstacles.add(Switch(100))
+        all_switch.add(Switch(100))
         all_obstacles.add(Circle(-150))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
-            all_obstacles.add(Switch(-50))
+            # all_obstacles.add(Switch(-50))
+            all_switch.add(Switch(100))
             all_obstacles.add(Circle(- 150))
 
 
-def collisions(player, all_obstacles):
+def collisions(player, all_obstacles, all_switch):
+    for switch in all_switch:
+        switch.collide(player)
     for obstacle in all_obstacles:
         obstacle.collide(player)

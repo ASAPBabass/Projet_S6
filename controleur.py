@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-    import os
+import os
 import random
 import sys
 from math import pi
@@ -93,7 +93,8 @@ def main():
                                 view.scroll()
                                 view.draw()
                             player.jump(10)
-                            obstacles(player, view.all_obstacles)
+                            obstacles(
+                                player, view.all_obstacles, view.all_switch)
                         if event.key == K_q:
                             end = True
 
@@ -104,7 +105,7 @@ def main():
         view.update()
 
         # on verifie les collisions
-        collisions(player, view.all_obstacles)
+        collisions(player, view.all_obstacles, view.all_switch)
         """
         get_list = view.all_obstacles.sprites()
         if(len(get_list) > 1):
