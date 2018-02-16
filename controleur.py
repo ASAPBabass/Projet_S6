@@ -51,7 +51,7 @@ def retry(view):
                     return True
                 else:
                     if event.type == KEYDOWN:
-                        if event.key == K_KP_ENTER:
+                        if event.key == K_RETURN:
                             return False
                         if event.key == K_ESCAPE:
                             return True
@@ -96,6 +96,7 @@ def main():
             print("Erreur Menu !")
 
     end2 = False
+    pause = False
     while not end2:
         while not end:
         # Evenements
@@ -124,31 +125,36 @@ def main():
                                 obstacles(
                                     player, view.all_obstacles, view.all_switch)
 
-                            if event.key == K_q:
-                                end = True
+                            if event.key == K_ESCAPE:
+                                if pause:
+                                    pause = False
+                                else:
+                                    pause = True
 
             except Exception:
                 print("Erreur !")
 
-            # print(cercle.rect.y)
-            # update
-            view.update()
+            if not pause:
+                # print(cercle.rect.y)
+                # update
+                view.update()
 
-            # on verifie les collisions
-            end = collisions(player, view.all_obstacles, view.all_switch)
+                # on verifie les collisions
+                end = collisions(player, view.all_obstacles, view.all_switch)
 
-            """
-            get_list = view.all_obstacles.sprites()
-            if(len(get_list) > 1):
-                print(get_list[-1].rect.x, get_list[-1].rect.y)
-            """
-            view.scroll()
-            # print(player.rect.x, player.rect.y)
-            # obstacles(player, view.all_obstacles)
+                """
+                get_list = view.all_obstacles.sprites()
+                if(len(get_list) > 1):
+                    print(get_list[-1].rect.x, get_list[-1].rect.y)
+                """
+                view.scroll()
+                # print(player.rect.x, player.rect.y)
+                # obstacles(player, view.all_obstacles)
 
-            # draw/render
-            view.draw()  # met à jour l'ecran et affiche les sprites
-
+                # draw/render
+                view.draw()  # met à jour l'ecran et affiche les sprites
+            else:  # jeu en pause
+                view.pause()
         # temporaire
         if(player.bestScore < player.score):
             player.bestScore = player.score

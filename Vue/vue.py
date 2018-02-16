@@ -120,8 +120,12 @@ class View():  # classe s'occupant de la vue
         self.screen.blit(titre, (50, 270))
         pygame.display.flip()
 
-    def reset(self):
-        pass
+    def pause(self):
+        font = pygame.font.Font(None, 30)
+        pause = font.render(
+            "JEU EN PAUSE", 10, (254, 254, 254))
+        self.screen.blit(pause, (50, 100))
+        pygame.display.flip()
 
     def quit(self):
         py.display.quit()
