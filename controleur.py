@@ -107,8 +107,7 @@ def main():
                         quit()
                     else:
                         if event.type == KEYDOWN:
-                            if event.key == K_SPACE or pygame.mouse.get_pressed()[0]:
-
+                            if event.key == K_SPACE:
                                 for i in range(8):
                                     player.jump(15)
                                     # view.all_sprites.update()

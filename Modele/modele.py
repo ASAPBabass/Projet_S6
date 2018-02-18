@@ -91,11 +91,11 @@ class Arc(pygame.sprite.Sprite):
 
     def __init__(self, color, rect, start_angle, stop_angle, width):
         pygame.sprite.Sprite.__init__(self)
-        self.i = 1
-        self.color = color
         self.image = pygame.Surface([200, 200]).convert_alpha()
         self.image.fill((0, 0, 0, 0))
         self.rect = rect
+        self.i = 1
+        self.color = color
         self.mask = None
         self.update(start_angle, stop_angle, width)
 
@@ -113,7 +113,6 @@ class Arc(pygame.sprite.Sprite):
 
         self.rect.center = (100, 100)
         self.mask = pygame.mask.from_surface(self.image)
-
 
 
 class Circle(pygame.sprite.Sprite):  # TODO
@@ -201,44 +200,6 @@ class Circle(pygame.sprite.Sprite):  # TODO
             pass
             # self.star.collide(player)
 
-class Point:
-
-    def __init__(self,a,b):
-        self.x=a
-        self.y=b
-
-class Square(pygame.sprite.Sprite):
-
-    def __init__(self, height):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200, 200]).convert()
-        self.rect = self.image.get_rect()
-        self.height = height
-
-        self.angle = 0  # vitesse de rotatio
-        self.scroll = 0  # permet le scrolling
-
-        #self.all_arcs = pygame.sprite.Group()
-        #self.star = Star(self.rect)
-        self.O=Point(100,100)
-        self.A=Point(0,0)
-        self.B=Point(0,0)
-        self.C=Point(0,0)
-        self.D=Point(0,0)
-        self.rayon= 70
-
-        self.angleRadian = pi * self.angle / 180
-    
-        self.angleRadian2 = pi * (self.angle+90) / 180
-
-        self.angleRadian3 = pi * (self.angle+180) / 180
-        
-        self.angleRadian4 = pi * (self.angle+270) / 180
-
-        self.rect.center = (640 / 2, self.height)
-
-        # self.image.fill((0, 0, 0, 0))
-        # self.image.fill((41, 41, 41))
 
     def update(self):
         
@@ -302,13 +263,62 @@ class Star(pygame.sprite.Sprite):
             pass
 
 
+class Rectangle(pygame.sprite.Sprite):
+
+    def __init__(self,rect,width,height,color):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface(width, height]).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.scroll = 0
+        self.color = color
+        self.image.fill(color)
+        #self.i = 1
+
+    def update(self):
+        self.rect.x += 2
+        pass
+
+    def collide(self, player):
+        if self.rect.colliderect(player):
+            print("Collision Star")
+        elif self.rect.contains(player.rect):
+            print("Collision Star")
+        elif self.rect.collidepoint(player.rect.center):
+            print("Collision Star")
+        else:
+            pass
+
 class Ligne(pygame.sprite.Sprite):  # TODO
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([WIDTH, 400]).convert_alpha()
-        self.rect = None
+        self.rect = self.image.get_rect()
 
+        self.all_rect = pygame.sprite.OrderedUpdate()
+
+        self.initialisation()
+
+    def initialisation(self):
+        rect_1 = Rectangle(self.rect,WIDTH/4,50,BLUE)
+        rect_2 = Rectangle(self.rect,WIDTH/4,50,YELLOW)
+        rect_2.rect.x += WIDTH/4
+        rect_3 = Rectangle(self.rect,WIDTH/4,50,PURPLE)
+        rect_3.rect.x += WIDTH/2
+        rect_4 = Rectangle(self.rect,WIDTH/4,50,ROSE)
+        rect_2.rect.x += WIDTH/2 + WIDTH/3
+
+        self.all_rect.add(self.rect_1)
+        self.all_rect.add(self.rect_2)
+        self.all_rect.add(self.rect_3)
+        self.all_rect.add(self.rect_4)
+
+    def update(self):
+        self.image.fill((0,0,0,0))
+        self.all_rect.update()
+        self.all_rect.draw(self.image)
+        pass
+    """
         self.w_green_1 = 426
         self.w_green_2 = 640
         self.w_red_1 = 0
@@ -318,9 +328,11 @@ class Ligne(pygame.sprite.Sprite):  # TODO
 
         self.speed = 2
 
-        self.initialization()
+        self.update()
 
-    def initialization(self):
+
+    
+    def update(self):
         self.image.fill((0, 0, 0, 0))
         self.rect = self.image.get_rect()
 
@@ -335,16 +347,12 @@ class Ligne(pygame.sprite.Sprite):  # TODO
 
         self.rect.center = (0, 350)
 
-    def update(self):
-        # print("update ligne")
-        self.initialization()
-
     def incremente(self, width):
         if width < 640:
             return width + 1
         # else:
             #   return 0
-
+    """
 
 def obstacles(player, all_obstacles, all_switch):
     list_obstacles = all_obstacles.sprites()
@@ -354,7 +362,8 @@ def obstacles(player, all_obstacles, all_switch):
         # all_obstacles.add(Switch(100))
         caree=Square(-150)
         all_switch.add(Switch(100))
-        all_obstacles.add(caree)
+        # all_obstacles.add(Circle(-150))
+        all_obstacles.add(Square(-150))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
             # all_obstacles.add(Switch(-50))
