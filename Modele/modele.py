@@ -200,6 +200,44 @@ class Circle(pygame.sprite.Sprite):  # TODO
             pass
             # self.star.collide(player)
 
+class Point:
+
+    def __init__(self,a,b):
+        self.x=a
+        self.y=b
+
+class Square(pygame.sprite.Sprite):
+
+    def __init__(self, height):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([200, 200]).convert()
+        self.rect = self.image.get_rect()
+        self.height = height
+
+        self.angle = 0  # vitesse de rotatio
+        self.scroll = 0  # permet le scrolling
+
+        #self.all_arcs = pygame.sprite.Group()
+        #self.star = Star(self.rect)
+        self.O=Point(100,100)
+        self.A=Point(0,0)
+        self.B=Point(0,0)
+        self.C=Point(0,0)
+        self.D=Point(0,0)
+        self.rayon= 70
+
+        self.angleRadian = pi * self.angle / 180
+    
+        self.angleRadian2 = pi * (self.angle+90) / 180
+
+        self.angleRadian3 = pi * (self.angle+180) / 180
+        
+        self.angleRadian4 = pi * (self.angle+270) / 180
+
+        self.rect.center = (640 / 2, self.height)
+
+        # self.image.fill((0, 0, 0, 0))
+        # self.image.fill((41, 41, 41))
 
     def update(self):
         

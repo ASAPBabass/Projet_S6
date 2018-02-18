@@ -1,8 +1,3 @@
 {
-<<<<<<< HEAD
     "python.pythonPath": "/usr/bin/python"
-=======
-    "python.pythonPath": "c:/Python27/python.exe",
-    "python.linting.enabled": false
->>>>>>> classe carre
 }
