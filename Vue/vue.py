@@ -114,7 +114,7 @@ class View():  # classe s'occupant de la vue
         best = font.render("MEILLEUR SCORE : " + str(
             self.player.bestScore), 10, (254, 254, 254))
         titre = font.render(
-            "POUR RECOMMENCER APPUYER SUR ESPACE", 10, (254, 254, 254))
+            "POUR RECOMMENCER APPUYER SUR ENTRER", 10, (254, 254, 254))
         self.screen.blit(score, (50, 200))
         self.screen.blit(best, (50, 230))
         self.screen.blit(titre, (50, 270))

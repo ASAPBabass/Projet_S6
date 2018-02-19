@@ -62,6 +62,82 @@ class Ball(pygame.sprite.Sprite):
 TILE_SIZE = 75
 
 
+class Rectangle(pygame.sprite.Sprite):
+
+    def __init__(self, rect, width, height, color):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([width, height]).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.color = color
+        self.image.fill(color)
+        self.debordement = False
+        # self.i = 1
+
+    def update(self):
+        self.rect.x += 2
+        pass
+
+    def collide(self, player):
+        if self.rect.colliderect(player):
+            print("Collision Star")
+        elif self.rect.contains(player.rect):
+            print("Collision Star")
+        elif self.rect.collidepoint(player.rect.center):
+            print("Collision Star")
+        else:
+            pass
+
+
+class Ligne(pygame.sprite.Sprite):  # TODO
+
+    def __init__(self, height):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([WIDTH, 50]).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.image.fill((0, 0, 0, 0))
+        self.height = height
+        self.scroll = 0
+        self.all_rect = pygame.sprite.OrderedUpdates()
+
+        self.initialisation()
+
+    def initialisation(self):
+        rect_1 = Rectangle(self.rect, WIDTH / 4, 35, BLUE)
+        rect_2 = Rectangle(self.rect, WIDTH / 4, 35, YELLOW)
+        rect_2.rect.x += WIDTH / 4
+        rect_3 = Rectangle(self.rect, WIDTH / 4, 35, PURPLE)
+        rect_3.rect.x += WIDTH / 2
+        rect_4 = Rectangle(self.rect, WIDTH / 4, 35, ROSE)
+        rect_4.rect.x += WIDTH / 2 + WIDTH / 4
+
+        self.all_rect.add(rect_4)
+        self.all_rect.add(rect_3)
+        self.all_rect.add(rect_2)
+        self.all_rect.add(rect_1)
+
+        self.all_rect.draw(self.image)
+        self.rect.center = (640 / 2, self.height + self.scroll)
+
+    def update(self):
+        self.image.fill((0, 0, 0, 0))
+        self.all_rect.update()
+
+        liste_rect = self.all_rect.sprites()
+        print(liste_rect[0].rect.x)
+        if (liste_rect[0].rect.x + WIDTH / 4) >= WIDTH / 2 and liste_rect[0].debordement == False:
+            color = liste_rect[0].color
+            liste_rect[0].debordement = True
+            self.all_rect.add(Rectangle(self.rect, WIDTH / 4, 35, color))
+            liste_rect = self.all_rect.sprites()
+            liste_rect[-1].rect.x -= 150
+
+        if liste_rect[0].rect.x > WIDTH:
+            self.all_rect.remove(liste_rect[0])
+
+        self.all_rect.draw(self.image)
+        self.rect.center = (640 / 2, self.height + self.scroll)
+
+
 class Grid():
 
     def __init__(self):
@@ -142,7 +218,7 @@ class Switch(pygame.sprite.Sprite):  # class du joueur
     def __init__(self, pos_y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
-            "Vue/Image/switch3.png").convert_alpha()
+            "Vue/Image/switch4.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, pos_y)
         self.mask = None
@@ -338,49 +414,6 @@ class Cercle(pygame.sprite.Sprite):  # TODO
             # self.star.collide(player)
 
 
-class Ligne(pygame.sprite.Sprite):
-
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([1200, 50])
-        self.rect = self.image.get_rect()
-
-        self.w_green_1 = 426
-        self.w_green_2 = 640
-        self.w_red_1 = 0
-        self.w_red_2 = 213
-        self.w_blue_1 = 213
-        self.w_blue_2 = 426
-
-        self.speed = 2
-
-        self.initialization()
-
-    def initialization(self):
-        self.image.fill((0, 0, 0, 0))
-
-        pygame.draw.lines(
-            self.image, BLUE, False, [[50, 50], [100, 100]], 6)
-        """
-        pygame.draw.lines(
-            self.image, GREEN, False, [[self.w_green_1, 400], [self.w_green_2, 400]], 6)
-        pygame.draw.lines(
-            self.image, RED, False, [[self.w_red_1, 400], [self.w_red_2, 400]], 6)
-        pygame.draw.lines(
-            self.image, BLUE, False, [[self.w_blue_1, 400], [self.w_blue_2, 400]], 6)
-        """
-        self.rect.center = (0, 350)
-
-    def update(self):
-        # print("update ligne")
-        self.initialization()
-
-    def incremente(self, width):
-        if width < 640:
-            return width + 1
-        # else:
-         #   return 0
-
 pygame.key.set_repeat(400, 30)
 
 all_sprites = pygame.sprite.Group()  # permet de regrouper les sprites
@@ -430,6 +463,7 @@ def circle_loop():
     i = 0
     # grid = Grid()
 
+    ligne = Ligne(300)
     switch = Switch(100)
     carre = pygame.Surface([200, 200]).convert()
     rect1 = carre.get_rect()
@@ -439,7 +473,8 @@ def circle_loop():
     # ball = Ball()
     # ligne = Ligne()
     # cercle = Circle()
-    all_sprites.add(switch)
+    # all_sprites.add(switch)
+    all_sprites.add(ligne)
    # all_sprites.add(cercle)
    # all_sprites.add(arc)
     # all_sprites.add(ligne)
@@ -531,7 +566,7 @@ def circle_loop():
         # pygame.draw.arc(
         # screen, GREEN, [100, coord2, coord, coord1], (pi / 2) + i, pi + i,
         # 15)
-
+        """
         pygame.draw.arc(
             screen, GREEN, [100, 100, 100, 100], 0, 2, 15)
 
@@ -539,7 +574,7 @@ def circle_loop():
             screen, PURPLE, (400, 400, 200, 200), math.radians(0), math.radians(90), 15)
         pygame.draw.arc(
             screen, PURPLE, (400, 400 + 1, 200, 200), math.radians(0), math.radians(90), 15)
-        """
+
         surf = pygame.Surface([1200, 50]).convert_alpha()
 
         line = pygame.draw.lines(
@@ -579,7 +614,7 @@ def circle_loop():
             (D - 300) * sin(i * ((1 / pi) / 180))
         D = 300 + (C - 300) * sin(i * ((1 / pi) / 180)) + \
             (D - 300) * cos(i * ((1 / pi) / 180))
-        """
+
         angleRadian = pi * angleDegre / 180
         sina = sin(angleRadian)
         cosa = cos(angleRadian)
@@ -635,7 +670,7 @@ def circle_loop():
         angleDegre2 += 1
         angleDegre3 += 1
         angleDegre4 += 1
-        """
+
         if(i > 90):
             i = 0
             A = 200

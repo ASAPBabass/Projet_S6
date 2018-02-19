@@ -200,11 +200,13 @@ class Circle(pygame.sprite.Sprite):  # TODO
             pass
             # self.star.collide(player)
 
+
 class Point:
 
-    def __init__(self,a,b):
-        self.x=a
-        self.y=b
+    def __init__(self, a, b):
+        self.x = a
+        self.y = b
+
 
 class Square(pygame.sprite.Sprite):
 
@@ -212,27 +214,28 @@ class Square(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
+        self.image.fill((0, 0, 0, 0))
         self.height = height
 
         self.angle = 0  # vitesse de rotatio
         self.scroll = 0  # permet le scrolling
 
-        #self.all_arcs = pygame.sprite.Group()
-        #self.star = Star(self.rect)
-        self.O=Point(100,100)
-        self.A=Point(0,0)
-        self.B=Point(0,0)
-        self.C=Point(0,0)
-        self.D=Point(0,0)
-        self.rayon= 70
+        # self.all_arcs = pygame.sprite.Group()
+        # self.star = Star(self.rect)
+        self.O = Point(100, 100)
+        self.A = Point(0, 0)
+        self.B = Point(0, 0)
+        self.C = Point(0, 0)
+        self.D = Point(0, 0)
+        self.rayon = 70
 
         self.angleRadian = pi * self.angle / 180
-    
-        self.angleRadian2 = pi * (self.angle+90) / 180
 
-        self.angleRadian3 = pi * (self.angle+180) / 180
-        
-        self.angleRadian4 = pi * (self.angle+270) / 180
+        self.angleRadian2 = pi * (self.angle + 90) / 180
+
+        self.angleRadian3 = pi * (self.angle + 180) / 180
+
+        self.angleRadian4 = pi * (self.angle + 270) / 180
 
         self.rect.center = (640 / 2, self.height)
 
@@ -240,36 +243,47 @@ class Square(pygame.sprite.Sprite):
         # self.image.fill((41, 41, 41))
 
     def update(self):
-        
+
         self.image.fill((41, 41, 41))
         self.angle += 0.5  # vitesse de rotation
         self.angleRadian = pi * self.angle / 180
-    
-        self.angleRadian2 = pi * (self.angle+90) / 180
 
-        self.angleRadian3 = pi * (self.angle+180) / 180
-        
-        self.angleRadian4 = pi * (self.angle+270) / 180
-        self.A.x= self.O.x + self.rayon* cos(self.angleRadian) - self.rayon * sin(self.angleRadian)
-        self.A.y= self.O.y + self.rayon * sin(self.angleRadian) + self.rayon * cos(self.angleRadian)
+        self.angleRadian2 = pi * (self.angle + 90) / 180
 
-        self.B.x= self.O.x + self.rayon * cos(self.angleRadian2) - self.rayon * sin(self.angleRadian2)
-        self.B.y= self.O.y+ self.rayon * sin(self.angleRadian2) + self.rayon * cos(self.angleRadian2)
+        self.angleRadian3 = pi * (self.angle + 180) / 180
 
-        self.C.x= self.O.x + self.rayon * cos(self.angleRadian3) - self.rayon * sin(self.angleRadian3)
-        self.C.y= self.O.y + self.rayon * sin(self.angleRadian3) + self.rayon * cos(self.angleRadian3)
+        self.angleRadian4 = pi * (self.angle + 270) / 180
+        self.A.x = self.O.x + self.rayon * \
+            cos(self.angleRadian) - self.rayon * sin(self.angleRadian)
+        self.A.y = self.O.y + self.rayon * \
+            sin(self.angleRadian) + self.rayon * cos(self.angleRadian)
 
-        self.D.x= self.O.x + self.rayon * cos(self.angleRadian4) - self.rayon * sin(self.angleRadian4)
-        self.D.y= self.O.y + self.rayon * sin(self.angleRadian4) + self.rayon * cos(self.angleRadian4)
+        self.B.x = self.O.x + self.rayon * \
+            cos(self.angleRadian2) - self.rayon * sin(self.angleRadian2)
+        self.B.y = self.O.y + self.rayon * \
+            sin(self.angleRadian2) + self.rayon * cos(self.angleRadian2)
+
+        self.C.x = self.O.x + self.rayon * \
+            cos(self.angleRadian3) - self.rayon * sin(self.angleRadian3)
+        self.C.y = self.O.y + self.rayon * \
+            sin(self.angleRadian3) + self.rayon * cos(self.angleRadian3)
+
+        self.D.x = self.O.x + self.rayon * \
+            cos(self.angleRadian4) - self.rayon * sin(self.angleRadian4)
+        self.D.y = self.O.y + self.rayon * \
+            sin(self.angleRadian4) + self.rayon * cos(self.angleRadian4)
 
         pygame.draw.line(self.image, YELLOW, (250, 250), (250, 250), 5)
-        pygame.draw.line(self.image, YELLOW, (self.A.x, self.A.y), (self.B.x, self.B.y), 15)
-        pygame.draw.line(self.image, BLUE, (self.B.x, self.B.y), (self.C.x, self.C.y), 15)
-        pygame.draw.line(self.image, ROSE, (self.C.x, self.C.y), (self.D.x, self.D.y), 15)
-        pygame.draw.line(self.image, PURPLE, (self.D.x, self.D.y), (self.A.x, self.A.y), 15)
+        pygame.draw.line(self.image, YELLOW, (
+            self.A.x, self.A.y), (self.B.x, self.B.y), 15)
+        pygame.draw.line(
+            self.image, BLUE, (self.B.x, self.B.y), (self.C.x, self.C.y), 15)
+        pygame.draw.line(
+            self.image, ROSE, (self.C.x, self.C.y), (self.D.x, self.D.y), 15)
+        pygame.draw.line(self.image, PURPLE, (
+            self.D.x, self.D.y), (self.A.x, self.A.y), 15)
 
         self.rect.center = (640 / 2, self.height + self.scroll)
-        
 
     def collide(self, player):
         pass
@@ -303,14 +317,14 @@ class Star(pygame.sprite.Sprite):
 
 class Rectangle(pygame.sprite.Sprite):
 
-    def __init__(self,rect,width,height,color):
+    def __init__(self, rect, width, height, color):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([width, height]).convert_alpha()
         self.rect = self.image.get_rect()
-        self.scroll = 0
         self.color = color
         self.image.fill(color)
-        #self.i = 1
+        self.debordement = False
+        # self.i = 1
 
     def update(self):
         self.rect.x += 2
@@ -326,71 +340,60 @@ class Rectangle(pygame.sprite.Sprite):
         else:
             pass
 
+
 class Ligne(pygame.sprite.Sprite):  # TODO
 
-    def __init__(self):
+    def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([WIDTH, 400]).convert_alpha()
+        self.image = pygame.Surface([WIDTH, 50]).convert_alpha()
         self.rect = self.image.get_rect()
-
-        self.all_rect = pygame.sprite.OrderedUpdate()
+        self.image.fill((0, 0, 0, 0))
+        self.height = height
+        self.scroll = 0
+        self.all_rect = pygame.sprite.OrderedUpdates()
 
         self.initialisation()
 
     def initialisation(self):
-        rect_1 = Rectangle(self.rect,WIDTH/4,50,BLUE)
-        rect_2 = Rectangle(self.rect,WIDTH/4,50,YELLOW)
-        rect_2.rect.x += WIDTH/4
-        rect_3 = Rectangle(self.rect,WIDTH/4,50,PURPLE)
-        rect_3.rect.x += WIDTH/2
-        rect_4 = Rectangle(self.rect,WIDTH/4,50,ROSE)
-        rect_2.rect.x += WIDTH/2 + WIDTH/3
+        rect_1 = Rectangle(self.rect, WIDTH / 4, 35, BLUE)
+        rect_2 = Rectangle(self.rect, WIDTH / 4, 35, YELLOW)
+        rect_2.rect.x += WIDTH / 4
+        rect_3 = Rectangle(self.rect, WIDTH / 4, 35, PURPLE)
+        rect_3.rect.x += WIDTH / 2
+        rect_4 = Rectangle(self.rect, WIDTH / 4, 35, ROSE)
+        rect_4.rect.x += WIDTH / 2 + WIDTH / 4
 
-        self.all_rect.add(self.rect_1)
-        self.all_rect.add(self.rect_2)
-        self.all_rect.add(self.rect_3)
-        self.all_rect.add(self.rect_4)
+        self.all_rect.add(rect_4)
+        self.all_rect.add(rect_3)
+        self.all_rect.add(rect_2)
+        self.all_rect.add(rect_1)
 
-    def update(self):
-        self.image.fill((0,0,0,0))
-        self.all_rect.update()
         self.all_rect.draw(self.image)
-        pass
-    """
-        self.w_green_1 = 426
-        self.w_green_2 = 640
-        self.w_red_1 = 0
-        self.w_red_2 = 213
-        self.w_blue_1 = 213
-        self.w_blue_2 = 426
+        self.rect.center = (640 / 2, self.height + self.scroll)
 
-        self.speed = 2
-
-        self.update()
-
-
-    
     def update(self):
         self.image.fill((0, 0, 0, 0))
-        self.rect = self.image.get_rect()
+        self.all_rect.update()
 
-        pygame.draw.lines(
-            self.image, BLUE, False, [[self.w_blue_1, 400], [self.w_blue_2, 400]], 6)
-        pygame.draw.lines(
-            self.image, GREEN, False, [[self.w_green_1, 400], [self.w_green_2, 400]], 6)
-        pygame.draw.lines(
-            self.image, RED, False, [[self.w_red_1, 400], [self.w_red_2, 400]], 6)
-        pygame.draw.lines(
-            self.image, BLUE, False, [[self.w_blue_1, 400], [self.w_blue_2, 400]], 6)
+        liste_rect = self.all_rect.sprites()
+        print(liste_rect[0].rect.x)
+        if (liste_rect[0].rect.x + WIDTH / 4 + 10) >= WIDTH / 2 and liste_rect[0].debordement == False:
+            color = liste_rect[0].color
+            liste_rect[0].debordement = True
+            self.all_rect.add(Rectangle(self.rect, WIDTH / 4, 35, color))
+            liste_rect = self.all_rect.sprites()
+            liste_rect[-1].rect.x -= 150
+            self.all_rect.update()
 
-        self.rect.center = (0, 350)
+        if liste_rect[0].rect.x + 5 > WIDTH:
+            self.all_rect.remove(liste_rect[0])
 
-    def incremente(self, width):
-        if width < 640:
-            return width + 1
-        # else:
-            #   return 0
-    """
+        self.all_rect.draw(self.image)
+        self.rect.center = (640 / 2, self.height + self.scroll)
+
+    def collide(self, player):
+        pass
+
 
 def obstacles(player, all_obstacles, all_switch):
     list_obstacles = all_obstacles.sprites()
@@ -398,10 +401,10 @@ def obstacles(player, all_obstacles, all_switch):
     if nb == 0:
         print("Creation du 1er obstacle")
         # all_obstacles.add(Switch(100))
-        caree=Square(-150)
         all_switch.add(Switch(100))
+        all_obstacles.add(Ligne(-150))
         # all_obstacles.add(Circle(-150))
-        all_obstacles.add(Square(-150))
+        # all_obstacles.add(Square(-150))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
             # all_obstacles.add(Switch(-50))
@@ -411,11 +414,10 @@ def obstacles(player, all_obstacles, all_switch):
 
 def collisions(player, all_obstacles, all_switch):
     pass
-    
+
     die = False
     for switch in all_switch:
         switch.collide(player)
     for obstacle in all_obstacles:
         if obstacle.collide(player):
             return True
-    
