@@ -304,16 +304,6 @@ class Star(pygame.sprite.Sprite):
     def update(self):
         pass
 
-    def collide(self, player):
-        if self.rect.colliderect(player):
-            print("Collision Star")
-        elif self.rect.contains(player.rect):
-            print("Collision Star")
-        elif self.rect.collidepoint(player.rect.center):
-            print("Collision Star")
-        else:
-            pass
-
 
 class Rectangle(pygame.sprite.Sprite):
 
@@ -321,19 +311,14 @@ class Rectangle(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([width, height]).convert_alpha()
         self.rect = self.image.get_rect()
-        self.y = height
-        self.x = width
-        # self.rectbis = rect
         self.color = color
         self.image.fill(color)
         self.mask = pygame.mask.from_surface(self.image)
         self.debordement = False
-        # self.i = 1
 
     def update(self):
-        self.rect.x += 2
+        self.rect.x += 2  # vitesse de defilement
         self.mask = pygame.mask.from_surface(self.image)
-        # self.rect.center = (self.rect.x + self.x, self.y)
 
 
 class Ligne(pygame.sprite.Sprite):  # TODO
@@ -370,11 +355,9 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def update(self):
-        # self.image.fill((0, 0, 0, 0))
         self.all_rect.update()
 
         liste_rect = self.all_rect.sprites()
-        # print(liste_rect[0].rect.x)
         if (liste_rect[0].rect.x + WIDTH / 4 + 10) >= WIDTH / 2 and liste_rect[0].debordement == False:
             color = liste_rect[0].color
             liste_rect[0].debordement = True
@@ -387,13 +370,14 @@ class Ligne(pygame.sprite.Sprite):  # TODO
             self.all_rect.remove(liste_rect[0])
 
         self.all_rect.draw(self.image)
+        # self.image.fill((0, 0, 0))
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def collide(self, player):
 
         for rec in self.all_rect.sprites():
             if rec.color == player.color:
-                if (rec.rect.x > player.rect.x or (rec.rect.x + WIDTH / 4) < player.rect.x) and player.rect.y <= self.rect.y + 35:
+                if (rec.rect.x > player.rect.x or (rec.rect.x + WIDTH / 4) < player.rect.x) and player.rect.y <= self.rect.y + 35 and player.rect.y > self.rect.y:
                     return True
 
 
@@ -415,7 +399,6 @@ def obstacles(player, all_obstacles, all_switch):
 
 
 def collisions(player, all_obstacles, all_switch):
-    pass
 
     die = False
     for switch in all_switch:
