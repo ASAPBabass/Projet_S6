@@ -119,7 +119,7 @@ class Cross(pygame.sprite.Sprite):  # TODO
 
     def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([300, 300]).convert()
+        self.image = pygame.Surface([400, 400]).convert()
         self.rect = self.image.get_rect()
         self.image.fill((0, 0, 0, 0))
         self.height = height
@@ -129,12 +129,12 @@ class Cross(pygame.sprite.Sprite):  # TODO
 
         # self.all_arcs = pygame.sprite.Group()
         # self.star = Star(self.rect)
-        self.O = Point(150, 150)  # centre
+        self.O = Point(200, 200)  # centre
         self.A = Point(0, 0)
         self.B = Point(0, 0)
         self.C = Point(0, 0)
         self.D = Point(0, 0)
-        self.rayon = 70
+        self.rayon = 100
 
         self.angleRadian = pi * self.angle / 180
 
@@ -149,7 +149,7 @@ class Cross(pygame.sprite.Sprite):  # TODO
     def update(self):
 
         self.image.fill((41, 41, 41))
-        self.angle += 0.5  # vitesse de rotation
+        self.angle += 0.9  # vitesse de rotation
         self.angleRadian = pi * self.angle / 180
 
         self.angleRadian2 = pi * (self.angle + 90) / 180
@@ -179,15 +179,15 @@ class Cross(pygame.sprite.Sprite):  # TODO
 
         # pygame.draw.line(self.image, YELLOW, (250, 250), (250, 250), 5)
         pygame.draw.line(self.image, YELLOW, (
-            self.A.x, self.A.y), (self.O.x, self.O.y), 15)
+            self.A.x, self.A.y), (self.O.x, self.O.y), 18)
         pygame.draw.line(
-            self.image, BLUE, (self.B.x, self.B.y), (self.O.x, self.O.y), 15)
+            self.image, BLUE, (self.B.x, self.B.y), (self.O.x, self.O.y), 18)
         pygame.draw.line(
-            self.image, ROSE, (self.C.x, self.C.y), (self.O.x, self.O.y), 15)
+            self.image, ROSE, (self.C.x, self.C.y), (self.O.x, self.O.y), 18)
         pygame.draw.line(self.image, PURPLE, (
-            self.D.x, self.D.y), (self.O.x, self.O.y), 15)
+            self.D.x, self.D.y), (self.O.x, self.O.y), 18)
 
-        self.rect.center = (640 / 2 + 30, self.height + self.scroll)
+        self.rect.center = (640 / 2 + 50, self.height + self.scroll)
 
     def collide(self, player):
         pass
@@ -391,7 +391,7 @@ class Rectangle(pygame.sprite.Sprite):
         self.debordement = False
 
     def update(self):
-        self.rect.x += 2  # vitesse de defilement
+        self.rect.x += 4  # vitesse de defilement
         self.mask = pygame.mask.from_surface(self.image)
 
 
@@ -470,7 +470,16 @@ def obstacles(player, all_obstacles, all_switch):
         if list_obstacles[-1].rect.y > player.rect.y:
             # all_obstacles.add(Switch(-50))
             all_switch.add(Switch(100))
-            all_obstacles.add(Circle(- 150))
+            ran = random.randint(1, 4)
+            # choix aleatoire
+            if ran == 0:
+                all_obstacles.add(Circle(-150))
+            elif ran == 1:
+                all_obstacles.add(Ligne(-150))
+            elif ran == 2:
+                all_obstacles.add(Square(-150))
+            elif ran == 3:
+                all_obstacles.add(Cross(-150))
 
 
 def collisions(player, all_obstacles, all_switch):
