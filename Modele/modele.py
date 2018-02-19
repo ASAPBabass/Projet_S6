@@ -115,14 +115,91 @@ class Arc(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
 
-class Circle(pygame.sprite.Sprite):  # TODO
+class Cross(pygame.sprite.Sprite):  # TODO
+
+    def __init__(self, height):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([300, 300]).convert()
+        self.rect = self.image.get_rect()
+        self.image.fill((0, 0, 0, 0))
+        self.height = height
+
+        self.angle = 0  # vitesse de rotatio
+        self.scroll = 0  # permet le scrolling
+
+        # self.all_arcs = pygame.sprite.Group()
+        # self.star = Star(self.rect)
+        self.O = Point(150, 150)  # centre
+        self.A = Point(0, 0)
+        self.B = Point(0, 0)
+        self.C = Point(0, 0)
+        self.D = Point(0, 0)
+        self.rayon = 70
+
+        self.angleRadian = pi * self.angle / 180
+
+        self.angleRadian2 = pi * (self.angle + 90) / 180
+
+        self.angleRadian3 = pi * (self.angle + 180) / 180
+
+        self.angleRadian4 = pi * (self.angle + 270) / 180
+
+        self.rect.center = (640 / 2, self.height)
+
+    def update(self):
+
+        self.image.fill((41, 41, 41))
+        self.angle += 0.5  # vitesse de rotation
+        self.angleRadian = pi * self.angle / 180
+
+        self.angleRadian2 = pi * (self.angle + 90) / 180
+
+        self.angleRadian3 = pi * (self.angle + 180) / 180
+
+        self.angleRadian4 = pi * (self.angle + 270) / 180
+        self.A.x = self.O.x + self.rayon * \
+            cos(self.angleRadian) - self.rayon * sin(self.angleRadian)
+        self.A.y = self.O.y + self.rayon * \
+            sin(self.angleRadian) + self.rayon * cos(self.angleRadian)
+
+        self.B.x = self.O.x + self.rayon * \
+            cos(self.angleRadian2) - self.rayon * sin(self.angleRadian2)
+        self.B.y = self.O.y + self.rayon * \
+            sin(self.angleRadian2) + self.rayon * cos(self.angleRadian2)
+
+        self.C.x = self.O.x + self.rayon * \
+            cos(self.angleRadian3) - self.rayon * sin(self.angleRadian3)
+        self.C.y = self.O.y + self.rayon * \
+            sin(self.angleRadian3) + self.rayon * cos(self.angleRadian3)
+
+        self.D.x = self.O.x + self.rayon * \
+            cos(self.angleRadian4) - self.rayon * sin(self.angleRadian4)
+        self.D.y = self.O.y + self.rayon * \
+            sin(self.angleRadian4) + self.rayon * cos(self.angleRadian4)
+
+        # pygame.draw.line(self.image, YELLOW, (250, 250), (250, 250), 5)
+        pygame.draw.line(self.image, YELLOW, (
+            self.A.x, self.A.y), (self.O.x, self.O.y), 15)
+        pygame.draw.line(
+            self.image, BLUE, (self.B.x, self.B.y), (self.O.x, self.O.y), 15)
+        pygame.draw.line(
+            self.image, ROSE, (self.C.x, self.C.y), (self.O.x, self.O.y), 15)
+        pygame.draw.line(self.image, PURPLE, (
+            self.D.x, self.D.y), (self.O.x, self.O.y), 15)
+
+        self.rect.center = (640 / 2 + 30, self.height + self.scroll)
+
+    def collide(self, player):
+        pass
+
+
+class Circle(pygame.sprite.Sprite):
 
     def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([200, 200]).convert()
         self.rect = self.image.get_rect()
         pygame.gfxdraw.aacircle(self.image, 100, 100, 101, BLACK)
-        # self.rect.y = -height
         self.height = height
 
         self.i = 0  # vitesse de rotatio
@@ -131,7 +208,6 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.all_arcs = pygame.sprite.Group()
 
         self.star = Star(self.rect)
-        # self.rect = self.rect.clamp(self.star.rect)
 
         self.arc_1 = Arc(
             PURPLE, self.rect, 0 + self.i, pi / 2 + self.i, 15)
@@ -150,11 +226,9 @@ class Circle(pygame.sprite.Sprite):  # TODO
         self.all_arcs.add(self.star)
         self.rect.center = (640 / 2, self.height)
 
-        # self.image.fill((0, 0, 0, 0))
         self.image.fill((41, 41, 41))
 
     def update(self):
-        # self.image.fill((0, 0, 0, 0))
         self.image.fill((41, 41, 41))
 
         self.i += 0.02  # vitesse de rotation
@@ -388,7 +462,8 @@ def obstacles(player, all_obstacles, all_switch):
         print("Creation du 1er obstacle")
         # all_obstacles.add(Switch(100))
         all_switch.add(Switch(100))
-        all_obstacles.add(Ligne(-150))
+        all_obstacles.add(Cross(0))
+        # all_obstacles.add(Ligne(-150))
         # all_obstacles.add(Circle(-150))
         # all_obstacles.add(Square(-150))
     else:

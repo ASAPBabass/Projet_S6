@@ -463,7 +463,7 @@ def circle_loop():
     i = 0
     # grid = Grid()
 
-    ligne = Ligne(300)
+    ligne = Ligne(400)
     switch = Switch(100)
     carre = pygame.Surface([200, 200]).convert()
     rect1 = carre.get_rect()
@@ -707,6 +707,14 @@ def circle_loop():
             (300 * (1 - cos(math.radians(i)))
              + 300 * sin(math.radians(i)))
         """
+
+        # (250,50) (450,50)
+        # (250,300) (450,300)
+
+        pygame.draw.line(screen, YELLOW, (250, 0), (250, 150), 20)
+        pygame.draw.line(screen, ROSE, (250, 150), (250, 300), 20)
+        pygame.draw.line(screen, BLUE, (100, 150), (250, 150), 20)
+        pygame.draw.line(screen, PURPLE, (250, 150), (400, 150), 20)
 
         i += 1
         # cercle.draw(screen)
