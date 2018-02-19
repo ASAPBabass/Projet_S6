@@ -321,24 +321,19 @@ class Rectangle(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([width, height]).convert_alpha()
         self.rect = self.image.get_rect()
+        self.y = height
+        self.x = width
+        # self.rectbis = rect
         self.color = color
         self.image.fill(color)
+        self.mask = pygame.mask.from_surface(self.image)
         self.debordement = False
         # self.i = 1
 
     def update(self):
         self.rect.x += 2
-        pass
-
-    def collide(self, player):
-        if self.rect.colliderect(player):
-            print("Collision Star")
-        elif self.rect.contains(player.rect):
-            print("Collision Star")
-        elif self.rect.collidepoint(player.rect.center):
-            print("Collision Star")
-        else:
-            pass
+        self.mask = pygame.mask.from_surface(self.image)
+        # self.rect.center = (self.rect.x + self.x, self.y)
 
 
 class Ligne(pygame.sprite.Sprite):  # TODO
@@ -350,6 +345,7 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.image.fill((0, 0, 0, 0))
         self.height = height
         self.scroll = 0
+        self.mask = pygame.mask.from_surface(self.image)
         self.all_rect = pygame.sprite.OrderedUpdates()
 
         self.initialisation()
@@ -368,15 +364,17 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.all_rect.add(rect_2)
         self.all_rect.add(rect_1)
 
+        self.mask = pygame.mask.from_surface(self.image)
+
         self.all_rect.draw(self.image)
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def update(self):
-        self.image.fill((0, 0, 0, 0))
+        # self.image.fill((0, 0, 0, 0))
         self.all_rect.update()
 
         liste_rect = self.all_rect.sprites()
-        print(liste_rect[0].rect.x)
+        # print(liste_rect[0].rect.x)
         if (liste_rect[0].rect.x + WIDTH / 4 + 10) >= WIDTH / 2 and liste_rect[0].debordement == False:
             color = liste_rect[0].color
             liste_rect[0].debordement = True
@@ -392,7 +390,11 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def collide(self, player):
-        pass
+
+        for rec in self.all_rect.sprites():
+            if rec.color == player.color:
+                if (rec.rect.x > player.rect.x or (rec.rect.x + WIDTH / 4) < player.rect.x) and player.rect.y <= self.rect.y + 35:
+                    return True
 
 
 def obstacles(player, all_obstacles, all_switch):
