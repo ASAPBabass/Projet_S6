@@ -62,7 +62,7 @@ class View():  # classe s'occupant de la vue
 
         self.score()
         pygame.display.flip()  # met à jour la fenetre
-        self.clock.tick(30)  # on definit la vitesse d'affichage
+        self.clock.tick(40)  # on definit la vitesse d'affichage
 
     def update(self):  # on met a jour les sprites
         self.all_obstacles.update()

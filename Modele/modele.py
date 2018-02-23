@@ -26,6 +26,13 @@ GREY = (41, 41, 41)
 colors = (BLUE, YELLOW, PURPLE, ROSE)
 
 
+class Point:
+
+    def __init__(self, a, b):
+        self.x = a
+        self.y = b
+
+
 class Player(pygame.sprite.Sprite):  # class du joueur
 
     def __init__(self):
@@ -102,16 +109,45 @@ class Arc(pygame.sprite.Sprite):
     def update(self, start_angle, stop_angle, width):
         self.image.fill((0, 0, 0, 0))
         rect_bis = self.rect.move(0, 1)
-        arc_1 = pygame.draw.arc(
+        pygame.draw.arc(
             self.image, self.color, self.rect, start_angle, stop_angle, width)
-        arc_2 = pygame.draw.arc(
+        pygame.draw.arc(
             self.image, self.color, rect_bis, start_angle, stop_angle, width)
 
         # anti-aliasing
         # pygame.gfxdraw.aacircle(
-         #   self.image, arc_2.x, arc_2.y, 199, GREY)
+        #   self.image, arc_2.x, arc_2.y, 199, GREY)
 
         self.rect.center = (100, 100)
+        self.mask = pygame.mask.from_surface(self.image)
+
+
+class Arete(pygame.sprite.Sprite):
+
+    def __init__(self, rect, a, b, color, width):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([300, 300]).convert_alpha()
+        self.image.fill((0, 0, 0, 0))
+        self.rect = rect
+        self.color = color
+        self.mask = pygame.mask.from_surface(self.image)
+        self.width = width
+
+    def update(self, a, b):
+        self.image.fill((0, 0, 0, 0))
+
+        """
+        pygame.draw.line(
+            self.image, self.color, (a.x + 1, a.y - 1), (b.x - 1, b.y - 1), 1)
+        """
+        pygame.draw.line(
+            self.image, self.color, (a.x, a.y), (b.x, b.y), self.width)
+        """
+        pygame.draw.line(
+            self.image, self.color, (a.x, a.y + self.width), (b.x, b.y + self.width), 1)
+        """
+        self.rect.center = (150, 150)
+
         self.mask = pygame.mask.from_surface(self.image)
 
 
@@ -119,22 +155,26 @@ class Cross(pygame.sprite.Sprite):  # TODO
 
     def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([400, 400]).convert()
+        self.image = pygame.Surface([300, 300]).convert()
         self.rect = self.image.get_rect()
         self.image.fill((0, 0, 0, 0))
         self.height = height
+        self.all_aretes = pygame.sprite.Group()
 
         self.angle = 0  # vitesse de rotatio
         self.scroll = 0  # permet le scrolling
 
-        # self.all_arcs = pygame.sprite.Group()
-        # self.star = Star(self.rect)
-        self.O = Point(200, 200)  # centre
+        self.rect_1 = None
+        self.rect_2 = None
+        self.rect_3 = None
+        self.rect_4 = None
+
+        self.O = Point(150, 150)  # centre
         self.A = Point(0, 0)
         self.B = Point(0, 0)
         self.C = Point(0, 0)
         self.D = Point(0, 0)
-        self.rayon = 100
+        self.rayon = 70
 
         self.angleRadian = pi * self.angle / 180
 
@@ -143,13 +183,27 @@ class Cross(pygame.sprite.Sprite):  # TODO
         self.angleRadian3 = pi * (self.angle + 180) / 180
 
         self.angleRadian4 = pi * (self.angle + 270) / 180
+
+        self.arete_1 = Arete(
+            self.rect, self.A, self.O, YELLOW, 20)
+        self.arete_2 = Arete(
+            self.rect, self.B, self.O, BLUE, 20)
+        self.arete_3 = Arete(
+            self.rect, self.C, self.O, ROSE, 20)
+        self.arete_4 = Arete(
+            self.rect, self.D, self.O, PURPLE, 20)
+
+        self.all_aretes.add(self.arete_2)
+        self.all_aretes.add(self.arete_3)
+        self.all_aretes.add(self.arete_4)
+        self.all_aretes.add(self.arete_1)
 
         self.rect.center = (640 / 2, self.height)
 
     def update(self):
 
         self.image.fill((41, 41, 41))
-        self.angle += 0.9  # vitesse de rotation
+        self.angle += 1  # vitesse de rotation
         self.angleRadian = pi * self.angle / 180
 
         self.angleRadian2 = pi * (self.angle + 90) / 180
@@ -157,6 +211,7 @@ class Cross(pygame.sprite.Sprite):  # TODO
         self.angleRadian3 = pi * (self.angle + 180) / 180
 
         self.angleRadian4 = pi * (self.angle + 270) / 180
+
         self.A.x = self.O.x + self.rayon * \
             cos(self.angleRadian) - self.rayon * sin(self.angleRadian)
         self.A.y = self.O.y + self.rayon * \
@@ -177,20 +232,37 @@ class Cross(pygame.sprite.Sprite):  # TODO
         self.D.y = self.O.y + self.rayon * \
             sin(self.angleRadian4) + self.rayon * cos(self.angleRadian4)
 
-        # pygame.draw.line(self.image, YELLOW, (250, 250), (250, 250), 5)
-        pygame.draw.line(self.image, YELLOW, (
-            self.A.x, self.A.y), (self.O.x, self.O.y), 18)
-        pygame.draw.line(
-            self.image, BLUE, (self.B.x, self.B.y), (self.O.x, self.O.y), 18)
-        pygame.draw.line(
-            self.image, ROSE, (self.C.x, self.C.y), (self.O.x, self.O.y), 18)
-        pygame.draw.line(self.image, PURPLE, (
-            self.D.x, self.D.y), (self.O.x, self.O.y), 18)
+        self.arete_2.update(self.B, self.O)
+        self.arete_3.update(self.C, self.O)
+        self.arete_4.update(self.D, self.O)
+        self.arete_1.update(self.A, self.O)
+
+        self.all_aretes.draw(self.image)
 
         self.rect.center = (640 / 2 + 50, self.height + self.scroll)
 
     def collide(self, player):
-        pass
+        color = player.color
+        if pygame.sprite.collide_mask(player, self.arete_1) and color != self.arete_1.color:
+            print("Collision couleur YELLOW")
+            return True
+        elif pygame.sprite.collide_mask(player, self.arete_2) and color != self.arete_2.color:
+            print("Collision couleur BLUE")
+            return True
+        elif pygame.sprite.collide_mask(player, self.arete_3) and color != self.arete_3.color:
+            print("Collision couleur ROSE")
+            return True
+        elif pygame.sprite.collide_mask(player, self.arete_4) and color != self.arete_4.color:
+            print("Collision couleur PURPLE")
+            return True
+        else:
+            pass
+        """
+        elif player.rect.y < self.star.rect.y + self.rect.y + 45 and self.star.bool == False:  # collision temporaire
+            self.star.image.fill((0, 0, 0, 0))
+            player.score += 1
+            self.star.bool = True
+        """
 
 
 class Circle(pygame.sprite.Sprite):
@@ -275,43 +347,54 @@ class Circle(pygame.sprite.Sprite):
             # self.star.collide(player)
 
 
-class Point:
-
-    def __init__(self, a, b):
-        self.x = a
-        self.y = b
-
-
 class Square(pygame.sprite.Sprite):
 
     def __init__(self, height):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200, 200]).convert()
-        self.rect = self.image.get_rect()
-        self.image.fill((0, 0, 0, 0))
-        self.height = height
+        try:
+            pygame.sprite.Sprite.__init__(self)
+            self.image = pygame.Surface([300, 300]).convert()
+            self.rect = self.image.get_rect()
+            self.image.fill((0, 0, 0, 0))
+            self.height = height
 
-        self.angle = 0  # vitesse de rotatio
-        self.scroll = 0  # permet le scrolling
+            self.angle = 0  # vitesse de rotatio
+            self.scroll = 0  # permet le scrolling
 
-        # self.all_arcs = pygame.sprite.Group()
-        # self.star = Star(self.rect)
-        self.O = Point(100, 100)
-        self.A = Point(0, 0)
-        self.B = Point(0, 0)
-        self.C = Point(0, 0)
-        self.D = Point(0, 0)
-        self.rayon = 70
+            self.all_aretes = pygame.sprite.Group()
+            # self.star = Star(self.rect)
+            self.O = Point(150, 150)  # centre
+            self.A = Point(0, 0)
+            self.B = Point(0, 0)
+            self.C = Point(0, 0)
+            self.D = Point(0, 0)
+            self.rayon = 70
 
-        self.angleRadian = pi * self.angle / 180
+            self.angleRadian = pi * self.angle / 180
 
-        self.angleRadian2 = pi * (self.angle + 90) / 180
+            self.angleRadian2 = pi * (self.angle + 90) / 180
 
-        self.angleRadian3 = pi * (self.angle + 180) / 180
+            self.angleRadian3 = pi * (self.angle + 180) / 180
 
-        self.angleRadian4 = pi * (self.angle + 270) / 180
+            self.angleRadian4 = pi * (self.angle + 270) / 180
 
-        self.rect.center = (640 / 2, self.height)
+            self.arete_1 = Arete(
+                self.rect, self.A, self.B, YELLOW, 20)
+            self.arete_2 = Arete(
+                self.rect, self.B, self.C, BLUE, 20)
+            self.arete_3 = Arete(
+                self.rect, self.C, self.D, ROSE, 20)
+            self.arete_4 = Arete(
+                self.rect, self.D, self.A, PURPLE, 20)
+
+            self.all_aretes.add(self.arete_2)
+            self.all_aretes.add(self.arete_3)
+            self.all_aretes.add(self.arete_4)
+            self.all_aretes.add(self.arete_1)
+
+            self.rect.center = (640 / 2, self.height)
+
+        except Exception:
+            print("erreur constructeur")
 
         # self.image.fill((0, 0, 0, 0))
         # self.image.fill((41, 41, 41))
@@ -319,7 +402,7 @@ class Square(pygame.sprite.Sprite):
     def update(self):
 
         self.image.fill((41, 41, 41))
-        self.angle += 0.5  # vitesse de rotation
+        self.angle += 0.9  # vitesse de rotation
         self.angleRadian = pi * self.angle / 180
 
         self.angleRadian2 = pi * (self.angle + 90) / 180
@@ -347,20 +430,31 @@ class Square(pygame.sprite.Sprite):
         self.D.y = self.O.y + self.rayon * \
             sin(self.angleRadian4) + self.rayon * cos(self.angleRadian4)
 
-        pygame.draw.line(self.image, YELLOW, (250, 250), (250, 250), 5)
-        pygame.draw.line(self.image, YELLOW, (
-            self.A.x, self.A.y), (self.B.x, self.B.y), 15)
-        pygame.draw.line(
-            self.image, BLUE, (self.B.x, self.B.y), (self.C.x, self.C.y), 15)
-        pygame.draw.line(
-            self.image, ROSE, (self.C.x, self.C.y), (self.D.x, self.D.y), 15)
-        pygame.draw.line(self.image, PURPLE, (
-            self.D.x, self.D.y), (self.A.x, self.A.y), 15)
+        self.arete_1.update(self.A, self.B)
+        self.arete_2.update(self.B, self.C)
+        self.arete_3.update(self.C, self.D)
+        self.arete_4.update(self.D, self.A)
+
+        self.all_aretes.draw(self.image)
 
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def collide(self, player):
-        pass
+        color = player.color
+        if pygame.sprite.collide_mask(player, self.arete_1) and color != self.arete_1.color:
+            print("Collision couleur YELLOW")
+            return True
+        elif pygame.sprite.collide_mask(player, self.arete_2) and color != self.arete_2.color:
+            print("Collision couleur BLUE")
+            return True
+        elif pygame.sprite.collide_mask(player, self.arete_3) and color != self.arete_3.color:
+            print("Collision couleur ROSE")
+            return True
+        elif pygame.sprite.collide_mask(player, self.arete_4) and color != self.arete_4.color:
+            print("Collision couleur PURPLE")
+            return True
+        else:
+            pass
 
 
 class Star(pygame.sprite.Sprite):
@@ -410,12 +504,12 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.initialisation()
 
     def initialisation(self):
-        rect_1 = Rectangle(self.rect, WIDTH / 4, 35, BLUE)
-        rect_2 = Rectangle(self.rect, WIDTH / 4, 35, YELLOW)
+        rect_1 = Rectangle(self.rect, WIDTH / 4, 25, BLUE)
+        rect_2 = Rectangle(self.rect, WIDTH / 4, 25, YELLOW)
         rect_2.rect.x += WIDTH / 4
-        rect_3 = Rectangle(self.rect, WIDTH / 4, 35, PURPLE)
+        rect_3 = Rectangle(self.rect, WIDTH / 4, 25, PURPLE)
         rect_3.rect.x += WIDTH / 2
-        rect_4 = Rectangle(self.rect, WIDTH / 4, 35, ROSE)
+        rect_4 = Rectangle(self.rect, WIDTH / 4, 25, ROSE)
         rect_4.rect.x += WIDTH / 2 + WIDTH / 4
 
         self.all_rect.add(rect_4)
@@ -435,7 +529,7 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         if (liste_rect[0].rect.x + WIDTH / 4 + 10) >= WIDTH / 2 and liste_rect[0].debordement == False:
             color = liste_rect[0].color
             liste_rect[0].debordement = True
-            self.all_rect.add(Rectangle(self.rect, WIDTH / 4, 35, color))
+            self.all_rect.add(Rectangle(self.rect, WIDTH / 4, 25, color))
             liste_rect = self.all_rect.sprites()
             liste_rect[-1].rect.x -= 150
             self.all_rect.update()
@@ -462,29 +556,28 @@ def obstacles(player, all_obstacles, all_switch):
         print("Creation du 1er obstacle")
         # all_obstacles.add(Switch(100))
         all_switch.add(Switch(100))
-        all_obstacles.add(Cross(0))
+        # all_obstacles.add(Cross(-150))
         # all_obstacles.add(Ligne(-150))
         # all_obstacles.add(Circle(-150))
-        # all_obstacles.add(Square(-150))
+        all_obstacles.add(Square(-150))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
             # all_obstacles.add(Switch(-50))
             all_switch.add(Switch(100))
             ran = random.randint(1, 4)
             # choix aleatoire
-            if ran == 0:
+            if ran == 1:
                 all_obstacles.add(Circle(-150))
-            elif ran == 1:
-                all_obstacles.add(Ligne(-150))
             elif ran == 2:
-                all_obstacles.add(Square(-150))
+                all_obstacles.add(Ligne(-150))
             elif ran == 3:
+                all_obstacles.add(Square(-150))
+            elif ran == 4:
                 all_obstacles.add(Cross(-150))
 
 
 def collisions(player, all_obstacles, all_switch):
 
-    die = False
     for switch in all_switch:
         switch.collide(player)
     for obstacle in all_obstacles:

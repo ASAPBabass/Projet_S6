@@ -6,7 +6,7 @@ import random
 import sys
 from math import pi
 
-import pygame as py
+import pygame as pygame
 import pygame.gfxdraw
 from pygame.locals import *
 
@@ -18,8 +18,8 @@ def menu():
 
     end = False
 
-    while not end:
     # Evenements
+    while not end:
 
         try:
             for event in pygame.event.get():
@@ -42,8 +42,8 @@ def retry(view):
     end = False
     view.retry(view.player)
 
-    while not end:
     # Evenements
+    while not end:
 
         try:
             for event in pygame.event.get():
@@ -75,8 +75,9 @@ def main():
     end_menu = False
     end = False  # variable d'arret
 
-    while not end_menu:
     # Evenements
+    while not end_menu:
+
         view.menu()
 
         try:
@@ -98,8 +99,8 @@ def main():
     end2 = False
     pause = False
     while not end2:
-        while not end:
         # Evenements
+        while not end:
 
             try:
                 for event in pygame.event.get():
@@ -162,6 +163,7 @@ def main():
             end = False
         else:
             end2 = True
+
 
 main()
 quit()
