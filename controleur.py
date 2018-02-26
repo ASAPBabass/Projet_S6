@@ -6,7 +6,7 @@ import random
 import sys
 from math import pi
 
-import pygame as pygame
+import pygame
 import pygame.gfxdraw
 from pygame.locals import *
 
@@ -165,5 +165,6 @@ def main():
             end2 = True
 
 
-main()
-quit()
+if __name__ == '__main__':
+    main()
+    quit()

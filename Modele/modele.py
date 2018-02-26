@@ -135,13 +135,13 @@ class Arete(pygame.sprite.Sprite):
 
     def update(self, a, b):
         self.image.fill((0, 0, 0, 0))
-
         """
         pygame.draw.line(
             self.image, self.color, (a.x + 1, a.y - 1), (b.x - 1, b.y - 1), 1)
         """
         pygame.draw.line(
             self.image, self.color, (a.x, a.y), (b.x, b.y), self.width)
+
         """
         pygame.draw.line(
             self.image, self.color, (a.x, a.y + self.width), (b.x, b.y + self.width), 1)
@@ -279,7 +279,8 @@ class Circle(pygame.sprite.Sprite):
 
         self.all_arcs = pygame.sprite.Group()
 
-        self.star = Star(self.rect)
+        self.star = Star()
+        self.star.circle()
 
         self.arc_1 = Arc(
             PURPLE, self.rect, 0 + self.i, pi / 2 + self.i, 15)
@@ -361,13 +362,14 @@ class Square(pygame.sprite.Sprite):
             self.scroll = 0  # permet le scrolling
 
             self.all_aretes = pygame.sprite.Group()
-            # self.star = Star(self.rect)
+            self.star = Star()
+            self.star.square()
             self.O = Point(150, 150)  # centre
             self.A = Point(0, 0)
             self.B = Point(0, 0)
             self.C = Point(0, 0)
             self.D = Point(0, 0)
-            self.rayon = 70
+            self.rayon = 80
 
             self.angleRadian = pi * self.angle / 180
 
@@ -390,6 +392,8 @@ class Square(pygame.sprite.Sprite):
             self.all_aretes.add(self.arete_3)
             self.all_aretes.add(self.arete_4)
             self.all_aretes.add(self.arete_1)
+
+            self.all_aretes.add(self.star)
 
             self.rect.center = (640 / 2, self.height)
 
@@ -459,17 +463,38 @@ class Square(pygame.sprite.Sprite):
 
 class Star(pygame.sprite.Sprite):
 
-    def __init__(self, rect):
+    def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
             "Vue/Image/star3.png").convert_alpha()
         self.rect = self.image.get_rect()  # correspond a la surface du cercle
+        # self.rect.move_ip(77, 80)  # permet de centrer l'etoile dans le
+        # cercle
+        # self.rect.center = (WIDTH / 2, -50)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.bool = False
+        self.scroll = 0
+
+    def update(self):
+        self.rect.center = (WIDTH / 2, self.rect.y + self.scroll)
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def circle(self):
         self.rect.move_ip(77, 80)  # permet de centrer l'etoile dans le
         # cercle
         self.mask = pygame.mask.from_surface(self.image)
-        self.bool = False
 
-    def update(self):
+    def square(self):
+        self.rect.move_ip(125, 125)  # permet de centrer l'etoile dans le
+        # cercle
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def ligne(self):
+        self.rect.move_ip(205, 250)  # permet de centrer l'etoile dans le
+        # cercle
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def collide(self, player):
         pass
 
 
@@ -493,13 +518,19 @@ class Ligne(pygame.sprite.Sprite):  # TODO
 
     def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([WIDTH, 50]).convert_alpha()
+        self.image = pygame.Surface([WIDTH, 100]).convert_alpha()
         self.rect = self.image.get_rect()
         self.image.fill((0, 0, 0, 0))
         self.height = height
         self.scroll = 0
+        self.star = None
         self.mask = pygame.mask.from_surface(self.image)
         self.all_rect = pygame.sprite.OrderedUpdates()
+
+        if(height == 150):
+            self.star = Star()
+            self.star.ligne()
+            self.all_rect.add(self.star)
 
         self.initialisation()
 
@@ -557,9 +588,14 @@ def obstacles(player, all_obstacles, all_switch):
         # all_obstacles.add(Switch(100))
         all_switch.add(Switch(100))
         # all_obstacles.add(Cross(-150))
-        # all_obstacles.add(Ligne(-150))
+        all_obstacles.add(Ligne(-150))
+        # star = Star()
+        # star.ligne()
+        # star.rect.move_ip(0, -50)
+        # all_obstacles.add(star)
+        all_obstacles.add(Ligne(-70))
         # all_obstacles.add(Circle(-150))
-        all_obstacles.add(Square(-150))
+        # all_obstacles.add(Square(-150))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
             # all_obstacles.add(Switch(-50))
