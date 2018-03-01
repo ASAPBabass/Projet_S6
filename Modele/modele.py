@@ -96,11 +96,12 @@ class Switch(pygame.sprite.Sprite):  # class du joueur
 
 class Arc(pygame.sprite.Sprite):
 
-    def __init__(self, color, rect, start_angle, stop_angle, width):
+    def __init__(self, color, rect, start_angle, stop_angle, width, rayon):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200, 200]).convert_alpha()
+        self.image = pygame.Surface([rayon * 2, rayon * 2]).convert_alpha()
         self.image.fill((0, 0, 0, 0))
         self.rect = rect
+        self.rayon = rayon
         self.i = 1
         self.color = color
         self.mask = None
@@ -118,7 +119,7 @@ class Arc(pygame.sprite.Sprite):
         # pygame.gfxdraw.aacircle(
         #   self.image, arc_2.x, arc_2.y, 199, GREY)
 
-        self.rect.center = (100, 100)
+        self.rect.center = (self.rayon, self.rayon)
         self.mask = pygame.mask.from_surface(self.image)
 
 
@@ -267,14 +268,16 @@ class Cross(pygame.sprite.Sprite):  # TODO
 
 class Circle(pygame.sprite.Sprite):
 
-    def __init__(self, height):
+    def __init__(self, height, width, rayon, rotation):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([200, 200]).convert()
+        self.image = pygame.Surface([rayon * 2, rayon * 2]).convert_alpha()
         self.rect = self.image.get_rect()
-        pygame.gfxdraw.aacircle(self.image, 100, 100, 101, BLACK)
         self.height = height
+        self.width = width
+        self.rayon = rayon
+        self.rotation = rotation
 
-        self.i = 0  # vitesse de rotatio
+        self.i = 0  # vitesse de rotation
         self.scroll = 0  # permet le scrolling
 
         self.all_arcs = pygame.sprite.Group()
@@ -283,13 +286,13 @@ class Circle(pygame.sprite.Sprite):
         self.star.circle()
 
         self.arc_1 = Arc(
-            PURPLE, self.rect, 0 + self.i, pi / 2 + self.i, 15)
+            PURPLE, self.rect, 0 + self.i, pi / 2 + self.i, self.width, self.rayon)
         self.arc_2 = Arc(
-            YELLOW, self.rect, pi / 2 + self.i, pi + self.i, 15)
+            YELLOW, self.rect, pi / 2 + self.i, pi + self.i, self.width, self.rayon)
         self.arc_3 = Arc(
-            BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, 15)
+            BLUE, self.rect, pi + self.i, 3 * pi / 2 + self.i, self.width, self.rayon)
         self.arc_4 = Arc(
-            ROSE, self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, 15)
+            ROSE, self.rect, 3 * pi / 2 + self.i, 2 * pi + self.i, self.width, self.rayon)
 
         self.all_arcs.add(self.arc_1)
         self.all_arcs.add(self.arc_2)
@@ -299,27 +302,37 @@ class Circle(pygame.sprite.Sprite):
         self.all_arcs.add(self.star)
         self.rect.center = (640 / 2, self.height)
 
-        self.image.fill((41, 41, 41))
+        self.image.fill((0, 0, 0, 0))
 
     def update(self):
-        self.image.fill((41, 41, 41))
+        self.image.fill((0, 0, 0, 0))
 
-        self.i += 0.02  # vitesse de rotation
+        if self.rotation == True:
+            self.i += 0.02  # vitesse de rotation
+        else:
+            self.i -= 0.03
 
-        self.arc_1.update(0 + self.i, pi / 2 + self.i, 15)
-        self.arc_1.update(0 + self.i, pi / 2 + self.i, 15)
-        self.arc_2.update(pi / 2 + self.i, pi + self.i, 15)
-        self.arc_3.update(pi + self.i, 3 * pi / 2 + self.i, 15)
-        self.arc_4.update(3 * pi / 2 + self.i, 2 * pi + self.i, 15)
+        self.arc_1.update(0 + self.i, pi / 2 + self.i, self.width)
+        self.arc_1.update(0 + self.i, pi / 2 + self.i, self.width)
+        self.arc_2.update(pi / 2 + self.i, pi + self.i, self.width)
+        self.arc_3.update(pi + self.i, 3 * pi / 2 + self.i, self.width)
+        self.arc_4.update(3 * pi / 2 + self.i, 2 * pi + self.i, self.width)
 
         self.all_arcs.draw(self.image)
         # anti aliasing
-        pygame.gfxdraw.aacircle(self.image, 100, 100, 102, GREY)
-        pygame.gfxdraw.aacircle(self.image, 100, 100, 101, GREY)
-        # pygame.gfxdraw.aacircle(self.image, 100, 100, 100, GREY)
-        pygame.gfxdraw.aacircle(self.image, 100, 100, 85, GREY)
-        pygame.gfxdraw.aacircle(self.image, 100, 100, 84, GREY)
 
+        """
+        pygame.gfxdraw.aacircle(
+            self.image, self.rayon, self.rayon, self.rayon + 2, GREY)
+        pygame.gfxdraw.aacircle(
+            self.image, self.rayon, self.rayon, self.rayon + 1, GREY)
+        # pygame.gfxdraw.aacircle(self.image, self.rayon, self.rayon,
+        # self.rayon, GREY)
+        pygame.gfxdraw.aacircle(
+            self.image, self.rayon, self.rayon, self.rayon - self.width, GREY)
+        pygame.gfxdraw.aacircle(
+            self.image, self.rayon, self.rayon, self.rayon - self.width - 1, GREY)
+        """
         # self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
         # print(str(self.rect.y) + "  " + str(self.scroll))
         self.rect.center = (640 / 2, self.height + self.scroll)
@@ -490,8 +503,10 @@ class Star(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
     def ligne(self):
-        self.rect.move_ip(205, 250)  # permet de centrer l'etoile dans le
+        # self.rect.move_ip(WIDTH / 2 - 10, -10)
+        # permet de centrer l'etoile dans le
         # cercle
+        self.rect.center = (WIDTH / 2, -128)
         self.mask = pygame.mask.from_surface(self.image)
 
     def collide(self, player):
@@ -518,7 +533,7 @@ class Ligne(pygame.sprite.Sprite):  # TODO
 
     def __init__(self, height):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([WIDTH, 100]).convert_alpha()
+        self.image = pygame.Surface([WIDTH, 200]).convert_alpha()
         self.rect = self.image.get_rect()
         self.image.fill((0, 0, 0, 0))
         self.height = height
@@ -526,11 +541,7 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.star = None
         self.mask = pygame.mask.from_surface(self.image)
         self.all_rect = pygame.sprite.OrderedUpdates()
-
-        if(height == 150):
-            self.star = Star()
-            self.star.ligne()
-            self.all_rect.add(self.star)
+        self.all_stars = pygame.sprite.OrderedUpdates()
 
         self.initialisation()
 
@@ -548,9 +559,17 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.all_rect.add(rect_2)
         self.all_rect.add(rect_1)
 
+        if(self.height == -150):
+            print("ajout star ligne")
+            self.star = Star()
+            self.star.ligne()
+            self.all_stars.add(self.star)
+            # self.all_rect.add(self.star)
+
         self.mask = pygame.mask.from_surface(self.image)
 
         self.all_rect.draw(self.image)
+        self.all_stars.draw(self.image)
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def update(self):
@@ -568,7 +587,10 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         if liste_rect[0].rect.x + 5 > WIDTH:
             self.all_rect.remove(liste_rect[0])
 
+        self.all_stars.update()
+
         self.all_rect.draw(self.image)
+        self.all_stars.draw(self.image)
         # self.image.fill((0, 0, 0))
         self.rect.center = (640 / 2, self.height + self.scroll)
 
@@ -588,13 +610,17 @@ def obstacles(player, all_obstacles, all_switch):
         # all_obstacles.add(Switch(100))
         all_switch.add(Switch(100))
         # all_obstacles.add(Cross(-150))
-        all_obstacles.add(Ligne(-150))
+        # all_obstacles.add(Ligne(-150))
         # star = Star()
         # star.ligne()
         # star.rect.move_ip(0, -50)
         # all_obstacles.add(star)
-        all_obstacles.add(Ligne(-70))
-        # all_obstacles.add(Circle(-150))
+        # all_obstacles.add(Ligne(-70))7
+
+        all_obstacles.add(Circle(-150, 15, 140, True))
+        all_obstacles.add(Circle(-150, 15, 120, False))
+        all_obstacles.add(Circle(-150, 15, 100, True))
+
         # all_obstacles.add(Square(-150))
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
@@ -603,7 +629,17 @@ def obstacles(player, all_obstacles, all_switch):
             ran = random.randint(1, 4)
             # choix aleatoire
             if ran == 1:
-                all_obstacles.add(Circle(-150))
+                ran_circle = random.randint(1, 3)
+                if ran_circle == 1:
+                    all_obstacles.add(Circle(-150, 15, 120, True))
+                elif ran_circle == 2:
+                    all_obstacles.add(Circle(-150, 15, 120, True))
+                    all_obstacles.add(Circle(-150, 10, 100, False))
+                elif ran_circle == 3:
+                    all_obstacles.add(Circle(-150, 15, 120, True))
+                    all_obstacles.add(Circle(-150, 15, 115, False))
+                    all_obstacles.add(Circle(-150, 15, 110, True))
+
             elif ran == 2:
                 all_obstacles.add(Ligne(-150))
             elif ran == 3:
