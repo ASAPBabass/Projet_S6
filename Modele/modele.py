@@ -371,7 +371,7 @@ class Square(pygame.sprite.Sprite):
             self.image.fill((0, 0, 0, 0))
             self.height = height
 
-            self.angle = 0  # vitesse de rotatio
+            self.angle = 0  # vitesse de rotation
             self.scroll = 0  # permet le scrolling
 
             self.all_aretes = pygame.sprite.Group()
@@ -470,6 +470,11 @@ class Square(pygame.sprite.Sprite):
         elif pygame.sprite.collide_mask(player, self.arete_4) and color != self.arete_4.color:
             print("Collision couleur PURPLE")
             return True
+        elif player.rect.y < self.star.rect.y + self.rect.y + 45 and self.star.bool == False:  # collision temporaire
+            self.star.image.fill((0, 0, 0, 0))
+            player.score += 1
+            self.star.bool = True
+
         else:
             pass
 
