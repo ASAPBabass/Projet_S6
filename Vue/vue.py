@@ -112,7 +112,7 @@ class View():  # classe s'occupant de la vue
         score = font.render(
             "SCORE : " + str(self.player.score), 10, (254, 254, 254))
 
-        mon_fichier = open("fichier.txt", "r") 
+        mon_fichier = open("fichier.txt","r") 
         score_max=mon_fichier.read()
         mon_fichier.close()
         self.player.bestScore=int(score_max)
