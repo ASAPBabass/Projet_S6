@@ -738,14 +738,14 @@ def obstacles(player, all_obstacles, all_switch):
             if ran == 1:
                 ran_circle = random.randint(1, 3)
                 if ran_circle == 1:
-                    all_obstacles.add(Circle(-150, 15, 120, True))
+                    all_obstacles.add(Circle(-150, 15, 140, True))
                 elif ran_circle == 2:
-                    all_obstacles.add(Circle(-150, 15, 120, True))
-                    all_obstacles.add(Circle(-150, 10, 100, False))
+                    all_obstacles.add(Circle(-150, 15, 140, True))
+                    all_obstacles.add(Circle(-150, 10, 120, False))
                 elif ran_circle == 3:
-                    all_obstacles.add(Circle(-150, 15, 120, True))
-                    all_obstacles.add(Circle(-150, 15, 115, False))
-                    all_obstacles.add(Circle(-150, 15, 110, True))
+                    all_obstacles.add(Circle(-150, 15, 140, True))
+                    all_obstacles.add(Circle(-150, 15, 120, False))
+                    all_obstacles.add(Circle(-150, 15, 100, True))
 
             elif ran == 2:
                 all_obstacles.add(Ligne(-150))
