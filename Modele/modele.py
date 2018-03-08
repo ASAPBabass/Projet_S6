@@ -282,9 +282,6 @@ class Circle(pygame.sprite.Sprite):
 
         self.all_arcs = pygame.sprite.Group()
 
-        self.star = Star()
-        self.star.circle()
-
         self.arc_1 = Arc(
             PURPLE, self.rect, 0 + self.i, pi / 2 + self.i, self.width, self.rayon)
         self.arc_2 = Arc(
@@ -299,7 +296,6 @@ class Circle(pygame.sprite.Sprite):
         self.all_arcs.add(self.arc_3)
         self.all_arcs.add(self.arc_4)
 
-        self.all_arcs.add(self.star)
         self.rect.center = (640 / 2, self.height)
 
         self.image.fill((0, 0, 0, 0))
@@ -351,11 +347,6 @@ class Circle(pygame.sprite.Sprite):
         elif pygame.sprite.collide_mask(player, self.arc_4) and color != self.arc_4.color:
             print("Collision couleur ROSE")
             return True
-        elif player.rect.y < self.star.rect.y + self.rect.y + 45 and self.star.bool == False:  # collision temporaire
-            self.star.image.fill((0, 0, 0, 0))
-            player.score += 1
-            self.star.bool = True
-
         else:
             pass
             # self.star.collide(player)
@@ -375,8 +366,6 @@ class Triangle(pygame.sprite.Sprite):
         self.scroll = 0  # permet le scrolling
 
         self.all_aretes = pygame.sprite.Group()
-        self.star = Star()
-        self.star.triangle()
         self.O = Point(150, 150)  # centre
         self.A = Point(0, 0)
         self.B = Point(0, 0)
@@ -400,7 +389,7 @@ class Triangle(pygame.sprite.Sprite):
         self.all_aretes.add(self.arete_2)
         self.all_aretes.add(self.arete_3)
 
-        self.all_aretes.add(self.star)
+        #self.all_aretes.add(self.star)
 
         self.rect.center = (640 / 2, self.height)
 
@@ -450,10 +439,6 @@ class Triangle(pygame.sprite.Sprite):
 
             print("Collision couleur ROSE")
             return True
-        elif player.rect.y < self.star.rect.y + self.rect.y + 45 and self.star.bool == False:  # collision temporaire
-            self.star.image.fill((0, 0, 0, 0))
-            player.score += 1
-            self.star.bool = True
         else:
             pass
 
@@ -473,8 +458,7 @@ class Parallelogramme(pygame.sprite.Sprite):
             self.scroll = 0  # permet le scrolling
 
             self.all_aretes = pygame.sprite.Group()
-            self.star = Star()
-            self.star.parallelogramme()
+
             self.O = Point(150, 150)  # centre
             self.A = Point(0, 0)
             self.B = Point(0, 0)
@@ -505,15 +489,10 @@ class Parallelogramme(pygame.sprite.Sprite):
             self.all_aretes.add(self.arete_4)
             self.all_aretes.add(self.arete_1)
 
-            self.all_aretes.add(self.star)
-
             self.rect.center = (640 / 2, self.height)
 
         except Exception:
             print("erreur constructeur")
-
-        # self.image.fill((0, 0, 0, 0))
-        # self.image.fill((41, 41, 41))
     
 
     def update(self):
@@ -570,54 +549,30 @@ class Parallelogramme(pygame.sprite.Sprite):
         elif pygame.sprite.collide_mask(player, self.arete_4) and color != self.arete_4.color:
             print("Collision couleur PURPLE")
             return True
-        elif player.rect.y < self.star.rect.y + self.rect.y + 45 and self.star.bool == False:  # collision temporaire
-            self.star.image.fill((0, 0, 0, 0))
-            player.score += 1
-            self.star.bool = True
         else:
             pass
 
 class Star(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self,pos_y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
             "Vue/Image/star3.png").convert_alpha()
         self.rect = self.image.get_rect()  # correspond a la surface du cercle
-        # self.rect.move_ip(77, 80)  # permet de centrer l'etoile dans le
-        # cercle
-        # self.rect.center = (WIDTH / 2, -50)
-        self.mask = pygame.mask.from_surface(self.image)
-        self.bool = False
+
+        self.mask = None
+        self.pos_y=pos_y
         self.scroll = 0
-
+        self.rect.center = (WIDTH / 2, self.pos_y+self.scroll)
+        self.bool=False
+    
     def update(self):
-        self.rect.center = (WIDTH / 2, self.rect.y + self.scroll)
-        self.mask = pygame.mask.from_surface(self.image)
-
-    def circle(self):
-        self.rect.move_ip(77, 80)  # permet de centrer l'etoile dans le
-        # cercle
-        self.mask = pygame.mask.from_surface(self.image)
-
-    def square(self):
-        self.rect.move_ip(125, 125)  # permet de centrer l'etoile dans le carré
-        self.mask = pygame.mask.from_surface(self.image)
-
-    def ligne(self):
-        # self.rect.move_ip(WIDTH / 2 - 10, -10)
-        # permet de centrer l'etoile dans le
-        # cercle
-        self.rect.center = (WIDTH / 2, -128)
-        self.mask = pygame.mask.from_surface(self.image)
-    def triangle(self):
-        self.rect.move_ip(125,125)  # permet de centrer l'etoile dans le triangle
-        self.mask = pygame.mask.from_surface(self.image)
-    def parallelogramme(self):
-        self.rect.move_ip(125,125)  # permet de centrer l'etoile dans le triangle
-        self.mask = pygame.mask.from_surface(self.image)
+        self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
     def collide(self, player):
-        pass
+        if player.rect.y < self.rect.y + 45 and self.bool==False:  # collision temporaire
+            self.image.fill((0, 0, 0, 0))
+            player.score += 1
+            self.bool = True
 
 
 class Rectangle(pygame.sprite.Sprite):
@@ -645,10 +600,8 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.image.fill((0, 0, 0, 0))
         self.height = height
         self.scroll = 0
-        self.star = None
         self.mask = pygame.mask.from_surface(self.image)
         self.all_rect = pygame.sprite.OrderedUpdates()
-        self.all_stars = pygame.sprite.OrderedUpdates()
 
         self.initialisation()
 
@@ -666,17 +619,9 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.all_rect.add(rect_2)
         self.all_rect.add(rect_1)
 
-        if(self.height == -150):
-            print("ajout star ligne")
-            self.star = Star()
-            self.star.ligne()
-            self.all_stars.add(self.star)
-            # self.all_rect.add(self.star)
-
         self.mask = pygame.mask.from_surface(self.image)
 
         self.all_rect.draw(self.image)
-        self.all_stars.draw(self.image)
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def update(self):
@@ -694,11 +639,7 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         if liste_rect[0].rect.x + 5 > WIDTH:
             self.all_rect.remove(liste_rect[0])
 
-        self.all_stars.update()
-
         self.all_rect.draw(self.image)
-        self.all_stars.draw(self.image)
-        # self.image.fill((0, 0, 0))
         self.rect.center = (640 / 2, self.height + self.scroll)
 
     def collide(self, player):
@@ -723,12 +664,22 @@ def obstacles(player, all_obstacles, all_switch):
         # star.rect.move_ip(0, -50)
         # all_obstacles.add(star)
         # all_obstacles.add(Ligne(-70))7
-        
+        """
         all_obstacles.add(Circle(-150,15,120,False))
         all_obstacles.add(Circle(-150, 15, 140, True))
         all_obstacles.add(Circle(-150, 15, 100, True))
+        """
+
+        #all_obstacles.add(Triangle(-150))
+        #all_obstacles.add(Star(-150))
         
-        # all_obstacles.add(Square(-150))
+        all_obstacles.add(Circle(-150, 15, 100, True))
+        all_obstacles.add(Star(-150))
+        all_obstacles.add(Circle(-350, 15, 100, False))
+        all_obstacles.add(Star(-350))
+        all_obstacles.add(Circle(-550, 15, 100, True))
+        all_obstacles.add(Star(-550))
+
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
             # all_obstacles.add(Switch(-50))
@@ -739,26 +690,34 @@ def obstacles(player, all_obstacles, all_switch):
                 ran_circle = random.randint(1, 3)
                 if ran_circle == 1:
                     all_obstacles.add(Circle(-150, 15, 120, True))
+                    all_obstacles.add(Star(-150))
                 elif ran_circle == 2:
                     all_obstacles.add(Circle(-150, 15, 120, True))
                     all_obstacles.add(Circle(-150, 10, 100, False))
+                    all_obstacles.add(Star(-150))
                 elif ran_circle == 3:
                     all_obstacles.add(Circle(-150, 15, 120, True))
                     all_obstacles.add(Circle(-150, 15, 115, False))
                     all_obstacles.add(Circle(-150, 15, 110, True))
+                    all_obstacles.add(Star(-150))
 
             elif ran == 2:
                 all_obstacles.add(Ligne(-150))
+                all_obstacles.add(Ligne(-250))
+                all_obstacles.add(Star(-400))
             elif ran == 3:
                 all_obstacles.add(Parallelogramme(-150,90,90,90,90))
+                all_obstacles.add(Star(-150))
             elif ran == 4:
                 all_obstacles.add(Parallelogramme(-150,90,70,90,90))
+                all_obstacles.add(Star(-150))
             elif ran ==5 :
                 all_obstacles.add(Parallelogramme(-150,90,90,60,120))
+                all_obstacles.add(Star(-150))
             elif ran==6:
                 all_obstacles.add(Triangle(-150))
                 all_obstacles.add(Circle(-150, 15, 60, True))
-
+                all_obstacles.add(Star(-150))
 
 def collisions(player, all_obstacles, all_switch):
 
