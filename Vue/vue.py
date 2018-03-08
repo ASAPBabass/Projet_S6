@@ -112,13 +112,13 @@ class View():  # classe s'occupant de la vue
         score = font.render(
             "SCORE : " + str(self.player.score), 10, (254, 254, 254))
 
-        mon_fichier = open("fichier.txt","r") 
-        score_max=mon_fichier.read()
+        mon_fichier = open("fichier.txt", "r")
+        score_max = mon_fichier.read()
         mon_fichier.close()
-        self.player.bestScore=int(score_max)
+        self.player.bestScore = int(score_max)
         if(self.player.score > self.player.bestScore):
-            self.player.bestScore=self.player.score
-            mon_fichier = open("fichier.txt", "w") 
+            self.player.bestScore = self.player.score
+            mon_fichier = open("fichier.txt", "w")
             mon_fichier.write(str(self.player.bestScore))
             mon_fichier.close()
         else:
@@ -126,7 +126,7 @@ class View():  # classe s'occupant de la vue
 
         best = font.render("MEILLEUR SCORE : " + str(
             self.player.bestScore), 10, (254, 254, 254))
-        self.player.score=0
+        self.player.score = 0
         titre = font.render(
             "POUR RECOMMENCER APPUYER SUR ENTRER", 10, (254, 254, 254))
         self.screen.blit(score, (50, 200))

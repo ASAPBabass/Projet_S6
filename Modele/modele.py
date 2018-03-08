@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):  # class du joueur
         pygame.gfxdraw.filled_circle(self.image, 9, 9, 9, self.color)
 
         if self.rect.y < 2000:
-            self.rect.y += 7.5
+            self.rect.y += 3
 
     def switch(self):
         self.color = random.choice(colors)  # couleur aleatoire
@@ -355,7 +355,7 @@ class Circle(pygame.sprite.Sprite):
 class Triangle(pygame.sprite.Sprite):
 
     def __init__(self, height):
-    
+
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([300, 300]).convert()
         self.rect = self.image.get_rect()
@@ -372,27 +372,26 @@ class Triangle(pygame.sprite.Sprite):
         self.C = Point(0, 0)
         self.rayon = 100
 
-        self.angleRadian = pi * (self.angle+60) / 180
+        self.angleRadian = pi * (self.angle + 60) / 180
 
         self.angleRadian2 = pi * (self.angle + 60) / 180
 
         self.angleRadian3 = pi * (self.angle + 60) / 180
 
         self.arete_1 = Arete(
-                self.rect, self.A, self.B, YELLOW, 20)
+            self.rect, self.A, self.B, YELLOW, 20)
         self.arete_2 = Arete(
-                self.rect, self.B, self.C, BLUE, 20)
+            self.rect, self.B, self.C, BLUE, 20)
         self.arete_3 = Arete(
-                self.rect, self.C, self.A, ROSE, 20)
+            self.rect, self.C, self.A, ROSE, 20)
 
         self.all_aretes.add(self.arete_1)
         self.all_aretes.add(self.arete_2)
         self.all_aretes.add(self.arete_3)
 
-        #self.all_aretes.add(self.star)
+        # self.all_aretes.add(self.star)
 
         self.rect.center = (640 / 2, self.height)
-
 
     def update(self):
 
@@ -442,19 +441,20 @@ class Triangle(pygame.sprite.Sprite):
         else:
             pass
 
+
 class Parallelogramme(pygame.sprite.Sprite):
 
-    def __init__(self, height,r1,r2,angle1,angle2):
+    def __init__(self, height, r1, r2, angle1, angle2):
         try:
             pygame.sprite.Sprite.__init__(self)
             self.image = pygame.Surface([300, 300]).convert()
             self.rect = self.image.get_rect()
             self.image.fill((0, 0, 0, 0))
             self.height = height
-            
-            self.angle=0
-            self.angle1 = angle1# vitesse de rotation
-            self.angle2=angle2
+
+            self.angle = 0
+            self.angle1 = angle1  # vitesse de rotation
+            self.angle2 = angle2
             self.scroll = 0  # permet le scrolling
 
             self.all_aretes = pygame.sprite.Group()
@@ -465,15 +465,17 @@ class Parallelogramme(pygame.sprite.Sprite):
             self.C = Point(0, 0)
             self.D = Point(0, 0)
             self.rayon1 = r1
-            self.rayon2=r2
+            self.rayon2 = r2
 
             self.angleRadian = pi * self.angle / 180
 
             self.angleRadian2 = pi * (self.angle + self.angle1) / 180
 
-            self.angleRadian3 = pi * (self.angle + self.angle1+self.angle2) / 180
+            self.angleRadian3 = pi * \
+                (self.angle + self.angle1 + self.angle2) / 180
 
-            self.angleRadian4 = pi * (self.angle + 2*self.angle1+self.angle2) / 180
+            self.angleRadian4 = pi * \
+                (self.angle + 2 * self.angle1 + self.angle2) / 180
 
             self.arete_1 = Arete(
                 self.rect, self.A, self.B, YELLOW, 20)
@@ -493,7 +495,6 @@ class Parallelogramme(pygame.sprite.Sprite):
 
         except Exception:
             print("erreur constructeur")
-    
 
     def update(self):
 
@@ -503,9 +504,10 @@ class Parallelogramme(pygame.sprite.Sprite):
 
         self.angleRadian2 = pi * (self.angle + self.angle1) / 180
 
-        self.angleRadian3 = pi * (self.angle + self.angle1+self.angle2) / 180
+        self.angleRadian3 = pi * (self.angle + self.angle1 + self.angle2) / 180
 
-        self.angleRadian4 = pi * (self.angle + 2*self.angle1+self.angle2) / 180
+        self.angleRadian4 = pi * \
+            (self.angle + 2 * self.angle1 + self.angle2) / 180
         self.A.x = self.O.x + self.rayon1 * \
             cos(self.angleRadian) - self.rayon1 * sin(self.angleRadian)
         self.A.y = self.O.y + self.rayon1 * \
@@ -552,24 +554,26 @@ class Parallelogramme(pygame.sprite.Sprite):
         else:
             pass
 
+
 class Star(pygame.sprite.Sprite):
 
-    def __init__(self,pos_y):
+    def __init__(self, pos_y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
             "Vue/Image/star3.png").convert_alpha()
         self.rect = self.image.get_rect()  # correspond a la surface du cercle
 
         self.mask = None
-        self.pos_y=pos_y
+        self.pos_y = pos_y
         self.scroll = 0
-        self.rect.center = (WIDTH / 2, self.pos_y+self.scroll)
-        self.bool=False
-    
+        self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
+        self.bool = False
+
     def update(self):
         self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
+
     def collide(self, player):
-        if player.rect.y < self.rect.y + 45 and self.bool==False:  # collision temporaire
+        if player.rect.y < self.rect.y + 45 and self.bool == False:  # collision temporaire
             self.image.fill((0, 0, 0, 0))
             player.score += 1
             self.bool = True
@@ -670,9 +674,9 @@ def obstacles(player, all_obstacles, all_switch):
         all_obstacles.add(Circle(-150, 15, 100, True))
         """
 
-        #all_obstacles.add(Triangle(-150))
-        #all_obstacles.add(Star(-150))
-        
+        # all_obstacles.add(Triangle(-150))
+        # all_obstacles.add(Star(-150))
+
         all_obstacles.add(Circle(-150, 15, 100, True))
         all_obstacles.add(Star(-150))
         all_obstacles.add(Circle(-350, 15, 100, False))
@@ -706,18 +710,19 @@ def obstacles(player, all_obstacles, all_switch):
                 all_obstacles.add(Ligne(-250))
                 all_obstacles.add(Star(-400))
             elif ran == 3:
-                all_obstacles.add(Parallelogramme(-150,90,90,90,90))
+                all_obstacles.add(Parallelogramme(-150, 90, 90, 90, 90))
                 all_obstacles.add(Star(-150))
             elif ran == 4:
-                all_obstacles.add(Parallelogramme(-150,90,70,90,90))
+                all_obstacles.add(Parallelogramme(-150, 90, 70, 90, 90))
                 all_obstacles.add(Star(-150))
-            elif ran ==5 :
-                all_obstacles.add(Parallelogramme(-150,90,90,60,120))
+            elif ran == 5:
+                all_obstacles.add(Parallelogramme(-150, 90, 90, 60, 120))
                 all_obstacles.add(Star(-150))
-            elif ran==6:
+            elif ran == 6:
                 all_obstacles.add(Triangle(-150))
                 all_obstacles.add(Circle(-150, 15, 60, True))
                 all_obstacles.add(Star(-150))
+
 
 def collisions(player, all_obstacles, all_switch):
 

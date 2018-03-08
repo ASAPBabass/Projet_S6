@@ -109,8 +109,8 @@ def main():
                     else:
                         if event.type == KEYDOWN:
                             if event.key == K_SPACE:
-                                for i in range(8):
-                                    player.jump(15)
+                                for i in range(7):
+                                    player.jump(9)
                                     # view.all_sprites.update()
                                     if collisions(player, view.all_obstacles, view.all_switch):
                                         end = True
