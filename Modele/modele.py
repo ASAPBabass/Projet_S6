@@ -268,16 +268,18 @@ class Cross(pygame.sprite.Sprite):  # TODO
 
 class Circle(pygame.sprite.Sprite):
 
-    def __init__(self, height, width, rayon, rotation):
+    def __init__(self, height, width, rayon, sens_rotation,pos_x,vitesse_rotation):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([rayon * 2, rayon * 2]).convert_alpha()
         self.rect = self.image.get_rect()
         self.height = height
         self.width = width
         self.rayon = rayon
-        self.rotation = rotation
+        self.pos_x=pos_x
+        self.sens_rotation = sens_rotation
+        self.v_r=vitesse_rotation
 
-        self.i = 0  # vitesse de rotation
+        self.i = 0  # vit
         self.scroll = 0  # permet le scrolling
 
         self.all_arcs = pygame.sprite.Group()
@@ -296,17 +298,17 @@ class Circle(pygame.sprite.Sprite):
         self.all_arcs.add(self.arc_3)
         self.all_arcs.add(self.arc_4)
 
-        self.rect.center = (640 / 2, self.height)
+        self.rect.center = (self.pos_x, self.height)
 
         self.image.fill((0, 0, 0, 0))
 
     def update(self):
         self.image.fill((0, 0, 0, 0))
 
-        if self.rotation == True:
-            self.i += 0.02  # vitesse de rotation
+        if self.sens_rotation == True:
+            self.i += self.v_r  # vitesse de rotation
         else:
-            self.i -= 0.03
+            self.i -= self.v_r
 
         self.arc_1.update(0 + self.i, pi / 2 + self.i, self.width)
         self.arc_1.update(0 + self.i, pi / 2 + self.i, self.width)
@@ -331,7 +333,7 @@ class Circle(pygame.sprite.Sprite):
         """
         # self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
         # print(str(self.rect.y) + "  " + str(self.scroll))
-        self.rect.center = (640 / 2, self.height + self.scroll)
+        self.rect.center = (self.pos_x, self.height + self.scroll)
 
     def collide(self, player):
         color = player.color
@@ -557,7 +559,7 @@ class Parallelogramme(pygame.sprite.Sprite):
 
 class Star(pygame.sprite.Sprite):
 
-    def __init__(self, pos_y):
+    def __init__(self, pos_y,pos_x):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(
             "Vue/Image/star3.png").convert_alpha()
@@ -565,12 +567,13 @@ class Star(pygame.sprite.Sprite):
 
         self.mask = None
         self.pos_y = pos_y
+        self.pos_x = pos_x
         self.scroll = 0
-        self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
+        self.rect.center = (self.pos_x, self.pos_y + self.scroll)
         self.bool = False
 
     def update(self):
-        self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
+        self.rect.center =(self.pos_x, self.pos_y + self.scroll)
 
     def collide(self, player):
         if player.rect.y < self.rect.y + 45 and self.bool == False:  # collision temporaire
@@ -677,12 +680,11 @@ def obstacles(player, all_obstacles, all_switch):
         # all_obstacles.add(Triangle(-150))
         # all_obstacles.add(Star(-150))
 
-        all_obstacles.add(Circle(-150, 15, 100, True))
-        all_obstacles.add(Star(-150))
-        all_obstacles.add(Circle(-350, 15, 100, False))
-        all_obstacles.add(Star(-350))
-        all_obstacles.add(Circle(-550, 15, 100, True))
-        all_obstacles.add(Star(-550))
+        all_obstacles.add(Circle(-150, 15, 100, True,220,0.04))
+        all_obstacles.add(Circle(-150, 15, 100, False,420,0.03))
+        all_obstacles.add(Star(-250,320))
+        #all_obstacles.add(Circle(-550, 15, 100, True,320))
+        #all_obstacles.add(Star(-550))
 
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
@@ -693,36 +695,35 @@ def obstacles(player, all_obstacles, all_switch):
             if ran == 1:
                 ran_circle = random.randint(1, 3)
                 if ran_circle == 1:
-                    all_obstacles.add(Circle(-150, 15, 120, True))
-                    all_obstacles.add(Star(-150))
+                    all_obstacles.add(Circle(-150, 15, 120, True,320,0.3))
+                    all_obstacles.add(Star(-150,320))
                 elif ran_circle == 2:
-                    all_obstacles.add(Circle(-150, 15, 120, True))
-                    all_obstacles.add(Circle(-150, 10, 100, False))
-                    all_obstacles.add(Star(-150))
+                    all_obstacles.add(Circle(-150, 15, 140, True,320,0.3))
+                    all_obstacles.add(Circle(-150, 10, 120, False,320,0.5))
+                    all_obstacles.add(Star(-150,320))
                 elif ran_circle == 3:
-                    all_obstacles.add(Circle(-150, 15, 120, True))
-                    all_obstacles.add(Circle(-150, 15, 115, False))
-                    all_obstacles.add(Circle(-150, 15, 110, True))
-                    all_obstacles.add(Star(-150))
+                    all_obstacles.add(Circle(-150, 15, 140, True,320,0.5))
+                    all_obstacles.add(Circle(-150, 15, 120, False,320,0.4))
+                    all_obstacles.add(Circle(-150, 15, 100, True,320,0.5))
+                    all_obstacles.add(Star(-150,320))
 
             elif ran == 2:
                 all_obstacles.add(Ligne(-150))
                 all_obstacles.add(Ligne(-250))
-                all_obstacles.add(Star(-400))
+                all_obstacles.add(Star(-400,320))
             elif ran == 3:
                 all_obstacles.add(Parallelogramme(-150, 90, 90, 90, 90))
-                all_obstacles.add(Star(-150))
+                all_obstacles.add(Star(-150,320))
             elif ran == 4:
                 all_obstacles.add(Parallelogramme(-150, 90, 70, 90, 90))
-                all_obstacles.add(Star(-150))
+                all_obstacles.add(Star(-150,320))
             elif ran == 5:
                 all_obstacles.add(Parallelogramme(-150, 90, 90, 60, 120))
-                all_obstacles.add(Star(-150))
+                all_obstacles.add(Star(-150,320))
             elif ran == 6:
                 all_obstacles.add(Triangle(-150))
                 all_obstacles.add(Circle(-150, 15, 60, True))
-                all_obstacles.add(Star(-150))
-
+                all_obstacles.add(Star(-150,320))
 
 def collisions(player, all_obstacles, all_switch):
 
