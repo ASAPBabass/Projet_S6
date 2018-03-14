@@ -24,7 +24,7 @@ def menu():
         try:
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    return True
+                    end = True
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
@@ -83,15 +83,13 @@ def main():
         try:
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    end_menu = True
-                    end = True
+                    view.quit()
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
                             end_menu = True
                         if event.key == K_ESCAPE:
-                            end_menu = True
-                            end = True
+                            view.quit()
 
         except Exception:
             print("Erreur Menu !")

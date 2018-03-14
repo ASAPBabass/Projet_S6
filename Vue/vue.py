@@ -6,6 +6,10 @@ from math import pi
 import pygame as py
 import pygame.gfxdraw
 from pygame.locals import *
+"""
+WIDTH = 1920
+HEIGHT = 1080
+"""
 
 WIDTH = 640
 HEIGHT = 480
@@ -33,6 +37,7 @@ class View():  # classe s'occupant de la vue
         self.all_sprites = pygame.sprite.Group()
         self.all_obstacles = pygame.sprite.OrderedUpdates()
         self.all_switch = pygame.sprite.OrderedUpdates()
+        self.rect = None
 
         self.start_pos = 0  # position de depart
 
@@ -46,9 +51,10 @@ class View():  # classe s'occupant de la vue
         pygame.font.init()  # initialisation de la police d'ecriture
         py.display.set_caption("SwitchColor")
         # pygame.key.set_repeat(400, 30)
-        self.screen = py.display.set_mode((WIDTH, HEIGHT))
+        self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
         self.screen.fill((41, 41, 41))  # fond gris
         self.clock = pygame.time.Clock()
+        self.rect = self.screen.get_rect()
 
         self.player.initialization()  # on initialise le player
         self.all_sprites.add(self.player)  # puis on l'ajoute aux sprites
@@ -99,11 +105,15 @@ class View():  # classe s'occupant de la vue
         self.screen.fill((41, 41, 41))  # fond gris
         background_menu = pygame.image.load(
             "Vue/Image/titre.png").convert()
-        self.screen.blit(background_menu, (50, 50))
-        font = pygame.font.Font(None, 50)
+        # self.screen.blit(background_menu, (50, 50))
+        self.screen.blit(
+            background_menu, (WIDTH / 2 - WIDTH / 6, HEIGHT / 2 - HEIGHT / 5))
+        font = pygame.font.Font(None, (WIDTH - HEIGHT) / 10)
         titre = font.render(
             "APPUYEZ SUR ESPACE", 10, (254, 254, 254))
-        self.screen.blit(titre, (130, 300))
+        # self.screen.blit(titre, (130, 300))
+        self.screen.blit(titre, (WIDTH / 2 - WIDTH / 8, HEIGHT / 2))
+
         pygame.display.flip()
 
     def retry(self, player):
@@ -142,4 +152,5 @@ class View():  # classe s'occupant de la vue
         pygame.display.flip()
 
     def quit(self):
-        py.display.quit()
+        pygame.display.quit()
+        quit()
