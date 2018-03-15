@@ -105,16 +105,26 @@ class View():  # classe s'occupant de la vue
         self.screen.fill((41, 41, 41))  # fond gris
         background_menu = pygame.image.load(
             "Vue/Image/titre.png").convert()
+        self.screen.blit(background_menu, (50, 50))
+        font = pygame.font.Font(None, 50)
+        titre = font.render(
+            "APPUYEZ SUR ESPACE", 10, (254, 254, 254))
+        self.screen.blit(titre, (130, 300))
+        pygame.display.flip()
+        """
+        self.screen.fill((41, 41, 41))  # fond gris
+        background_menu = pygame.image.load(
+            "Vue/Image/titre.png").convert()
         # self.screen.blit(background_menu, (50, 50))
-        self.screen.blit(
-            background_menu, (WIDTH / 2 - WIDTH / 6, HEIGHT / 2 - HEIGHT / 5))
+        #self.screen.blit(
+        #    background_menu, (WIDTH / 2 - WIDTH / 6, HEIGHT / 2 - HEIGHT / 5))
         font = pygame.font.Font(None, (WIDTH - HEIGHT) / 10)
         titre = font.render(
             "APPUYEZ SUR ESPACE", 10, (254, 254, 254))
         # self.screen.blit(titre, (130, 300))
         self.screen.blit(titre, (WIDTH / 2 - WIDTH / 8, HEIGHT / 2))
-
         pygame.display.flip()
+        """
 
     def retry(self, player):
         self.screen.fill((41, 41, 41))  # fond gris

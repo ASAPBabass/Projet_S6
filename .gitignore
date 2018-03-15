@@ -1,3 +1,11 @@
 *.json
 /.vscode/settings.json
 .vscode/settings.json
+Vue/vue.pyo
+Vue/__init__.pyo
+Modele/modele.pyo
+Modele/__init__.pyo
+Controleur/controleur.pyo
+Controleur/__init__.pyo
+controleur.pyo
+Circle.pyo

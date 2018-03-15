@@ -706,10 +706,19 @@ def obstacles(player, all_obstacles, all_switch):
     if nb == 0:
         print("Creation du 1er obstacle")
         # all_switch.add(Switch(150))
+        """
         all_obstacles.add(Switch(-350))
         all_obstacles.add(Star(-250))
         all_obstacles.add(Cross(WIDTH / 2 - 78, -150, 15, 50, 1.1))
         all_obstacles.add(Cross(WIDTH / 2 + 78, -150, 15, 50, -1.3))
+        """
+        all_obstacles.add(Switch(-370))
+        all_obstacles.add(
+            Circle(-150, 15, 100, False, 220, -0.04, 1))
+        all_obstacles.add(
+            Circle(-150, 8, 60, True, 380, -0.04, 0))
+
+        all_obstacles.add(Star(-250))
 
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
@@ -767,7 +776,7 @@ def obstacles(player, all_obstacles, all_switch):
 
             elif ran == 6:  # triangle
                 all_obstacles.add(Switch(-250))
-                all_obstacles.add(Triangle(-150, 90, 1.1))
+                # all_obstacles.add(Triangle(-150, 90, 1.1))
                 # all_obstacles.add(Circle(-150, 15,75, False,320,0.07,True))
                 all_obstacles.add(Star(-150))
 
@@ -808,6 +817,24 @@ def obstacles(player, all_obstacles, all_switch):
                 all_obstacles.add(Cross(WIDTH / 2 - 20, -150, 15, 50))
                 all_obstacles.add(Cross(WIDTH / 2 + 20, -150, 15, 50))
                 all_obstacles.add(Star(-10))
+            elif ran == 12:  # double cercle (1 petit et 1 grand)
+                # deux cercles cote à cote
+                random_circle = random.randint(1, 2)
+                if random_circle == 1:
+                    all_obstacles.add(Switch(-370))
+                    all_obstacles.add(
+                        Circle(-150, 8, 60, True, 260, 0.04, 0))
+                    all_obstacles.add(
+                        Circle(-150, 15, 100, False, 420, 0.04, 1))
+                    all_obstacles.add(Star(-250))
+                else:
+                    all_obstacles.add(Switch(-370))
+                    all_obstacles.add(
+                        Circle(-150, 15, 100, False, 220, -0.04, 1))
+                    all_obstacles.add(
+                        Circle(-150, 8, 60, True, 380, -0.04, 0))
+
+                    all_obstacles.add(Star(-250))
 
 
 def collisions(player, all_obstacles, all_switch):
