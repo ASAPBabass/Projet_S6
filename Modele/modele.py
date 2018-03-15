@@ -846,3 +846,9 @@ def collisions(player, all_obstacles, all_switch):
                 '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/dead.wav')
             sound_jump.play()
             return True
+
+
+def menu(all_sprites):
+    all_sprites.add(Circle(117, 14, 39, False, 255, 0.05, 2))
+    # all_obstacles.add(Star(-350))
+    all_sprites.add(Circle(117, 14, 39, True, 385, -0.05, 2))

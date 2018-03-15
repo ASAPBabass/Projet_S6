@@ -59,12 +59,12 @@ class View():  # classe s'occupant de la vue
         self.clock = pygame.time.Clock()
         self.rect = self.screen.get_rect()
         # sounds
-        pygame.mixer.music.load(
-            '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
-        pygame.mixer.music.play(-1)
+        start = pygame.mixer.Sound(
+            '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/colorswitch.wav')
+        start.play()
 
         self.player.initialization()  # on initialise le player
-        self.all_sprites.add(self.player)  # puis on l'ajoute aux sprites
+        # self.all_sprites.add(self.player)  # puis on l'ajoute aux sprites
 
     def draw(self):  # affichage du jeu
         self.screen.fill((41, 41, 41))  # fond gris
@@ -82,6 +82,14 @@ class View():  # classe s'occupant de la vue
         self.all_obstacles.update()
         self.all_switch.update()
         self.all_sprites.update()
+
+    def update_menu(self):
+        self.all_sprites.update()
+
+    def draw_menu(self):
+        self.all_sprites.draw(self.screen)
+        pygame.display.flip()  # met à jour la fenetre
+        self.clock.tick(40)  # on definit la vitesse d'affichage
 
     def scroll(self):  # scrolling de l'ecran et des sprites
         scroll = 0

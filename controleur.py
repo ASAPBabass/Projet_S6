@@ -13,7 +13,7 @@ from pygame.locals import *
 from Modele.modele import *
 from Vue.vue import *
 
-
+"""
 def menu():
 
     end = False
@@ -36,6 +36,7 @@ def menu():
             print("Erreur Menu !")
 
         return True
+"""
 
 
 def retry(view):
@@ -77,9 +78,9 @@ def main():
     son = None
 
     # Evenements
+    menu(view.all_sprites)
+    view.menu()
     while not end_menu:
-
-        view.menu()
 
         try:
             for event in pygame.event.get():
@@ -91,9 +92,15 @@ def main():
                             # theme = pygame.mixer.Sound('colorswitch.wav')
                             # theme.set_volume(1.0)
                             # son = theme.play(-1)
+                            pygame.mixer.music.load(
+                                '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
+                            pygame.mixer.music.play(-1)
+                            # view.all_sprites
                             end_menu = True
                         if event.key == K_ESCAPE:
                             view.quit()
+            view.update_menu()
+            view.draw_menu()
 
         except Exception:
             print("Erreur Menu !")
@@ -102,6 +109,8 @@ def main():
     pause = False
     # pygame.mixer.music.play(loops=-1)
     while not end2:
+
+        view.all_sprites.add(player)
         # Evenements
         while not end:
 
