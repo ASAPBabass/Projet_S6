@@ -74,6 +74,7 @@ def main():
 
     end_menu = False
     end = False  # variable d'arret
+    son = None
 
     # Evenements
     while not end_menu:
@@ -87,6 +88,9 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
+                            # theme = pygame.mixer.Sound('colorswitch.wav')
+                            # theme.set_volume(1.0)
+                            # son = theme.play(-1)
                             end_menu = True
                         if event.key == K_ESCAPE:
                             view.quit()
@@ -96,17 +100,28 @@ def main():
 
     end2 = False
     pause = False
+    # pygame.mixer.music.play(loops=-1)
     while not end2:
         # Evenements
         while not end:
 
             try:
+
                 for event in pygame.event.get():
                     if event.type == QUIT:
                         quit()
                     else:
+
+                        # while son.get_busy():
+                        #    pygame.time.delay(100)
+
                         if event.type == KEYDOWN:
                             if event.key == K_SPACE:
+                                sound_jump = pygame.mixer.Sound(
+                                    '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/jump.wav')
+                                sound_jump.play()
+                                # mixer.music.load('colorswitch.wav')
+
                                 for i in range(7):
                                     player.jump(9)
                                     # view.all_sprites.update()

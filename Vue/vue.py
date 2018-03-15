@@ -38,6 +38,7 @@ class View():  # classe s'occupant de la vue
         self.all_obstacles = pygame.sprite.OrderedUpdates()
         self.all_switch = pygame.sprite.OrderedUpdates()
         self.rect = None
+        self.son = None
 
         self.start_pos = 0  # position de depart
 
@@ -49,12 +50,18 @@ class View():  # classe s'occupant de la vue
     def initialization(self):
         py.display.init()  # initialisation de la fenetre
         pygame.font.init()  # initialisation de la police d'ecriture
+        pygame.mixer.pre_init(22050, -16, 2, 1024)
+        pygame.mixer.init()
         py.display.set_caption("SwitchColor")
         # pygame.key.set_repeat(400, 30)
         self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
         self.screen.fill((41, 41, 41))  # fond gris
         self.clock = pygame.time.Clock()
         self.rect = self.screen.get_rect()
+        # sounds
+        pygame.mixer.music.load(
+            '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
+        pygame.mixer.music.play(-1)
 
         self.player.initialization()  # on initialise le player
         self.all_sprites.add(self.player)  # puis on l'ajoute aux sprites
@@ -71,6 +78,7 @@ class View():  # classe s'occupant de la vue
         self.clock.tick(40)  # on definit la vitesse d'affichage
 
     def update(self):  # on met a jour les sprites
+
         self.all_obstacles.update()
         self.all_switch.update()
         self.all_sprites.update()
@@ -162,5 +170,7 @@ class View():  # classe s'occupant de la vue
         pygame.display.flip()
 
     def quit(self):
+        pygame.mixer.quit()
+        pygame.font.quit()
         pygame.display.quit()
         quit()

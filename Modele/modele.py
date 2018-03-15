@@ -833,7 +833,6 @@ def obstacles(player, all_obstacles, all_switch):
                         Circle(-150, 15, 100, False, 220, -0.04, 1))
                     all_obstacles.add(
                         Circle(-150, 8, 60, True, 380, -0.04, 0))
-
                     all_obstacles.add(Star(-250))
 
 
@@ -843,4 +842,7 @@ def collisions(player, all_obstacles, all_switch):
         switch.collide(player)
     for obstacle in all_obstacles:
         if obstacle.collide(player):
+            sound_jump = pygame.mixer.Sound(
+                '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/dead.wav')
+            sound_jump.play()
             return True
