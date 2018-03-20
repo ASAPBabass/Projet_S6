@@ -10,10 +10,6 @@ import pygame.gfxdraw
 import pygame.mask
 from pygame.locals import *
 
-"""
-WIDTH = 1920
-HEIGHT = 1080
-"""
 
 WIDTH = 640
 HEIGHT = 480
@@ -88,7 +84,6 @@ class Switch(pygame.sprite.Sprite):  # class du joueur
 
     def update(self):
         self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
-        # self.rect.y = self.pos.y + self.scroll
         self.mask = pygame.mask.from_surface(self.image)
 
     def collide(self, player):
@@ -121,8 +116,7 @@ class Arc(pygame.sprite.Sprite):
             self.image, self.color, rect_bis, start_angle, stop_angle, width)
 
         # anti-aliasing
-        # pygame.gfxdraw.aacircle(
-        #   self.image, arc_2.x, arc_2.y, 199, GREY)
+        # pygame.gfxdraw.aacircle(self.image, arc_2.x, arc_2.y, 199, GREY)
 
         self.rect.center = (self.rayon, self.rayon)
         self.mask = pygame.mask.from_surface(self.image)
@@ -344,15 +338,11 @@ class Circle(pygame.sprite.Sprite):
             self.image, self.rayon, self.rayon, self.rayon + 2, GREY)
         pygame.gfxdraw.aacircle(
             self.image, self.rayon, self.rayon, self.rayon + 1, GREY)
-        # pygame.gfxdraw.aacircle(self.image, self.rayon, self.rayon,
-        # self.rayon, GREY)
         pygame.gfxdraw.aacircle(
             self.image, self.rayon, self.rayon, self.rayon - self.width, GREY)
         pygame.gfxdraw.aacircle(
             self.image, self.rayon, self.rayon, self.rayon - self.width - 1, GREY)
 
-        # self.rect.move_ip(640 / 2, self.rect.y + self.scroll)
-        # print(str(self.rect.y) + "  " + str(self.scroll))
         self.rect.center = (self.pos_x, self.height + self.scroll)
 
     def collide(self, player):
@@ -371,7 +361,6 @@ class Circle(pygame.sprite.Sprite):
             return True
         else:
             pass
-            # self.star.collide(player)
 
 
 class Triangle(pygame.sprite.Sprite):
@@ -620,7 +609,7 @@ class Rectangle(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
 
-class Ligne(pygame.sprite.Sprite):  # TODO
+class Ligne(pygame.sprite.Sprite):
 
     def __init__(self, height, sens):
         pygame.sprite.Sprite.__init__(self)
@@ -630,12 +619,7 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         self.sens = sens
         self.height = height
         self.scroll = 0
-        self.mask = pygame.mask.from_surface(self.image)
         self.all_rect = pygame.sprite.OrderedUpdates()
-
-        self.initialisation()
-
-    def initialisation(self):
 
         rect_1 = Rectangle(self.rect, WIDTH / 4, 25, BLUE)
         rect_2 = Rectangle(self.rect, WIDTH / 4, 25, YELLOW)
@@ -644,6 +628,7 @@ class Ligne(pygame.sprite.Sprite):  # TODO
         rect_3.rect.x += WIDTH / 2
         rect_4 = Rectangle(self.rect, WIDTH / 4, 25, ROSE)
         rect_4.rect.x += WIDTH / 2 + WIDTH / 4
+
         if self.sens == True:
             self.all_rect.add(rect_4)
             self.all_rect.add(rect_3)
@@ -703,16 +688,11 @@ class Ligne(pygame.sprite.Sprite):  # TODO
 def obstacles(player, all_obstacles, all_switch):
     list_obstacles = all_obstacles.sprites()
     nb = len(list_obstacles)
+
     if nb == 0:
         print("Creation du 1er obstacle")
-        # all_switch.add(Switch(150))
-        """
-        all_obstacles.add(Switch(-350))
-        all_obstacles.add(Star(-250))
-        all_obstacles.add(Cross(WIDTH / 2 - 78, -150, 15, 50, 1.1))
-        all_obstacles.add(Cross(WIDTH / 2 + 78, -150, 15, 50, -1.3))
-        """
-        all_obstacles.add(Switch(-370))
+
+        all_switch.add(Switch(-370))
         all_obstacles.add(
             Circle(-150, 15, 100, False, 220, -0.04, 1))
         all_obstacles.add(
@@ -722,118 +702,128 @@ def obstacles(player, all_obstacles, all_switch):
 
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
-            # all_switch.add(Switch(85))
             ran = random.randint(1, 8)
             # choix aleatoire
             if ran == 1:
-
+                print("cercles")
                 ran_circle = random.randint(1, 3)
                 if ran_circle == 1:
-                    all_obstacles.add(Switch(-250))
+                    all_switch.add(Switch(-350))
                     all_obstacles.add(
                         Circle(-150, 15, 120, True, 320, 0.04, 0))
-                    all_obstacles.add(Star(-150))
+                    all_switch.add(Star(-150))
 
                 elif ran_circle == 2:
-                    all_obstacles.add(Switch(-300))
+                    all_switch.add(Switch(-350))
                     all_obstacles.add(
                         Circle(-150, 15, 120, True, 320, 0.04, 0))
                     all_obstacles.add(
                         Circle(-150, 15, 100, False, 320, 0.04, 1))
-                    all_obstacles.add(Star(-150))
+                    all_switch.add(Star(-150))
 
                 elif ran_circle == 3:
-                    all_obstacles.add(Switch(-300))
+                    all_switch.add(Switch(-350))
                     all_obstacles.add(
                         Circle(-150, 15, 140, True, 320, 0.05, 0))
                     all_obstacles.add(
                         Circle(-150, 15, 120, False, 320, 0.05, 1))
                     all_obstacles.add(
                         Circle(-150, 15, 100, True, 320, 0.05, 0))
-                    all_obstacles.add(Star(-150))
+                    all_switch.add.add(Star(-150))
 
             elif ran == 2:  # lignes
-                all_obstacles.add(Switch(-450))
+                print("ligne")
+                all_switch.add(Switch(-450))
                 all_obstacles.add(Ligne(-150, True))
                 all_obstacles.add(Ligne(-300, False))
-                all_obstacles.add(Star(-320))
+                all_switch.add.add(Star(-320))
 
             elif ran == 3:  # carre
-                all_obstacles.add(Switch(-200))
+                print("carre")
+                all_switch.add(Switch(-300))
                 all_obstacles.add(Parallelogramme(-150, 90, 90, 90, 90, 0.9))
-                all_obstacles.add(Star(-150))
+                all_switch.add(Star(-150))
 
-            elif ran == 4:
-                all_obstacles.add(Switch(-200))
+            elif ran == 4:  # rectangle
+                print("losange")
+                all_switch.add(Switch(-350))
                 all_obstacles.add(
-                    Parallelogramme(-150, 100, 80, 90, 90, 0.9, 0.9))
-                all_obstacles.add(Star(-150))
+                    Parallelogramme(-150, 100, 80, 90, 90, 1.2))
+                all_switch.add(Star(-150))
 
-            elif ran == 5:
-                all_obstacles.add(Switch(-200))
-                all_obstacles.add(Parallelogramme(-150, 90, 90, 60, 120, 0.9))
-                all_obstacles.add(Star(-150))
+            elif ran == 5:  # losange
+                print("rectangle")
+                all_switch.add(Switch(-350))
+                all_obstacles.add(Parallelogramme(-150, 90, 90, 60, 120, 1.2))
+                all_switch.add(Star(-150))
 
             elif ran == 6:  # triangle
-                all_obstacles.add(Switch(-250))
+                print("triangle")
+                all_switch.add(Switch(-250))
                 # all_obstacles.add(Triangle(-150, 90, 1.1))
                 # all_obstacles.add(Circle(-150, 15,75, False,320,0.07,True))
-                all_obstacles.add(Star(-150))
+                all_switch.add(Star(-150))
 
             elif ran == 7:  # double cercles
+                print("double cercle")
                 # deux cercles cote à cote
                 try:
-                    all_obstacles.add(Switch(-370))
+                    all_switch.add(Switch(-370))
                     all_obstacles.add(
                         Circle(-150, 15, 100, True, 220, 0.04, 0))
                     all_obstacles.add(
                         Circle(-150, 15, 100, False, 420, 0.04, 1))
-                    all_obstacles.add(Star(-250))
+                    all_switch.add(Star(-250))
 
                 except:
                     print("Erreur double cercles")
             elif ran == 8:
-                all_obstacles.add(Switch(-700))
+                print("triple cercle")
+                all_switch.add(Switch(-700))
                 all_obstacles.add(Circle(-150, 15, 100, True, 320, 0.05, 0))
                 all_obstacles.add(Star(-150))
                 all_obstacles.add(Circle(-350, 15, 100, False, 320, 0.05, 2))
                 all_obstacles.add(Star(-350))
                 all_obstacles.add(Circle(-550, 15, 100, True, 320, 0.05, 0))
-                all_obstacles.add(Star(-550))
+                all_switch.add(Star(-550))
 
             elif rand == 9:  # cercle + croix
-                all_obstacles.add(Switch(-350))
+                print("cercle + croix")
+                all_switch.add(Switch(-350))
                 all_obstacles.add(Circle(-150, 15, 120, True, 320, 0.05, 0))
                 all_obstacles.add(Cross(WIDTH / 2 + 25, -150, 10, 50, 0.9))
-                all_obstacles.add(Star(-300))
+                all_switch.add(Star(-300))
 
             elif rand == 10:  # croix
-                all_obstacles.add(Switch(-170))
+                print("croix")
+                all_switch.add(Switch(-170))
                 all_obstacles.add(Cross(WIDTH / 2 + 20, -150, 15, 100))
-                all_obstacles.add(Star(-10))
+                all_switch.add(Star(-10))
 
             elif rand == 11:  # croix
-                all_obstacles.add(Switch(-170))
+                print("double croix")
+                all_switch.add(Switch(-170))
                 all_obstacles.add(Cross(WIDTH / 2 - 20, -150, 15, 50))
                 all_obstacles.add(Cross(WIDTH / 2 + 20, -150, 15, 50))
-                all_obstacles.add(Star(-10))
+                all_switch.add(Star(-10))
             elif ran == 12:  # double cercle (1 petit et 1 grand)
+                print("cercle cote a cote")
                 # deux cercles cote à cote
                 random_circle = random.randint(1, 2)
                 if random_circle == 1:
-                    all_obstacles.add(Switch(-370))
+                    all_switch.add(Switch(-370))
                     all_obstacles.add(
                         Circle(-150, 8, 60, True, 260, 0.04, 0))
                     all_obstacles.add(
                         Circle(-150, 15, 100, False, 420, 0.04, 1))
-                    all_obstacles.add(Star(-250))
+                    all_switch.add(Star(-250))
                 else:
-                    all_obstacles.add(Switch(-370))
+                    all_switch.add(Switch(-370))
                     all_obstacles.add(
                         Circle(-150, 15, 100, False, 220, -0.04, 1))
                     all_obstacles.add(
                         Circle(-150, 8, 60, True, 380, -0.04, 0))
-                    all_obstacles.add(Star(-250))
+                    all_switch.add(Star(-250))
 
 
 def collisions(player, all_obstacles, all_switch):
@@ -850,5 +840,4 @@ def collisions(player, all_obstacles, all_switch):
 
 def menu(all_sprites):
     all_sprites.add(Circle(117, 14, 39, False, 255, 0.05, 2))
-    # all_obstacles.add(Star(-350))
     all_sprites.add(Circle(117, 14, 39, True, 385, -0.05, 2))

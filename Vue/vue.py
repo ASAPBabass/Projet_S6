@@ -6,10 +6,6 @@ from math import pi
 import pygame as py
 import pygame.gfxdraw
 from pygame.locals import *
-"""
-WIDTH = 1920
-HEIGHT = 1080
-"""
 
 WIDTH = 640
 HEIGHT = 480
@@ -64,12 +60,12 @@ class View():  # classe s'occupant de la vue
         start.play()
 
         self.player.initialization()  # on initialise le player
-        # self.all_sprites.add(self.player)  # puis on l'ajoute aux sprites
 
     def draw(self):  # affichage du jeu
         self.screen.fill((41, 41, 41))  # fond gris
-        self.all_switch.draw(self.screen)
+
         self.all_obstacles.draw(self.screen)
+        self.all_switch.draw(self.screen)
 
         self.all_sprites.draw(self.screen)  # affiche tous les sprites
 
@@ -77,7 +73,12 @@ class View():  # classe s'occupant de la vue
         pygame.display.flip()  # met à jour la fenetre
         self.clock.tick(40)  # on definit la vitesse d'affichage
 
-    def update(self):  # on met a jour les sprites
+    def update(self):  # on met a jour les
+
+        list = self.all_obstacles.sprites()
+        nb = len(list)
+        if nb > 6:
+            self.all_obstacles.remove(list[0])
 
         self.all_obstacles.update()
         self.all_switch.update()
@@ -144,7 +145,9 @@ class View():  # classe s'occupant de la vue
 
     def retry(self, player):
         self.screen.fill((41, 41, 41))  # fond gris
-        font = pygame.font.Font(None, 30)
+        font = pygame.font.Font(None, 28)
+        font_2 = pygame.font.Font(None, 23)
+        font_2.set_italic(True)
         score = font.render(
             "SCORE : " + str(self.player.score), 10, (254, 254, 254))
 
@@ -163,11 +166,11 @@ class View():  # classe s'occupant de la vue
         best = font.render("MEILLEUR SCORE : " + str(
             self.player.bestScore), 10, (254, 254, 254))
         self.player.score = 0
-        titre = font.render(
-            "POUR RECOMMENCER APPUYER SUR ENTRER", 10, (254, 254, 254))
-        self.screen.blit(score, (50, 200))
-        self.screen.blit(best, (50, 230))
-        self.screen.blit(titre, (50, 270))
+        titre = font_2.render(
+            "APPUYER SUR ENTRER POUR RECOMMENCER", 10, (253, 253, 253))
+        self.screen.blit(score, (WIDTH / 2 - 60, 200))
+        self.screen.blit(best, (WIDTH / 2 - 110, 230))
+        self.screen.blit(titre, (WIDTH / 2 - 180, 270))
         pygame.display.flip()
 
     def pause(self):

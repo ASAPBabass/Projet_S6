@@ -13,31 +13,6 @@ from pygame.locals import *
 from Modele.modele import *
 from Vue.vue import *
 
-"""
-def menu():
-
-    end = False
-
-    # Evenements
-    while not end:
-
-        try:
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    end = True
-                else:
-                    if event.type == KEYDOWN:
-                        if event.key == K_SPACE:
-                            return False
-                        if event.key == K_ESCAPE:
-                            end = True
-
-        except Exception:
-            print("Erreur Menu !")
-
-        return True
-"""
-
 
 def retry(view):
     end = False
@@ -63,23 +38,16 @@ def retry(view):
 
 def main():
     # initialisation
-
     player = Player()
 
     view = View(player)  # on ajoute le player dans la Vue
 
-    # cercle = Circle(player)
-
-    # view.all_obstacles.add(cercle)  # on ajoute le cercle dans la Vue
-    # view.all_sprites.add(cercle)
-
     end_menu = False
     end = False  # variable d'arret
-    son = None
 
-    # Evenements
     menu(view.all_sprites)
     view.menu()
+    # Evenements
     while not end_menu:
 
         try:
@@ -89,13 +57,11 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            # theme = pygame.mixer.Sound('colorswitch.wav')
-                            # theme.set_volume(1.0)
-                            # son = theme.play(-1)
+                            # musique de fond du jeu
                             pygame.mixer.music.load(
                                 '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
                             pygame.mixer.music.play(-1)
-                            # view.all_sprites
+                            view.all_sprites.empty()
                             end_menu = True
                         if event.key == K_ESCAPE:
                             view.quit()
@@ -107,7 +73,7 @@ def main():
 
     end2 = False
     pause = False
-    # pygame.mixer.music.play(loops=-1)
+
     while not end2:
 
         view.all_sprites.add(player)
@@ -121,29 +87,25 @@ def main():
                         quit()
                     else:
 
-                        # while son.get_busy():
-                        #    pygame.time.delay(100)
-
                         if event.type == KEYDOWN:
                             if event.key == K_SPACE:
                                 sound_jump = pygame.mixer.Sound(
                                     '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/jump.wav')
                                 sound_jump.play()
-                                # mixer.music.load('colorswitch.wav')
 
                                 for i in range(7):
                                     player.jump(9)
-                                    # view.all_sprites.update()
                                     if collisions(player, view.all_obstacles, view.all_switch):
                                         end = True
                                         break
                                     view.update()
-                                    # cercle.collisions(player)
                                     view.scroll()
                                     view.draw()
 
                                 player.jump(10)
 
+                                # permet d'ajouter une figure si le joueur
+                                # saute assez haut
                                 obstacles(
                                     player, view.all_obstacles, view.all_switch)
 
@@ -157,21 +119,13 @@ def main():
                 print("Erreur !")
 
             if not pause:
-                # print(cercle.rect.y)
                 # update
                 view.update()
 
                 # on verifie les collisions
                 end = collisions(player, view.all_obstacles, view.all_switch)
 
-                """
-                get_list = view.all_obstacles.sprites()
-                if(len(get_list) > 1):
-                    print(get_list[-1].rect.x, get_list[-1].rect.y)
-                """
                 view.scroll()
-                # print(player.rect.x, player.rect.y)
-                # obstacles(player, view.all_obstacles)
 
                 # draw/render
                 view.draw()  # met à jour l'ecran et affiche les sprites
