@@ -146,7 +146,8 @@ class View():  # classe s'occupant de la vue
     def retry(self, player):
         self.screen.fill((41, 41, 41))  # fond gris
         font = pygame.font.Font(None, 28)
-        font_2 = pygame.font.Font(None, 23)
+        font_2 = pygame.font.Font(
+            "/home/bastien/Documents/Project/SwitchColor/Vue/Fonts/Jura-Italic.ttf", 15)
         font_2.set_italic(True)
         score = font.render(
             "SCORE : " + str(self.player.score), 10, (254, 254, 254))
@@ -170,7 +171,7 @@ class View():  # classe s'occupant de la vue
             "APPUYER SUR ENTRER POUR RECOMMENCER", 10, (253, 253, 253))
         self.screen.blit(score, (WIDTH / 2 - 60, 200))
         self.screen.blit(best, (WIDTH / 2 - 110, 230))
-        self.screen.blit(titre, (WIDTH / 2 - 180, 270))
+        self.screen.blit(titre, (WIDTH / 2 - 150, 270))
         pygame.display.flip()
 
     def pause(self):

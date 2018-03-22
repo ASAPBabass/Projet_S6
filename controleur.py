@@ -49,7 +49,7 @@ def main():
     view.menu()
     # Evenements
     while not end_menu:
-
+        space = False  # vrai si le joueur appuie sur la touche espace
         try:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -57,14 +57,19 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            # musique de fond du jeu
-                            pygame.mixer.music.load(
-                                '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
-                            pygame.mixer.music.play(-1)
-                            view.all_sprites.empty()
-                            end_menu = True
+                            space == True
+
                         if event.key == K_ESCAPE:
                             view.quit()
+
+                if event.type == MOUSEBUTTONDOWN or space:
+                    # musique de fond du jeu
+                    pygame.mixer.music.load(
+                        '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
+                    pygame.mixer.music.play(-1)
+                    view.all_sprites.empty()
+                    end_menu = True
+
             view.update_menu()
             view.draw_menu()
 
@@ -79,41 +84,27 @@ def main():
         view.all_sprites.add(player)
         # Evenements
         while not end:
-
+            space = False  # touche espace
             try:
 
                 for event in pygame.event.get():
+
                     if event.type == QUIT:
                         quit()
                     else:
 
                         if event.type == KEYDOWN:
-                            if event.key == K_SPACE:
-                                sound_jump = pygame.mixer.Sound(
-                                    '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/jump.wav')
-                                sound_jump.play()
-
-                                for i in range(7):
-                                    player.jump(9)
-                                    if collisions(player, view.all_obstacles, view.all_switch):
-                                        end = True
-                                        break
-                                    view.update()
-                                    view.scroll()
-                                    view.draw()
-
-                                player.jump(10)
-
-                                # permet d'ajouter une figure si le joueur
-                                # saute assez haut
-                                obstacles(
-                                    player, view.all_obstacles, view.all_switch)
 
                             if event.key == K_ESCAPE:
                                 if pause:
                                     pause = False
                                 else:
                                     pause = True
+                            if event.key == K_SPACE:
+                                jump(player, view)
+
+                if event.type == MOUSEBUTTONDOWN:  # si le joueur appuie sur la touche espace ou la souris
+                    jump(player, view)
 
             except Exception:
                 print("Erreur !")
@@ -140,6 +131,27 @@ def main():
         else:
             end2 = True
 
+
+def jump(player, view):
+    sound_jump = pygame.mixer.Sound(
+        '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/jump.wav')
+    sound_jump.play()
+
+    for i in range(7):
+        player.jump(9)
+        if collisions(player, view.all_obstacles, view.all_switch):
+            end = True
+            break
+        view.update()
+        view.scroll()
+        view.draw()
+
+    player.jump(10)
+
+    # permet d'ajouter une figure si le joueur
+    # saute assez haut
+    obstacles(
+        player, view.all_obstacles, view.all_switch)
 
 if __name__ == '__main__':
     main()
