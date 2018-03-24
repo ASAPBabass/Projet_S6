@@ -34,9 +34,9 @@ def obstacles(player, all_obstacles, all_switch):
         all_switch.add(Switch(-370))
         try:
             all_obstacles.add(
-                Circle(-150, 15, 100, False, 220, -0.04, 1))
+                Circle(-150, 15, RAYON_G, False, (WIDTH/2)-RAYON_G, -0.04, 1))
             all_obstacles.add(
-                Circle(-150, 8, 60, True, 380, -0.04, 0))
+                Circle(-150, 8, RAYON_P, True, (WIDTH/2)+RAYON_P, -0.04, 0))
 
             all_obstacles.add(Star(-250))
         except:
@@ -52,25 +52,25 @@ def obstacles(player, all_obstacles, all_switch):
                 if ran_circle == 1:
                     all_switch.add(Switch(-350))
                     all_obstacles.add(
-                        Circle(-150, 15, 120, True, 320, 0.04, 0))
+                        Circle(-150, 15, 120, True, WIDTH/2, 0.04, 0))
                     all_switch.add(Star(-150))
 
                 elif ran_circle == 2:
                     all_switch.add(Switch(-350))
                     all_obstacles.add(
-                        Circle(-150, 15, 120, True, 320, 0.04, 0))
+                        Circle(-150, 15, RAYON_TG, True, WIDTH/2, 0.04, 0))
                     all_obstacles.add(
-                        Circle(-150, 15, 100, False, 320, 0.04, 1))
+                        Circle(-150, 15, RAYON_G, False, WIDTH/2, 0.04, 1))
                     all_switch.add(Star(-150))
 
                 elif ran_circle == 3:
                     all_switch.add(Switch(-350))
                     all_obstacles.add(
-                        Circle(-150, 15, 140, True, 320, 0.05, 0))
+                        Circle(-150, 15, RAYON_TG, True, WIDTH/2, 0.05, 0))
                     all_obstacles.add(
-                        Circle(-150, 15, 120, False, 320, 0.05, 1))
+                        Circle(-150, 15, RAYON_G, False, WIDTH/2, 0.05, 1))
                     all_obstacles.add(
-                        Circle(-150, 15, 100, True, 320, 0.05, 0))
+                        Circle(-150, 15, RAYON_P, True, WIDTH/2, 0.05, 0))
                     all_switch.add.add(Star(-150))
 
             elif ran == 2:  # lignes
@@ -112,9 +112,9 @@ def obstacles(player, all_obstacles, all_switch):
                 try:
                     all_switch.add(Switch(-370))
                     all_obstacles.add(
-                        Circle(-150, 15, 100, True, 220, 0.04, 0))
+                        Circle(-150, 15, 100, True, (WIDTH/2)-100, 0.04, 0))
                     all_obstacles.add(
-                        Circle(-150, 15, 100, False, 420, 0.04, 1))
+                        Circle(-150, 15, 100, False,  (WIDTH/2)+100, 0.04, 1))
                     all_switch.add(Star(-250))
 
                 except:
@@ -122,27 +122,27 @@ def obstacles(player, all_obstacles, all_switch):
             elif ran == 8:
                 print("triple cercle")
                 all_switch.add(Switch(-700))
-                all_obstacles.add(Circle(-150, 15, 100, True, 320, 0.05, 0))
+                all_obstacles.add(Circle(-150, 15, RAYON_G, True, WIDTH/2, 0.05, 0))
                 all_obstacles.add(Star(-150))
-                all_obstacles.add(Circle(-350, 15, 100, False, 320, 0.05, 2))
+                all_obstacles.add(Circle(-350, 15, RAYON_G, False, WIDTH/2, 0.05, 2))
                 all_obstacles.add(Star(-350))
-                all_obstacles.add(Circle(-550, 15, 100, True, 320, 0.05, 0))
+                all_obstacles.add(Circle(-550, 15, RAYON_G, True, WIDTH/2, 0.05, 0))
                 all_switch.add(Star(-550))
 
-            elif rand == 9:  # cercle + croix
+            elif ran == 9:  # cercle + croix
                 print("cercle + croix")
                 all_switch.add(Switch(-350))
-                all_obstacles.add(Circle(-150, 15, 120, True, 320, 0.05, 0))
+                all_obstacles.add(Circle(-150, 15, RAYON_TG, True, WIDTH/2, 0.05, 0))
                 all_obstacles.add(Cross(WIDTH / 2 + 25, -150, 10, 50, 0.9))
                 all_switch.add(Star(-300))
 
-            elif rand == 10:  # croix
+            elif ran== 10:  # croix
                 print("croix")
                 all_switch.add(Switch(-170))
                 all_obstacles.add(Cross(WIDTH / 2 + 20, -150, 15, 100))
                 all_switch.add(Star(-10))
 
-            elif rand == 11:  # croix
+            elif ran == 11:  # croix
                 print("double croix")
                 all_switch.add(Switch(-170))
                 all_obstacles.add(Cross(WIDTH / 2 - 20, -150, 15, 50))
@@ -155,16 +155,16 @@ def obstacles(player, all_obstacles, all_switch):
                 if random_circle == 1:
                     all_switch.add(Switch(-370))
                     all_obstacles.add(
-                        Circle(-150, 8, 60, True, 260, 0.04, 0))
+                        Circle(-150, 8, RAYON_P, True, 260, 0.04, 0))
                     all_obstacles.add(
-                        Circle(-150, 15, 100, False, 420, 0.04, 1))
+                        Circle(-150, 15, RAYON_G, False, 420, 0.04, 1))
                     all_switch.add(Star(-250))
                 else:
                     all_switch.add(Switch(-370))
                     all_obstacles.add(
-                        Circle(-150, 15, 100, False, 220, -0.04, 1))
+                        Circle(-150, 15, RAYON_G, False, 220, -0.04, 1))
                     all_obstacles.add(
-                        Circle(-150, 8, 60, True, 380, -0.04, 0))
+                        Circle(-150, 8, RAYON_P, True, 380, -0.04, 0))
                     all_switch.add(Star(-250))
 
 
@@ -175,7 +175,7 @@ def collisions(player, all_obstacles, all_switch):
     for obstacle in all_obstacles:
         if obstacle.collide(player):
             sound_jump = pygame.mixer.Sound(
-                '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/dead.wav')
+                'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/dead.wav')
             sound_jump.play()
             return True
 

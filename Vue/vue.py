@@ -6,22 +6,8 @@ from math import pi
 import pygame as py
 import pygame.gfxdraw
 from pygame.locals import *
+from Modele.constantes import *
 
-WIDTH = 640
-HEIGHT = 480
-FPS = 30
-
-WHITE = (254, 254, 254)
-BLACK = (0, 0, 0)
-BLUE = (54, 225, 243)
-PURPLE = (141, 19, 250)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-YELLOW = (247, 222, 15)
-ROSE = (252, 2, 128)
-GREY = (41, 41, 41)
-
-colors = (BLUE, YELLOW, PURPLE, ROSE)
 
 
 class View():  # classe s'occupant de la vue
@@ -56,7 +42,7 @@ class View():  # classe s'occupant de la vue
         self.rect = self.screen.get_rect()
         # sounds
         start = pygame.mixer.Sound(
-            '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/colorswitch.wav')
+            'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/colorswitch.wav')
         start.play()
 
         self.player.initialization()  # on initialise le player
@@ -147,7 +133,7 @@ class View():  # classe s'occupant de la vue
         self.screen.fill((41, 41, 41))  # fond gris
         font = pygame.font.Font(None, 28)
         font_2 = pygame.font.Font(
-            "/home/bastien/Documents/Project/SwitchColor/Vue/Fonts/Jura-Italic.ttf", 15)
+            "C:/Users/Affadine/Documents/ColorSwitch/Vue/Fonts/Jura-Italic.ttf", 15)
         font_2.set_italic(True)
         score = font.render(
             "SCORE : " + str(self.player.score), 10, (254, 254, 254))
