@@ -23,6 +23,8 @@ from cross import *
 
 from constantes import *
 
+ran = 0
+
 
 def obstacles(player, all_obstacles, all_switch):
     list_obstacles = all_obstacles.sprites()
@@ -43,7 +45,8 @@ def obstacles(player, all_obstacles, all_switch):
 
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
-            ran = random.randint(1, 8)
+            ran = 2
+            # ran = random.randint(1, 8)
             # choix aleatoire
             if ran == 1:
                 print("cercles")
@@ -76,18 +79,18 @@ def obstacles(player, all_obstacles, all_switch):
                 print("ligne")
                 all_switch.add(Switch(-450))
                 all_obstacles.add(Ligne(HEIGHT_O, True))
-                all_obstacles.add(Ligne(-300, False))
+                all_obstacles.add(Ligne(HEIGHT_O + 200, False))
                 all_switch.add(Star(H_E_M))
 
             elif ran == 3:  # carre
-                print("carre")
+                print("losange")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(
                     Parallelogramme(HEIGHT_O, with_G, RAYON_G, RAYON_G, 90, 90, V_G))
                 all_switch.add(Star(H_E_M))
 
             elif ran == 4:  # rectangle
-                print("losange")
+                print("carre")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(
                     Parallelogramme(HEIGHT_O, with_G, RAYON_G, RAYON_G, 90, 90, V_G))
@@ -101,11 +104,11 @@ def obstacles(player, all_obstacles, all_switch):
                 all_switch.add(Star(H_E_M))
 
             elif ran == 6:  # triangle
-                print("triangle")
+                print("triangle + croix")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(Triangle(HEIGHT_O, RAYON_M, V_G))
                 all_obstacles.add(
-                    Circle(HEIGHT_O, with_G, RAYON_TG, False, WIDTH / 2, V_M, True))
+                    Circle(HEIGHT_O, with_G, RAYON_TG, False, WIDTH / 2, V_M, 1))
                 all_switch.add(Star(H_E_M))
 
             elif ran == 7:  # double cercles
@@ -126,10 +129,10 @@ def obstacles(player, all_obstacles, all_switch):
                 all_switch.add(Switch(2 * H_S))
                 all_obstacles.add(
                     Circle(HEIGHT_O,  with_G, RAYON_G, True, WIDTH / 2, V_M, 0))
-                all_obstacles.add(Star(H_E_M))
+                all_switch.add(Star(H_E_M))
                 all_obstacles.add(
                     Circle(HEIGHT_O - 2 * RAYON_G,  with_G, RAYON_G, False, WIDTH / 2, V_M, 2))
-                all_obstacles.add(Star(H_E_M - 2 * RAYON_G))
+                all_switch.add(Star(H_E_M - 2 * RAYON_G))
                 all_obstacles.add(
                     Circle(HEIGHT_O - 4 * RAYON_G,  with_G, RAYON_G, True, WIDTH / 2, V_M, 0))
                 all_switch.add(Star(H_E_M - 4 * RAYON_G))
@@ -186,7 +189,7 @@ def collisions(player, all_obstacles, all_switch):
     for obstacle in all_obstacles:
         if obstacle.collide(player):
             sound_jump = pygame.mixer.Sound(
-                'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/dead.wav')
+                '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/dead.wav')
             sound_jump.play()
             return True
 

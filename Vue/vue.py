@@ -41,7 +41,7 @@ class View():  # classe s'occupant de la vue
         self.rect = self.screen.get_rect()
         # sounds
         start = pygame.mixer.Sound(
-            'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/colorswitch.wav')
+            '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/colorswitch.wav')
         start.play()
 
         self.player.initialization()  # on initialise le player
@@ -137,7 +137,7 @@ class View():  # classe s'occupant de la vue
         self.screen.fill((41, 41, 41))  # fond gris
         font = pygame.font.Font(None, 28)
         font_2 = pygame.font.Font(
-            "C:/Users/Affadine/Documents/ColorSwitch/Vue/Fonts/Jura-Italic.ttf", 15)
+            "/home/bastien/Documents/Project/SwitchColor/Vue/Fonts/Jura-Italic.ttf", 15)
         font_2.set_italic(True)
         score = font.render(
             "SCORE : " + str(self.player.score), 10, (254, 254, 254))

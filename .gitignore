@@ -9,3 +9,14 @@ Controleur/controleur.pyo
 Controleur/__init__.pyo
 controleur.pyo
 Circle.pyo
+Modele/rectangle.pyc
+Modele/star.pyc
+Modele/switch.pyc
+Modele/arc.pyc
+Modele/__init__.pyc
+Modele/circle.pyc
+Modele/constantes.pyc
+Modele/cross.pyc
+Modele/ligne.pyc
+Vue/vue.pyc
+Vue/__init__.pyc
