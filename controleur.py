@@ -160,8 +160,10 @@ def jump(player, view):
 
     # permet d'ajouter une figure si le joueur
     # saute assez haut
+
     obstacles(
         player, view.all_obstacles, view.all_switch)
+
 
 if __name__ == '__main__':
     main()

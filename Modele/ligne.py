@@ -9,6 +9,7 @@ class Ligne(pygame.sprite.Sprite):
 
     def __init__(self, height, sens):
         pygame.sprite.Sprite.__init__(self)
+
         self.image = pygame.Surface([WIDTH, 200]).convert_alpha()
         self.rect = self.image.get_rect()
         self.image.fill((0, 0, 0, 0))
@@ -49,7 +50,8 @@ class Ligne(pygame.sprite.Sprite):
             if (liste_rect[0].rect.x + WIDTH / 4 + 10) >= WIDTH / 2 and liste_rect[0].debordement == False:
                 color = liste_rect[0].color
                 liste_rect[0].debordement = True
-                self.all_rect.add(Rectangle(self.rect, WIDTH / 4, 25, color))
+                self.all_rect.add(
+                    Rectangle(self.rect, WIDTH / 4, 25, color))
                 liste_rect = self.all_rect.sprites()
                 liste_rect[-1].rect.x -= 150
                 self.all_rect.update(4)
@@ -74,8 +76,7 @@ class Ligne(pygame.sprite.Sprite):
         self.rect.center = (WIDTH / 2, self.height + self.scroll)
 
     def collide(self, player):
-
         for rec in self.all_rect.sprites():
             if rec.color == player.color:
-                if (rec.rect.x > player.rect.x or (rec.rect.x + WIDTH / 4) < player.rect.x) and player.rect.y <= self.rect.y + 35 and player.rect.y > self.rect.y:
+                if (rec.rect.x > player.rect.x or (rec.rect.x + WIDTH / 4) < player.rect.x) and player.rect.y <= self.rect.y + 23 and player.rect.y > self.rect.y - 23:
                     return True

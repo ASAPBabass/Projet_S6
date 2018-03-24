@@ -60,10 +60,15 @@ class View():  # classe s'occupant de la vue
 
     def update(self):  # on met a jour les
 
-        list = self.all_obstacles.sprites()
-        nb = len(list)
-        if nb > 8:
-            self.all_obstacles.remove(list[0])
+        # on supprimes les figures inutiles pour libérer la ram
+        list_obstacles = self.all_obstacles.sprites()
+        nb = len(list_obstacles)
+        if nb > 6:
+            self.all_obstacles.remove(list_obstacles[0])
+        list_switch = self.all_switch.sprites()
+        nb = len(list_switch)
+        if nb > 4:
+            self.all_switch.remove(list_switch[0])
 
         self.all_obstacles.update()
         self.all_switch.update()
