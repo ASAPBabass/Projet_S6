@@ -8,7 +8,7 @@ from arete import *
 
 class Cross(pygame.sprite.Sprite):  # TODO
 
-    def __init__(self, pos_x, pos_y, width, rayon, speed_rotation):
+    def __init__(self, pos_x, pos_y, width, rayon, speed_rotation,synchr):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([4 * rayon, 4 * rayon]).convert_alpha()
         self.rect = self.image.get_rect()
@@ -29,6 +29,8 @@ class Cross(pygame.sprite.Sprite):  # TODO
         self.C = Point(0, 0)
         self.D = Point(0, 0)
 
+        self.synchr=synchr
+
         self.angleRadian = pi * self.angle / 180
 
         self.angleRadian2 = pi * (self.angle + 90) / 180
@@ -37,14 +39,24 @@ class Cross(pygame.sprite.Sprite):  # TODO
 
         self.angleRadian4 = pi * (self.angle + 270) / 180
 
-        self.arete_1 = Arete(
-            self.rect, self.A, self.O, YELLOW, width, 4 * rayon, 4 * rayon)
-        self.arete_2 = Arete(
-            self.rect, self.B, self.O, BLUE, width, 4 * rayon, 4 * rayon)
-        self.arete_3 = Arete(
-            self.rect, self.C, self.O, ROSE, width, 4 * rayon, 4 * rayon)
-        self.arete_4 = Arete(
-            self.rect, self.D, self.O, PURPLE, width, 4 * rayon, 4 * rayon)
+        if(self.synchr==1):
+            self.arete_1 = Arete(
+                self.rect, self.A, self.O, BLUE, width, 4 * rayon, 4 * rayon)
+            self.arete_2 = Arete(
+                self.rect, self.B, self.O, YELLOW, width, 4 * rayon, 4 * rayon)
+            self.arete_3 = Arete(
+                self.rect, self.C, self.O, PURPLE, width, 4 * rayon, 4 * rayon)
+            self.arete_4 = Arete(
+                self.rect, self.D, self.O, ROSE, width, 4 * rayon, 4 * rayon)
+        else :
+            self.arete_1 = Arete(
+                self.rect, self.A, self.O, YELLOW, width, 4 * rayon, 4 * rayon)
+            self.arete_2 = Arete(
+                self.rect, self.B, self.O, BLUE, width, 4 * rayon, 4 * rayon)
+            self.arete_3 = Arete(
+                self.rect, self.C, self.O, ROSE, width, 4 * rayon, 4 * rayon)
+            self.arete_4 = Arete(
+                self.rect, self.D, self.O, PURPLE, width, 4 * rayon, 4 * rayon)
 
         self.all_aretes.add(self.arete_2)
         self.all_aretes.add(self.arete_3)

@@ -8,7 +8,7 @@ from arete import *
 
 class Parallelogramme(pygame.sprite.Sprite):
 
-    def __init__(self, height, r1, r2, angle1, angle2, vitesse_rotation):
+    def __init__(self, height,width, r1, r2, angle1, angle2, vitesse_rotation):
         try:
             pygame.sprite.Sprite.__init__(self)
             self.image = pygame.Surface([4 * r1, 4 * r1]).convert()
@@ -43,13 +43,13 @@ class Parallelogramme(pygame.sprite.Sprite):
                 (self.angle + 2 * self.angle1 + self.angle2) / 180
 
             self.arete_1 = Arete(
-                self.rect, self.A, self.B, YELLOW, 20, 4 * self.rayon1, 4 * self.rayon1)
+                self.rect, self.A, self.B, YELLOW, width, 4 * self.rayon1, 4 * self.rayon1)
             self.arete_2 = Arete(
-                self.rect, self.B, self.C, BLUE, 20, 4 * self.rayon1, 4 * self.rayon1)
+                self.rect, self.B, self.C, BLUE, width, 4 * self.rayon1, 4 * self.rayon1)
             self.arete_3 = Arete(
-                self.rect, self.C, self.D, ROSE, 20, 4 * self.rayon1, 4 * self.rayon1)
+                self.rect, self.C, self.D, ROSE, width, 4 * self.rayon1, 4 * self.rayon1)
             self.arete_4 = Arete(
-                self.rect, self.D, self.A, PURPLE, 20, 4 * self.rayon1, 4 * self.rayon1)
+                self.rect, self.D, self.A, PURPLE, width, 4 * self.rayon1, 4 * self.rayon1)
 
             self.all_aretes.add(self.arete_2)
             self.all_aretes.add(self.arete_3)

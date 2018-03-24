@@ -63,7 +63,7 @@ class View():  # classe s'occupant de la vue
 
         list = self.all_obstacles.sprites()
         nb = len(list)
-        if nb > 6:
+        if nb > 8:
             self.all_obstacles.remove(list[0])
 
         self.all_obstacles.update()
