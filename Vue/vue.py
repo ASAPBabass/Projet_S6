@@ -41,7 +41,7 @@ class View():  # classe s'occupant de la vue
         self.rect = self.screen.get_rect()
         # sounds
         start = pygame.mixer.Sound(
-            '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/colorswitch.wav')
+            'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/colorswitch.wav')
         start.play()
 
         self.player.initialization()  # on initialise le player
@@ -60,15 +60,10 @@ class View():  # classe s'occupant de la vue
 
     def update(self):  # on met a jour les
 
-        # on supprimes les figures inutiles pour libérer la ram
-        list_obstacles = self.all_obstacles.sprites()
-        nb = len(list_obstacles)
-        if nb > 6:
-            self.all_obstacles.remove(list_obstacles[0])
-        list_switch = self.all_switch.sprites()
-        nb = len(list_switch)
-        if nb > 4:
-            self.all_switch.remove(list_switch[0])
+        list = self.all_obstacles.sprites()
+        nb = len(list)
+        if nb > 8:
+            self.all_obstacles.remove(list[0])
 
         self.all_obstacles.update()
         self.all_switch.update()
@@ -137,7 +132,7 @@ class View():  # classe s'occupant de la vue
         self.screen.fill((41, 41, 41))  # fond gris
         font = pygame.font.Font(None, 28)
         font_2 = pygame.font.Font(
-            "/home/bastien/Documents/Project/SwitchColor/Vue/Fonts/Jura-Italic.ttf", 15)
+            "C:/Users/Affadine/Documents/ColorSwitch/Vue/Fonts/Jura-Italic.ttf", 15)
         font_2.set_italic(True)
         score = font.render(
             "SCORE : " + str(self.player.score), 10, (254, 254, 254))

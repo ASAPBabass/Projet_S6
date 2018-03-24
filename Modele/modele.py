@@ -35,6 +35,7 @@ def obstacles(player, all_obstacles, all_switch):
 
         all_switch.add(Switch(H_S))
         try:
+          
             all_obstacles.add(
                 Circle(HEIGHT_O, with_G, RAYON_G, True, (WIDTH / 2) - RAYON_G, V_M, 0))
             all_obstacles.add(
@@ -46,7 +47,7 @@ def obstacles(player, all_obstacles, all_switch):
     else:
         if list_obstacles[-1].rect.y > player.rect.y:
             ran = 2
-            # ran = random.randint(1, 8)
+            ran = random.randint(1, 13)
             # choix aleatoire
             if ran == 1:
                 print("cercles")
@@ -54,7 +55,7 @@ def obstacles(player, all_obstacles, all_switch):
                 if ran_circle == 1:
                     all_switch.add(Switch(H_S))
                     all_obstacles.add(
-                        Circle(HEIGHT_O, with_G, RAYON_TG, True, WIDTH / 2, V_M, 0))
+                        Circle(HEIGHT_O, with_G, RAYON_G, True, WIDTH / 2, V_M, 0))
                     all_switch.add(Star(H_E_M))
 
                 elif ran_circle == 2:
@@ -72,21 +73,22 @@ def obstacles(player, all_obstacles, all_switch):
                     all_obstacles.add(
                         Circle(HEIGHT_O,  with_G, RAYON_G, False, WIDTH / 2, V_M, 1))
                     all_obstacles.add(
-                        Circle(HEIGHT_O, with_M, RAYON_M, True, WIDTH / 2, V_M, 0))
+                        Circle(HEIGHT_O, with_G, RAYON_M, True, WIDTH / 2, V_M, 0))
                     all_switch.add.add(Star(H_E_M))
-
             elif ran == 2:  # lignes
                 print("ligne")
-                all_switch.add(Switch(-450))
+                all_switch.add(Switch(H_S-200))
                 all_obstacles.add(Ligne(HEIGHT_O, True))
-                all_obstacles.add(Ligne(HEIGHT_O + 200, False))
-                all_switch.add(Star(H_E_M))
+                all_obstacles.add(Ligne(HEIGHT_O+150, False))
+                all_switch.add(Star(H_E-75))
+                all_obstacles.add(Ligne(HEIGHT_O-150, False))
+                all_switch.add(Star(H_E+75))
 
             elif ran == 3:  # carre
                 print("losange")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(
-                    Parallelogramme(HEIGHT_O, with_G, RAYON_G, RAYON_G, 90, 90, V_G))
+                    Parallelogramme(HEIGHT_O, with_G, RAYON_M, RAYON_G,90,90, V_G))
                 all_switch.add(Star(H_E_M))
 
             elif ran == 4:  # rectangle
@@ -100,15 +102,15 @@ def obstacles(player, all_obstacles, all_switch):
                 print("rectangle")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(
-                    Parallelogramme(HEIGHT_O, with_G, RAYON_G, RAYON_G, 60, 120, V_G))
+                    Parallelogramme(HEIGHT_O, with_G, RAYON_G, RAYON_G, 120, 60, V_G))
                 all_switch.add(Star(H_E_M))
 
             elif ran == 6:  # triangle
-                print("triangle + croix")
+                print("triangle + cercle")
                 all_switch.add(Switch(H_S))
-                all_obstacles.add(Triangle(HEIGHT_O, RAYON_M, V_G))
+                all_obstacles.add(Triangle(HEIGHT_O,with_G, RAYON_T, V_G))
                 all_obstacles.add(
-                    Circle(HEIGHT_O, with_G, RAYON_TG, False, WIDTH / 2, V_M, 1))
+                    Circle(HEIGHT_O, with_G, RAYON_M-5, True, WIDTH / 2, V_M, 1))
                 all_switch.add(Star(H_E_M))
 
             elif ran == 7:  # double cercles
@@ -141,18 +143,17 @@ def obstacles(player, all_obstacles, all_switch):
                 print("cercle + croix")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(
-                    Circle(HEIGHT_O,  with_G, RAYON_TG, True, WIDTH / 2, V_M, 0))
-                all_switch.add(Switch(-170))
+                    Circle(HEIGHT_O,  with_G, RAYON_T, False, WIDTH / 2, V_M, 0))
                 all_obstacles.add(
-                    Cross((WIDTH / 2) - 1.5 * RAYON_P, HEIGHT_O,  with_G, RAYON_P, -V_G, 0))
-                all_switch.add(Star(H_E))
+                    Cross((WIDTH / 2) - 20, HEIGHT_O,  with_G, 50, -V_G, 0))
+                all_switch.add(Star(H_E+20))
 
             elif ran == 10:  # croix
                 print("croix")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(
-                    Cross(WIDTH / 2 + 20, HEIGHT_O,  with_G, RAYON_G))
-                all_switch.add(Star(H_E_M + RAYON_G))
+                    Cross((WIDTH / 2) - RAYON_P, HEIGHT_O,  with_G, RAYON_P, -V_G, 0))
+                all_switch.add(Star(H_E_M -RAYON_G))
 
             elif ran == 11:  # croix
                 print("double croix")
@@ -161,7 +162,7 @@ def obstacles(player, all_obstacles, all_switch):
                     Cross((WIDTH / 2) - 1.5 * RAYON_P, HEIGHT_O,  with_G, RAYON_P, -V_G, 0))
                 all_obstacles.add(
                     Cross((WIDTH / 2) + 1.5 * RAYON_P, HEIGHT_O,  with_G, RAYON_P, V_G, 1))
-                all_switch.add(Star(H_E_M + RAYON_G))
+                all_switch.add(Star(H_E + RAYON_G))
             elif ran == 12:  # double cercle (1 petit et 1 grand)
                 print("cercle cote a cote")
                 # deux cercles cote à cote
@@ -180,6 +181,10 @@ def obstacles(player, all_obstacles, all_switch):
                     all_obstacles.add(
                         Circle(HEIGHT_O,  with_M, RAYON_P, False, (WIDTH / 2) + RAYON_P, V_M, 0))
                     all_switch.add(Star(H_E))
+            elif ran==13:
+                    all_switch.add(Switch(H_S))
+                    all_obstacles.add(Triangle(HEIGHT_O,with_G, RAYON_M, V_G))
+                    all_switch.add(Star(H_E_M))
 
 
 def collisions(player, all_obstacles, all_switch):
@@ -189,7 +194,7 @@ def collisions(player, all_obstacles, all_switch):
     for obstacle in all_obstacles:
         if obstacle.collide(player):
             sound_jump = pygame.mixer.Sound(
-                '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/dead.wav')
+                'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/dead.wav')
             sound_jump.play()
             return True
 

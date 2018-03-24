@@ -8,13 +8,14 @@ from arete import *
 
 class Triangle(pygame.sprite.Sprite):
 
-    def __init__(self, height, rayon, vitesse_rotation):
+    def __init__(self, height,width, rayon, vitesse_rotation):
 
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([4 * rayon, 4 * rayon]).convert()
         self.rect = self.image.get_rect()
         self.image.fill((0, 0, 0, 0))
         self.height = height
+        self.width=width
 
         self.angle = 0  # vitesse de rotation
         self.scroll = 0  # permet le scrolling
@@ -34,11 +35,11 @@ class Triangle(pygame.sprite.Sprite):
         self.angleRadian3 = pi * (self.angle + 60) / 180
 
         self.arete_1 = Arete(
-            self.rect, self.A, self.B, YELLOW, 20, 4 * self.rayon, 4 * self.rayon)
+            self.rect, self.A, self.B, YELLOW, self.width, 4 * self.rayon, 4 * self.rayon)
         self.arete_2 = Arete(
-            self.rect, self.B, self.C, BLUE, 20, 4 * self.rayon, 4 * self.rayon)
+            self.rect, self.B, self.C, BLUE, self.width, 4 * self.rayon, 4 * self.rayon)
         self.arete_3 = Arete(
-            self.rect, self.C, self.A, ROSE, 20, 4 * self.rayon, 4 * self.rayon)
+            self.rect, self.C, self.A, ROSE, self.width, 4 * self.rayon, 4 * self.rayon)
 
         self.all_aretes.add(self.arete_1)
         self.all_aretes.add(self.arete_2)

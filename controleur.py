@@ -59,9 +59,9 @@ def main():
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
                             # musique de fond du jeu
-                            pygame.mixer.music.load(
-                                '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
-                            pygame.mixer.music.play(-1)
+                            #pygame.mixer.music.load(
+                               # 'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/gameTheme.mp3')
+                            #pygame.mixer.music.play(-1)
                             view.all_sprites.empty()
                             end_menu = True
 
@@ -70,9 +70,9 @@ def main():
 
                 if event.type == MOUSEBUTTONDOWN or space:
                     # musique de fond du jeu
-                    pygame.mixer.music.load(
-                        '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/gameTheme.mp3')
-                    pygame.mixer.music.play(-1)
+                    #pygame.mixer.music.load(
+                       # 'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/gameTheme.mp3')
+                    #pygame.mixer.music.play(-1)
                     view.all_sprites.empty()
                     end_menu = True
 
@@ -143,9 +143,9 @@ def main():
 
 
 def jump(player, view):
-    sound_jump = pygame.mixer.Sound(
-        '/home/bastien/Documents/Project/SwitchColor/Vue/Sounds/jump.wav')
-    sound_jump.play()
+    #sound_jump = pygame.mixer.Sound(
+        #'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/jump.wav')
+    #sound_jump.play()
 
     for i in range(7):
         player.jump(9)

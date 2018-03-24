@@ -1,5 +1,5 @@
 WIDTH = 640
-HEIGHT = 700
+HEIGHT = 480
 
 HEIGHT_O =HEIGHT*-150/480 #hauteur de creation des obstacles
 RAYON_T=WIDTH*120/640
@@ -7,12 +7,13 @@ RAYON_G=WIDTH*100/640
 RAYON_M=WIDTH*80/640
 RAYON_P=WIDTH*60/640
 
+with_T=18
 with_G=15
-with_M=8
-with_P=6
+with_M=12
+with_P=8
 
 V_G=1.2
-V_M=0.02
+V_M=0.04
 
 H_S=HEIGHT*-350/480
 H_E_M=HEIGHT_O
