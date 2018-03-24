@@ -35,7 +35,7 @@ def obstacles(player, all_obstacles, all_switch):
 
         all_switch.add(Switch(H_S))
         try:
-          
+        
             all_obstacles.add(
                 Circle(HEIGHT_O, with_G, RAYON_G, True, (WIDTH / 2) - RAYON_G, V_M, 0))
             all_obstacles.add(
@@ -146,7 +146,7 @@ def obstacles(player, all_obstacles, all_switch):
                     Circle(HEIGHT_O,  with_G, RAYON_T, False, WIDTH / 2, V_M, 0))
                 all_obstacles.add(
                     Cross((WIDTH / 2) - 20, HEIGHT_O,  with_G, 50, -V_G, 0))
-                all_switch.add(Star(H_E+20))
+                all_switch.add(Star(H_E-RAYON_T/2))
 
             elif ran == 10:  # croix
                 print("croix")
@@ -162,7 +162,7 @@ def obstacles(player, all_obstacles, all_switch):
                     Cross((WIDTH / 2) - 1.5 * RAYON_P, HEIGHT_O,  with_G, RAYON_P, -V_G, 0))
                 all_obstacles.add(
                     Cross((WIDTH / 2) + 1.5 * RAYON_P, HEIGHT_O,  with_G, RAYON_P, V_G, 1))
-                all_switch.add(Star(H_E + RAYON_G))
+                all_switch.add(Star(H_E - RAYON_P))
             elif ran == 12:  # double cercle (1 petit et 1 grand)
                 print("cercle cote a cote")
                 # deux cercles cote à cote
