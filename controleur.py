@@ -11,6 +11,7 @@ import pygame.gfxdraw
 from pygame.locals import *
 
 from Modele.modele import *
+from Modele.constantes import *
 from Vue.vue import *
 
 
@@ -57,7 +58,12 @@ def main():
                 else:
                     if event.type == KEYDOWN:
                         if event.key == K_SPACE:
-                            space == True
+                            # musique de fond du jeu
+                            pygame.mixer.music.load(
+                                'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/gameTheme.mp3')
+                            pygame.mixer.music.play(-1)
+                            view.all_sprites.empty()
+                            end_menu = True
 
                         if event.key == K_ESCAPE:
                             view.quit()
@@ -104,7 +110,11 @@ def main():
                                 jump(player, view)
 
                 if event.type == MOUSEBUTTONDOWN:  # si le joueur appuie sur la touche espace ou la souris
-                    jump(player, view)
+                    s_x, s_y = pygame.mouse.get_pos()
+                    if s_y < HEIGHT / 2:
+                        jump(player, view)
+                    else:
+                        player.switch()
 
             except Exception:
                 print("Erreur !")

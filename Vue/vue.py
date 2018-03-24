@@ -9,7 +9,6 @@ from pygame.locals import *
 from Modele.constantes import *
 
 
-
 class View():  # classe s'occupant de la vue
 
     def __init__(self, player):

@@ -136,7 +136,7 @@ def obstacles(player, all_obstacles, all_switch):
                 all_obstacles.add(Cross((WIDTH / 2)-1.5*RAYON_P, HEIGHT_O,  with_G, RAYON_P,-V_G,0))
                 all_switch.add(Star(H_E))
 
-            elif ran== 10:  # croix
+            elif ran == 10:  # croix
                 print("croix")
                 all_switch.add(Switch(H_S))
                 all_obstacles.add(Cross(WIDTH / 2 + 20, HEIGHT_O,  with_G, RAYON_G))
