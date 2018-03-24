@@ -3,13 +3,13 @@
 
 from math import pi
 
-import pygame as py
+import pygame
 import pygame.gfxdraw
 from pygame.locals import *
 from Modele.constantes import *
 
 
-class View():  # classe s'occupant de la vue
+class View():  # classe s'occupant de la Vue
 
     def __init__(self, player):
         self.screen = None
@@ -23,23 +23,24 @@ class View():  # classe s'occupant de la vue
 
         self.start_pos = 0  # position de depart
 
+        # limites qui permettent le scrolling
         self.scroll_up = 250
         self.scroll_down = 410
 
         self.initialization()
 
     def initialization(self):
-        py.display.init()  # initialisation de la fenetre
+        pygame.display.init()  # initialisation de la fenetre
         pygame.font.init()  # initialisation de la police d'ecriture
-        pygame.mixer.pre_init(22050, -16, 2, 1024)
+        pygame.mixer.pre_init(22050, -16, 2, 1024)  # initialisation du son
         pygame.mixer.init()
-        py.display.set_caption("SwitchColor")
-        # pygame.key.set_repeat(400, 30)
-        self.screen = py.display.set_mode((WIDTH, HEIGHT), RESIZABLE)
+        pygame.display.set_caption("SwitchColor")  # nom de la fenetre
+        self.screen = pygame.display.set_mode(
+            (WIDTH, HEIGHT), RESIZABLE)  # parametrage de la fenetre
         self.screen.fill((41, 41, 41))  # fond gris
-        self.clock = pygame.time.Clock()
+        self.clock = pygame.time.Clock()  # sert à la vitesse d'affichage
         self.rect = self.screen.get_rect()
-        # sounds
+        # son du menu d'accueil
         start = pygame.mixer.Sound(
             'C:/Users/Affadine/Documents/ColorSwitch/Vue/Sounds/colorswitch.wav')
         start.play()
@@ -49,6 +50,7 @@ class View():  # classe s'occupant de la vue
     def draw(self):  # affichage du jeu
         self.screen.fill((41, 41, 41))  # fond gris
 
+        # on dessine les sprites
         self.all_obstacles.draw(self.screen)
         self.all_switch.draw(self.screen)
 
@@ -56,14 +58,18 @@ class View():  # classe s'occupant de la vue
 
         self.score()
         pygame.display.flip()  # met à jour la fenetre
-        self.clock.tick(40)  # on definit la vitesse d'affichage
+        self.clock.tick(40)  # on definit la vitesse d'affichage (fps)
 
-    def update(self):  # on met a jour les
-
-        list = self.all_obstacles.sprites()
-        nb = len(list)
-        if nb > 8:
-            self.all_obstacles.remove(list[0])
+    def update(self):  # on met a jour l'affichage
+        # on supprime les figures inutiles pour libérer la ram
+        list_obstacles = self.all_obstacles.sprites()
+        nb = len(list_obstacles)
+        if nb > 6:
+            self.all_obstacles.remove(list_obstacles[0])
+        list_switch = self.all_switch.sprites()
+        nb = len(list_switch)
+        if nb > 4:
+            self.all_switch.remove(list_switch[0])
 
         self.all_obstacles.update()
         self.all_switch.update()
@@ -113,20 +119,6 @@ class View():  # classe s'occupant de la vue
             "APPUYEZ SUR ESPACE", 10, (254, 254, 254))
         self.screen.blit(titre, (130, 300))
         pygame.display.flip()
-        """
-        self.screen.fill((41, 41, 41))  # fond gris
-        background_menu = pygame.image.load(
-            "Vue/Image/titre.png").convert()
-        # self.screen.blit(background_menu, (50, 50))
-        #self.screen.blit(
-        #    background_menu, (WIDTH / 2 - WIDTH / 6, HEIGHT / 2 - HEIGHT / 5))
-        font = pygame.font.Font(None, (WIDTH - HEIGHT) / 10)
-        titre = font.render(
-            "APPUYEZ SUR ESPACE", 10, (254, 254, 254))
-        # self.screen.blit(titre, (130, 300))
-        self.screen.blit(titre, (WIDTH / 2 - WIDTH / 8, HEIGHT / 2))
-        pygame.display.flip()
-        """
 
     def retry(self, player):
         self.screen.fill((41, 41, 41))  # fond gris
@@ -166,7 +158,7 @@ class View():  # classe s'occupant de la vue
         self.screen.blit(pause, (50, 100))
         pygame.display.flip()
 
-    def quit(self):
+    def quit(self):  # quitte le jeu proprement
         pygame.mixer.quit()
         pygame.font.quit()
         pygame.display.quit()

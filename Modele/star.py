@@ -10,7 +10,6 @@ class Star(pygame.sprite.Sprite):
         self.image = pygame.image.load(
             "Vue/Image/star3.png").convert_alpha()
         self.rect = self.image.get_rect()  # correspond a la surface du cercle
-
         self.mask = None
         self.pos_y = pos_y
         self.scroll = 0
@@ -21,7 +20,7 @@ class Star(pygame.sprite.Sprite):
         self.rect.center = (WIDTH / 2, self.pos_y + self.scroll)
 
     def collide(self, player):
-        if player.rect.y < self.rect.y + 45 and self.bool == False:  # collision temporaire
+        if player.rect.y < self.rect.y + 45 and self.bool == False:  # collision
             self.image.fill((0, 0, 0, 0))
             player.score += 1
             self.bool = True
